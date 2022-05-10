@@ -6,21 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://gladysdrea.github.io">
-  <title>使用 Midway 创建第一个应用 | Gladysdrea</title>
+  <title>Gladysdrea</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="前言 此文章为 Node 系列文章，会涵盖基于 Jwt 的登录鉴权、数据持久化、缓存中间件、多环境构建、 Docker 部署。  介绍 Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架。  Midway 基于 TypeScript 开发，结合了面向对象（OOP + Class + IoC）与函数式（FP + Function + Hooks）两种编程范式，">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用 Midway 创建第一个应用">
-<meta property="og:url" content="https://gladysdrea.github.io/2022/05/09/Node%E7%B3%BB%E5%88%97/%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/">
+    
+    <!-- <meta name="keywords" content="">
+    <meta name="description" content=""> -->
+  
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Gladysdrea">
+<meta property="og:url" content="https://gladysdrea.github.io/page/23/">
 <meta property="og:site_name" content="Gladysdrea">
-<meta property="og:description" content="前言 此文章为 Node 系列文章，会涵盖基于 Jwt 的登录鉴权、数据持久化、缓存中间件、多环境构建、 Docker 部署。  介绍 Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架。  Midway 基于 TypeScript 开发，结合了面向对象（OOP + Class + IoC）与函数式（FP + Function + Hooks）两种编程范式，">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-05-09T05:53:36.000Z">
-<meta property="article:modified_time" content="2022-05-10T03:16:50.008Z">
 <meta property="article:author" content="Gladysdrea">
-<meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/blogs/atom.xml" title="Gladysdrea" type="application/atom+xml">
@@ -187,124 +186,62 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Node系列/使用Midway创建第一个应用" class="article article-type-post " itemscope itemprop="blogPost">
+            
+
+  
+    <article id="post-Vue系列/Vue国际化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
-    <h1 class="article-title" itemprop="name">
-      使用 Midway 创建第一个应用
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/" target="_blank">Vue国际化（vue-i18n）</a>
+  
     </h1>
   
 
 
   
   
-        
-        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
-              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
-        </span>
-
-<a href="/blogs/2022/05/09/Node%E7%B3%BB%E5%88%97/%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/" class="archive-article-date">
-        <time datetime="2022-05-09T05:53:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-09</time>
+<a href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/" class="archive-article-date">
+        <time datetime="2018-12-19T06:48:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-19</time>
 </a>
 
   
   
     
-<div style="margin-top:10px;">
-  <span class="post-time">
-    <span class="post-meta-item-icon">
-      <!-- fonts.scss -->
-      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
-      <i class="icon-statistics"></i>
-      <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">1.6k字</span>
-    </span>
-  </span>
-
-  <span class="post-time">
-    &nbsp; | &nbsp;
-    <span class="post-meta-item-icon">
-      <i class="icon-book icon"></i>
-      <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">7分</span>
-    </span>
-  </span>
-</div>
-
 
   
   </header>
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>此文章为 Node 系列文章，会涵盖基于 Jwt 的登录鉴权、数据持久化、缓存中间件、多环境构建、 Docker 部署。</p>
-</blockquote>
-<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><blockquote>
-<p>Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架。</p>
-</blockquote>
-<p>Midway 基于 TypeScript 开发，结合了面向对象（OOP + Class + IoC）与函数式（FP + Function + Hooks）两种编程范式，并在此之上支持了 Web / 全栈 / 微服务 / RPC / Socket / Serverless 等多种场景，致力于为用户提供简单、易用、可靠的 Node.js 服务端研发体验。</p>
-<h1 id="快速初始化"><a href="#快速初始化" class="headerlink" title="快速初始化"></a>快速初始化</h1><p>使用 npm init midway 命令，快速初始化一个应用，Midway 会自动创建示例目录，代码以及安装依赖</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init midway</span><br></pre></td></tr></table></figure>
-<p>针对 V3 项目，请选择 koa-v3<br>创建完成之后，将会得到一个类似下面这样的目录结构</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── src                            ## midway 项目源码</span><br><span class="line">│   └── controller                 ## Web Controller 目录</span><br><span class="line">│       └── home.controller.ts</span><br><span class="line">│   └── middleware                 ## 中间件目录</span><br><span class="line">│       └── home.middleware.ts</span><br><span class="line">│   └── service                    ## 服务逻辑目录</span><br><span class="line">│       └── home.service.ts</span><br><span class="line">├── test</span><br><span class="line">├── package.json</span><br><span class="line">└── tsconfig.json</span><br></pre></td></tr></table></figure>
+    <h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>三种方式：</p>
+<h2 id="1、script引入"><a href="#1、script引入" class="headerlink" title="1、script引入"></a>1、script引入</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://unpkg.com/vue/dist/vue.js&quot;</span>&gt;&lt;/script&gt; </span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://unpkg.com/vue-i18n/dist/vue-i18n.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="2、npm安装"><a href="#2、npm安装" class="headerlink" title="2、npm安装"></a>2、npm安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-i18n</span><br></pre></td></tr></table></figure>
+<h2 id="3、yarn安装"><a href="#3、yarn安装" class="headerlink" title="3、yarn安装"></a>3、yarn安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add vue-i18n</span><br></pre></td></tr></table></figure>
+<h1 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h1><p>main.js文件配置</p>
+<h2 id="1-引入i18n国际化插件"><a href="#1-引入i18n国际化插件" class="headerlink" title="1.引入i18n国际化插件"></a>1.引入i18n国际化插件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> VueI18n <span class="keyword">from</span> <span class="string">&#x27;vue-i18n&#x27;</span></span><br><span class="line">Vue.use(VueI18n)</span><br></pre></td></tr></table></figure>
+<h2 id="2-注册i18n实例并引入语言文件，文件格式等下解析"><a href="#2-注册i18n实例并引入语言文件，文件格式等下解析" class="headerlink" title="2.注册i18n实例并引入语言文件，文件格式等下解析"></a>2.注册i18n实例并引入语言文件，文件格式等下解析</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> i18n = <span class="keyword">new</span> VueI18n(&#123;</span><br><span class="line"><span class="attr">locale</span>: <span class="string">&#x27;zh&#x27;</span>, <span class="comment">// 定义默认语言为中文</span></span><br><span class="line">    <span class="attr">messages</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;zh&#x27;</span>: <span class="built_in">require</span>(<span class="string">&#x27;@/assets/languages/zh.json&#x27;</span>),   </span><br><span class="line">        <span class="string">&#x27;en&#x27;</span>: <span class="built_in">require</span>(<span class="string">&#x27;@/assets/languages/en.json&#x27;</span>) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<p><strong>目录说明：</strong></p>
-<ul>
-<li>src Midway 项目的源码目录，之后所有的开发源码都放在该目录下</li>
-<li>test 项目的测试目录，之后所有的代码测试文件都放在这里</li>
-<li>package.json Node 项目基础的包管理配置文件</li>
-<li>tsconfig.json TypeScript 编译配置文件</li>
-</ul>
-<p>至此，一个简单的 Midway 项目就创建成功了。</p>
-<h1 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br><span class="line">open http://localhost:7001</span><br></pre></td></tr></table></figure>
-<p>Midway 会启动 HTTP 服务，打开访问，浏览器就会出现 Hello midwayjs! 的信息。之后写完接口之后，可以使用 Paw 软件进行调试。<br>如果需要修改端口号，可以 package.json 文件中进行修改，如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;scripts&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;dev&quot;</span>: <span class="string">&quot;cross-env NODE_ENV=local midway-bin dev --ts --port=8000&quot;</span>,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-<p>项目启动之后，我们可以先简单的写一个登录鉴权的接口试试手（目前先不涉及到库，后续会逐步添加进来）<br>在登录鉴权之前，我们可以先把日志加上，方便开发以及调试</p>
-<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><p>我们项目在初始化的时候，已经默认安装了 @midwayjs/logger 依赖，所以我们只需要引入使用就可以了。</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Inject, Controller, Get &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ILogger &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/logger&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;/api&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">APIController</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">logger</span>: ILogger;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;/test&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">getUser</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.logger.info(<span class="string">&#x27;日志信息输出&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这样，简单的日志就完成了。日志的其他方法以及格式，可以参考<a target="_blank" rel="noopener" href="https://midwayjs.org/docs/logger#%E4%BD%BF%E7%94%A8%E6%97%A5%E5%BF%97">【日志】</a>这个地址，这里就不过多去描述了。</p>
-<h1 id="登录鉴权"><a href="#登录鉴权" class="headerlink" title="登录鉴权"></a>登录鉴权</h1><p>这里，我们可以使用 Jwt 策略。</p>
-<h2 id="Jwt-策略原理"><a href="#Jwt-策略原理" class="headerlink" title="Jwt 策略原理"></a>Jwt 策略原理</h2><p>Jwt 的原理是，在服务器认证通过后，将数据保存到一个 JSON 对象中，然后生成一个字符串 TOKEN ，返回给用户。用户在请求的时候，头部携带这个 TOKEN ，服务器就可以解析出来前面保存的 JSON 对象，然后识别用户的身份。</p>
-<h2 id="额外安装依赖和策略"><a href="#额外安装依赖和策略" class="headerlink" title="额外安装依赖和策略"></a>额外安装依赖和策略</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @midwayjs/jwt passport-jwt --save</span><br></pre></td></tr></table></figure>
-<p>然后在配置中设置</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/config/config.default.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">jwt</span>: &#123;</span><br><span class="line">    <span class="attr">secret</span>: <span class="string">&#x27;xxxxxxxxxxxxxx&#x27;</span>, <span class="comment">// fs.readFileSync(&#x27;xxxxx.key&#x27;)</span></span><br><span class="line">    <span class="attr">expiresIn</span>: <span class="string">&#x27;2d&#x27;</span>   <span class="comment">// 有效期</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/strategy/jwt.strategy.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; CustomStrategy, PassportStrategy &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Strategy, ExtractJwt &#125; <span class="keyword">from</span> <span class="string">&#x27;passport-jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Config &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@CustomStrategy</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtStrategy</span> <span class="keyword">extends</span> <span class="title">PassportStrategy</span>(</span></span><br><span class="line"><span class="class">  <span class="title">Strategy</span>,</span></span><br><span class="line"><span class="class">  &#x27;<span class="title">jwt</span>&#x27;</span></span><br><span class="line"><span class="class">) </span>&#123;</span><br><span class="line">  <span class="meta">@Config</span>(<span class="string">&#x27;jwt&#x27;</span>)</span><br><span class="line">  jwtConfig;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">validate</span>(<span class="params">payload</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> payload;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getStrategyOptions(): <span class="built_in">any</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">secretOrKey</span>: <span class="built_in">this</span>.jwtConfig.secret,</span><br><span class="line">      <span class="attr">jwtFromRequest</span>: ExtractJwt.fromHeader(<span class="string">&#x27;token&#x27;</span>),</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/middleware/jwt.middleware.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; Middleware &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; PassportMiddleware &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; JwtStrategy &#125; <span class="keyword">from</span> <span class="string">&#x27;../strategy/jwt-strategy&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> passport <span class="keyword">from</span> <span class="string">&#x27;passport&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Context &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/koa&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Middleware</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtPassportMiddleware</span> <span class="keyword">extends</span> <span class="title">PassportMiddleware</span>(<span class="title">JwtStrategy</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 由于登录鉴权，是要放到全局中间件的，并且登录接口是不可以走鉴权的，所以此处使用 ignore 添加路由忽略的逻辑</span></span><br><span class="line">  ignore(ctx: Context): <span class="built_in">boolean</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ctx.path === <span class="string">&#x27;/user/login&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  getAuthenticateOptions(): <span class="built_in">Promise</span>&lt;passport.AuthenticateOptions&gt; | passport.AuthenticateOptions &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于登录鉴权，需要涉及到的接口会很多，所以我们可以把这个放到全局中间件。所谓全局中间件就是对所有路由生效的 Web 中间件。<br>我们需要在项目启动前，加入到中间件列表中， useMiddleware 可以把中间件加入到中间件列表。</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/configuration.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; JwtPassportMiddleware &#125; <span class="keyword">from</span> <span class="string">&#x27;./middleware/jwt.middleware&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ContainerLifeCycle</span> </span>&#123;</span><br><span class="line">  <span class="meta">@App</span>()</span><br><span class="line">  <span class="attr">app</span>: koa.Application;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">onReady</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// add middleware</span></span><br><span class="line">    <span class="built_in">this</span>.app.useMiddleware([ReportMiddleware, JwtPassportMiddleware]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>另外，一般接口返回的格式都是需要统一格式的数据，数据会包括 code 、msg、data，三部分，所以我们可以封装一个统一的数据格式。<br>首先，我们通过 class 来定义一个泛型类 ResultRtn ，我们在类里定义一个静态方法，把数据按照需要的格式 return。<br>为了简化一下参数，我们又额外定义了 2 个静态方法， ofSuccess 和 ofError 。</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/constent/resultRtn.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ResultRtn</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> code: <span class="built_in">number</span>;</span><br><span class="line">  <span class="keyword">public</span> msg: <span class="built_in">string</span>;</span><br><span class="line">  <span class="keyword">public</span> data: T;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">of</span>&lt;T&gt;(code: <span class="built_in">number</span>, <span class="attr">msg</span>: <span class="built_in">string</span>, <span class="attr">data</span>: T): ResultRtn&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> result = <span class="keyword">new</span> ResultRtn&lt;T&gt;();</span><br><span class="line">    result.code = code;</span><br><span class="line">    result.msg = msg;</span><br><span class="line">    result.data = data;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> ofSuccess&lt;T&gt;(data: T): ResultRtn&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.of(<span class="number">200</span>, <span class="string">&#x27;操作成功&#x27;</span>, data);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">static</span> ofError&lt;T&gt;(data: T): ResultRtn&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.of(<span class="number">500</span>, <span class="string">&#x27;服务异常&#x27;</span>, data);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 controller 中使用方式如下：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; Inject, Controller, Get, Body, Post &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Context &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/koa&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; JwtService &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/jwt&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; User &#125; <span class="keyword">from</span> <span class="string">&#x27;../interface&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ResultRtn &#125; <span class="keyword">from</span> <span class="string">&#x27;../constent/result&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ILogger &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/logger&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;/user&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">APIController</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">jwt</span>: JwtService;</span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">logger</span>: ILogger;</span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">ctx</span>: Context;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 此路由为登录，传入用户名和密码之后，会返回用户一个 TOKEN 。</span></span><br><span class="line">  <span class="comment">// @Body() 为接收 body 部分传过来的参数</span></span><br><span class="line">  <span class="comment">// @Body() user: User ：此处我们需要获取整个 body 的数据，而且数据格式需要我们统一定义，</span></span><br><span class="line">  <span class="comment">// 所以我们在 interface.ts 中定义了 User，这里只要引入 User 就可以了。</span></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  // interface.ts</span></span><br><span class="line"><span class="comment">  </span></span><br><span class="line"><span class="comment">  export interface User &#123;</span></span><br><span class="line"><span class="comment">    name: string;</span></span><br><span class="line"><span class="comment">    password: string;</span></span><br><span class="line"><span class="comment">  &#125;</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  <span class="meta">@Post</span>(<span class="string">&#x27;/login&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> getUser(<span class="meta">@Body</span>() user: User): <span class="built_in">Promise</span>&lt;ResultRtn&lt;<span class="built_in">string</span>&gt;&gt; &#123;</span><br><span class="line">    <span class="comment">// user 等价于 ctx.request.body 整个 body 对象</span></span><br><span class="line">    <span class="keyword">const</span> token = <span class="keyword">await</span> <span class="built_in">this</span>.jwt.sign(&#123;</span><br><span class="line">      <span class="attr">username</span>: user.name,</span><br><span class="line">      <span class="attr">password</span>: user.password,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">this</span>.logger.info(<span class="string">&#x27;token:[%s]&#x27;</span>, token);</span><br><span class="line">    <span class="keyword">return</span> ResultRtn.ofSuccess(token);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Get</span>(<span class="string">&#x27;/test&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> getTest(): <span class="built_in">Promise</span>&lt;ResultRtn&lt;<span class="built_in">object</span>&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">    <span class="keyword">return</span> ResultRtn.ofSuccess(list);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3-将i18n注入到vue实例中"><a href="#3-将i18n注入到vue实例中" class="headerlink" title="3.将i18n注入到vue实例中"></a>3.将i18n注入到vue实例中</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">    router,</span><br><span class="line">    i18n,</span><br><span class="line">    <span class="attr">components</span>: &#123; App&#125;,</span><br><span class="line">    <span class="attr">template</span>: <span class="string">&#x27;&lt;App/&gt;&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-文件格式（json文件）"><a href="#4-文件格式（json文件）" class="headerlink" title="4.文件格式（json文件）"></a>4.文件格式（json文件）</h2><p>首先来看zh.json文件，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&#x27;common&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;home&#x27;</span>: <span class="string">&#x27;中文&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;示例&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;user&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;名字&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的en.json格式与zh.json一样，只需要把中文改为英文即可，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&#x27;common&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;home&#x27;</span>: <span class="string">&#x27;English&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;demo&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;user&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Avery&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="三、模板渲染"><a href="#三、模板渲染" class="headerlink" title="三、模板渲染"></a>三、模板渲染</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//html文件需要加&#123;&#123;&#125;&#125;</span></span><br><span class="line">&#123;&#123;$t(<span class="string">&#x27;common.home&#x27;</span>)&#125;&#125;</span><br><span class="line"><span class="comment">//js文件</span></span><br><span class="line">$t(<span class="string">&#x27;common.home&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>点击进行语言切换，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;hello&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;Ch&#x27;</span>&gt;</span>中文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;En&#x27;</span>&gt;</span>英文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; $t(&#x27;common.home&#x27;) &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="attr">name</span>: <span class="string">&#x27;HelloWord&#x27;</span>,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        Ch () &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">           <span class="built_in">this</span>.$i18n.locale = <span class="string">&#x27;zh&#x27;</span> </span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        En () &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$i18n.locale = <span class="string">&#x27;en&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>（注： github地址：Avery_G）</p>
 
     
 
     
 
-    
-    <div class="declare"> 
-      <ul class="post-copyright">
-        <li>
-          <strong>本文作者：</strong>
-          Gladysdrea
-        </li>
-        <li>
-          <strong>本文链接：</strong>
-          <a href="https://gladysdrea.github.io/blogs/2022/05/09/Node系列/使用Midway创建第一个应用/" title="使用 Midway 创建第一个应用" target="_blank">https://gladysdrea.github.io/blogs/2022/05/09/Node系列/使用Midway创建第一个应用/</a>
-        </li>
-        
-        <li>
-          <strong>版权声明： </strong>
-          
-          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
-        </li>
-        
-      </ul>
-    </div>
     
 
   </div>
@@ -316,7 +253,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Node</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
         		</li>
       		
 		</ul>
@@ -325,76 +262,16 @@
     
 
     
-
+    <p class="article-more-link">
+      <a class="article-more-a" href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/">展开全文 >></a>
+    </p>
     
-    
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a> -->
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/05/09/Node%E7%B3%BB%E5%88%97/%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/" alt="微信分享二维码"> -->
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
-
-
-<nav id="article-nav">
-  
-  
-    <a href="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">扫描普通链接二维码打开小程序</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -409,19 +286,6 @@
         </div>
         
         
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">快速初始化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">启动项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">5.</span> <span class="toc-text">日志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">登录鉴权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jwt-%E7%AD%96%E7%95%A5%E5%8E%9F%E7%90%86"><span class="toc-number">6.1.</span> <span class="toc-text">Jwt 策略原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9D%E5%A4%96%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%92%8C%E7%AD%96%E7%95%A5"><span class="toc-number">6.2.</span> <span class="toc-text">额外安装依赖和策略</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
     </div>
 </aside>
 
@@ -430,36 +294,12 @@
 
 
 
-
-
-
-
-
-
-
-
-  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-<script type="text/javascript">
-
-if(true){
-	var gitalk = new Gitalk({
-  	clientID: 'ae76b7972b5dcc2335ed',
-  	clientSecret: 'cc40c0e264033bb7d9b25db36893d4e220df4bda',
-  	repo: 'blogs',
-  	owner: 'Gladysdrea',
-  	admin: ['Gladysdrea'],
-  	id: 'Mon May 09 2022 13:53:36 GMT+0800',
-  	distractionFreeMode: 'true'
-})
-gitalk.render('gitalk-container') 
-}
-</script>
   
-
-
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/blogs/page/22/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/21/">21</a><a class="page-number" href="/blogs/page/22/">22</a><span class="page-number current">23</span>
+    </nav>
+  
 
 
 
@@ -495,8 +335,8 @@ gitalk.render('gitalk-container')
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

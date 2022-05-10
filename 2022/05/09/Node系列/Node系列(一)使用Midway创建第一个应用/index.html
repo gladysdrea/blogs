@@ -6,20 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://gladysdrea.github.io">
-  <title>Gladysdrea</title>
+  <title>Node 系列（一）使用 Midway 创建第一个应用 | Gladysdrea</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    
-    <!-- <meta name="keywords" content="">
-    <meta name="description" content=""> -->
-  
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Gladysdrea">
-<meta property="og:url" content="https://gladysdrea.github.io/page/2/">
+  <meta name="description" content="前言 此文章为 Node 系列文章，会涵盖基于 Jwt 的登录鉴权、数据持久化、缓存中间件、多环境构建、 Docker 部署。  介绍 Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架。  Midway 基于 TypeScript 开发，结合了面向对象（OOP + Class + IoC）与函数式（FP + Function + Hooks）两种编程范式，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node 系列（一）使用 Midway 创建第一个应用">
+<meta property="og:url" content="https://gladysdrea.github.io/2022/05/09/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%80)%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/">
 <meta property="og:site_name" content="Gladysdrea">
+<meta property="og:description" content="前言 此文章为 Node 系列文章，会涵盖基于 Jwt 的登录鉴权、数据持久化、缓存中间件、多环境构建、 Docker 部署。  介绍 Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架。  Midway 基于 TypeScript 开发，结合了面向对象（OOP + Class + IoC）与函数式（FP + Function + Hooks）两种编程范式，">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-09T05:53:36.000Z">
+<meta property="article:modified_time" content="2022-05-10T07:09:27.300Z">
 <meta property="article:author" content="Gladysdrea">
+<meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/blogs/atom.xml" title="Gladysdrea" type="application/atom+xml">
@@ -186,25 +187,25 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-
-  
-    <article id="post-Node系列/Node系列(一)使用Midway创建第一个应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Node系列/Node系列(一)使用Midway创建第一个应用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/blogs/2022/05/09/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%80)%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/" target="_blank">Node 系列（一）使用 Midway 创建第一个应用</a>
-  
+    <h1 class="article-title" itemprop="name">
+      Node 系列（一）使用 Midway 创建第一个应用
     </h1>
   
 
 
   
   
+        
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
 <a href="/blogs/2022/05/09/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%80)%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/" class="archive-article-date">
         <time datetime="2022-05-09T05:53:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-09</time>
 </a>
@@ -212,6 +213,27 @@
   
   
     
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">1.6k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">7分</span>
+    </span>
+  </span>
+</div>
+
 
   
   </header>
@@ -267,6 +289,26 @@
     
 
     
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          Gladysdrea
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://gladysdrea.github.io/blogs/2022/05/09/Node系列/Node系列(一)使用Midway创建第一个应用/" title="Node 系列（一）使用 Midway 创建第一个应用" target="_blank">https://gladysdrea.github.io/blogs/2022/05/09/Node系列/Node系列(一)使用Midway创建第一个应用/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
+    
 
   </div>
   <div class="article-info article-info-index">
@@ -286,16 +328,85 @@
     
 
     
-    <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2022/05/09/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%80)%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/">展开全文 >></a>
-    </p>
+
     
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/05/09/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%80)%E4%BD%BF%E7%94%A8Midway%E5%88%9B%E5%BB%BA%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
+  
+    <a href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Node 系列（二）启动 mysql
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">扫描普通链接二维码打开小程序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -310,6 +421,19 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">快速初始化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">启动项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">5.</span> <span class="toc-text">日志</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">登录鉴权</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jwt-%E7%AD%96%E7%95%A5%E5%8E%9F%E7%90%86"><span class="toc-number">6.1.</span> <span class="toc-text">Jwt 策略原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%9D%E5%A4%96%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%92%8C%E7%AD%96%E7%95%A5"><span class="toc-number">6.2.</span> <span class="toc-text">额外安装依赖和策略</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -318,12 +442,36 @@
 
 
 
+
+
+
+
+
+
+
+
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'ae76b7972b5dcc2335ed',
+  	clientSecret: 'cc40c0e264033bb7d9b25db36893d4e220df4bda',
+  	repo: 'blogs',
+  	owner: 'Gladysdrea',
+  	admin: ['Gladysdrea'],
+  	id: 'Mon May 09 2022 13:53:36 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="page-number current">2</span><a class="page-number" href="/blogs/page/3/">3</a><a class="page-number" href="/blogs/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/23/">23</a><a class="extend next" rel="next" href="/blogs/page/3/">下一页</a>
-    </nav>
-  
+
+
 
 
 
@@ -359,8 +507,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
