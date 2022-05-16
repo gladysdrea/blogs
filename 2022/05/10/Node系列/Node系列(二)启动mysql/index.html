@@ -10,20 +10,25 @@
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="前言 上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。  下载镜像首先我们打开 https:&#x2F;&#x2F;hub.docker.com&#x2F; 网站，搜索 MySql ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29Tips: 前提是我们需要先在电脑">
+  <meta name="description" content="前言 上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。  下载镜像首先我们打开 https:&#x2F;&#x2F;hub.docker.com&#x2F; 网站，搜索 MySQL ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29Tips: 前提是我们需要先在电脑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node 系列（二）启动 MySql">
-<meta property="og:url" content="https://gladysdrea.github.io/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/">
+<meta property="og:url" content="https://gladysdrea.github.io/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/">
 <meta property="og:site_name" content="Gladysdrea">
-<meta property="og:description" content="前言 上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。  下载镜像首先我们打开 https:&#x2F;&#x2F;hub.docker.com&#x2F; 网站，搜索 MySql ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29Tips: 前提是我们需要先在电脑">
+<meta property="og:description" content="前言 上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。  下载镜像首先我们打开 https:&#x2F;&#x2F;hub.docker.com&#x2F; 网站，搜索 MySQL ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29Tips: 前提是我们需要先在电脑">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/name1.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/download.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/add.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/addDatabase.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/addUserTable.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/newTable.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/name1.png">
 <meta property="article:published_time" content="2022-05-10T05:20:36.000Z">
-<meta property="article:modified_time" content="2022-05-12T03:32:44.541Z">
+<meta property="article:modified_time" content="2022-05-16T10:51:46.958Z">
 <meta property="article:author" content="Gladysdrea">
 <meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/name1.png">
+<meta name="twitter:image" content="https://gladysdrea.github.io/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/download.png">
   
     <link rel="alternative" href="/blogs/atom.xml" title="Gladysdrea" type="application/atom+xml">
   
@@ -189,7 +194,7 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Node系列/Node系列(二)启动mysql" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Node系列/Node系列(二)启动MySQL" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -208,7 +213,7 @@
               <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
         </span>
 
-<a href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/" class="archive-article-date">
+<a href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/" class="archive-article-date">
         <time datetime="2022-05-10T05:20:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-10</time>
 </a>
 
@@ -245,27 +250,27 @@
     <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
 <p>上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。</p>
 </blockquote>
-<h1 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h1><p>首先我们打开 <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a> 网站，搜索 MySql ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29<br>Tips: 前提是我们需要先在电脑上装 Docker ，并启动。</p>
-
-<h1 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 mysql</h1><p>镜像下载完成之后，我们就可以启动 MySql 了。我们可以查看之前打开的网址，找到 Description ，根据文档说明使用命令行去启动 mysql 。</p>
+<h1 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h1><p>首先我们打开 <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a> 网站，搜索 MySQL ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29<br>Tips: 前提是我们需要先在电脑上装 Docker ，并启动。</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/download.png" class="" width="878" height="610">
+<h1 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 mysql</h1><p>镜像下载完成之后，我们就可以启动 MySQL 了。我们可以查看之前打开的网址，找到 Description ，根据文档说明使用命令行去启动 mysql 。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d --name mysql -p 3306:3306 -v /Users/gladysdrea/Applications/Docker/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root123 mysql:8.0.29</span></span><br></pre></td></tr></table></figure>
 <p>命令行说明：</p>
 <ul>
-<li>–name : –name 后边加的是 MySql 的名字，我们根据自己的需求去取名就行，这里我们就叫 mysql</li>
+<li>–name : –name 后边加的是 MySQL 的名字，我们根据自己的需求去取名就行，这里我们就叫 mysql</li>
 <li>-p : 端口号</li>
 <li>-e : 修改环境变量，这里可以修改 root 密码</li>
 <li>-v : 为了数据的持久化，我们需要把容器的数据挂载到宿主机上，所以这里，我们把本地的路径和容器的路径做一个映射</li>
 <li>mysql:8.0.29 : 镜像的名字，我们下载的是 8.0.29 版本，所以我们可以用版本号来命名</li>
 </ul>
 <h1 id="建库"><a href="#建库" class="headerlink" title="建库"></a>建库</h1><p>这里我们选用 Navicat ，下载之后，打开软件，新建连接。如图，点击左上角 + 号，会出现图中的弹框。填好之后，点击 Save 就可以了。</p>
-
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/add.png" class="" width="878" height="410">
 <p>说明：</p>
 <ul>
 <li>Connection name: 自己根据需求起名字就好</li>
 <li>password: 上边通过命令行 ‘ -e MYSQL_ROOT_PASSWORD=root123’ 设置的密码，这里为 root123</li>
 </ul>
 <p>保存之后，会出现如图所示的 docker_mysql，单机右键，新建数据库，如图：</p>
-
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/addDatabase.png" class="" width="258" height="310">
 <p>说明：</p>
 <ul>
 <li>Database Name: 数据库名字</li>
@@ -274,9 +279,9 @@
 </ul>
 <p>填好之后，点击 OK 就可以了，就会出现我们刚刚建好的数据库。数据库建好之后，我们就可以建表了。</p>
 <h1 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h1><p>数据库建好之后，我们点进去，会发现有个 Tables ，点击，可以在下图中新建表，我们先来建个用户表，如图：</p>
-
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/addUserTable.png" class="" width="500" height="300">
 <p>点击 New Table ，会出现类似页面，就可以开始新建表了（这里已经把表的字段都填好了）。</p>
-
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/newTable.png" class="" width="500" height="300">
 <p>说明：</p>
 <ul>
 <li>name: 表里的字段名</li>
@@ -287,7 +292,7 @@
 <li>not null: 是否可以为 null</li>
 </ul>
 <p>填好表的字段之后，保存，会出现一个弹框，如下图，我们输入表的名字，点击 OK 就可以啦。</p>
-<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/name1.png" class="" width="580" height="280">
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/name1.png" class="" width="580" height="280">
 <p>到此，我们的用户表就建好了，之后我们就可以根据具体的业务去建不同的表了。</p>
 <blockquote>
 <p>下一篇文章，我们就开始连接数据库了，<a href="https://gladysdrea.github.io/blogs/2022/05/12/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%89)%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">【数据库连接】</a></p>
@@ -306,7 +311,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="https://gladysdrea.github.io/blogs/2022/05/10/Node系列/Node系列(二)启动mysql/" title="Node 系列（二）启动 MySql" target="_blank">https://gladysdrea.github.io/blogs/2022/05/10/Node系列/Node系列(二)启动mysql/</a>
+          <a href="https://gladysdrea.github.io/blogs/2022/05/10/Node系列/Node系列(二)启动MySQL/" title="Node 系列（二）启动 MySql" target="_blank">https://gladysdrea.github.io/blogs/2022/05/10/Node系列/Node系列(二)启动MySQL/</a>
         </li>
         
         <li>
@@ -384,7 +389,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/" alt="微信分享二维码"> -->
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8MySQL/" alt="微信分享二维码"> -->
     </div>
 </div>
 
