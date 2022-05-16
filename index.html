@@ -235,11 +235,11 @@
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/config/config.default.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">orm</span>: &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 单数据库实例</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;mysql&#x27;</span>,</span><br><span class="line">    <span class="attr">host</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="number">3306</span>,</span><br><span class="line">    <span class="attr">username</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">    <span class="attr">password</span>: <span class="string">&#x27;root123&#x27;</span>,</span><br><span class="line">    <span class="attr">database</span>: <span class="string">&#x27;demo&#x27;</span>,</span><br><span class="line">    <span class="attr">synchronize</span>: <span class="literal">false</span>, <span class="comment">// 如果第一次使用，不存在表，有同步的需求可以写 true</span></span><br><span class="line">    <span class="attr">logging</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>说明：</p>
 <ul>
-<li>type: 我们使用的数据库，这里我们安装的是 MySql</li>
+<li>type: 我们使用的数据库，这里我们安装的是 MySQL</li>
 <li>host: 数据库地址</li>
 <li>port: 数据库端口号</li>
 <li>username：连接数据库的用户名，默认是 root ，</li>
-<li>password: 连接数据库密码，我们使用命令行启动 MySql 时，设置的密码</li>
+<li>password: 连接数据库密码，我们使用命令行启动 MySQL 时，设置的密码</li>
 <li>database: 数据库名称，之前我们创建数据库时创建的名字</li>
 </ul>
 <h2 id="插入数据库数据"><a href="#插入数据库数据" class="headerlink" title="插入数据库数据"></a>插入数据库数据</h2><p>以上基本工作完成之后，我们就和数据库做了连接，接下来就可以向数据库中添加数据了。</p>
