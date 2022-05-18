@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/18/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%94)%E4%BA%8B%E5%8A%A1%E8%AE%B2%E8%A7%A3/error.png">
 <meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/18/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%94)%E4%BA%8B%E5%8A%A1%E8%AE%B2%E8%A7%A3/success.png">
 <meta property="article:published_time" content="2022-05-18T02:10:35.000Z">
-<meta property="article:modified_time" content="2022-05-18T07:26:06.221Z">
+<meta property="article:modified_time" content="2022-05-18T07:28:43.699Z">
 <meta property="article:author" content="Gladysdrea">
 <meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
@@ -223,7 +223,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">752字</span>
+      <span class="post-count">755字</span>
     </span>
   </span>
 
@@ -249,9 +249,9 @@
 </ul>
 <p>首先想到的可能是这种方式实现：<br>在 student.service 中调用一次 class.service 中的添加方法，大概是这样的</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> <span class="built_in">this</span>.studentModel.save(student);</span><br><span class="line"><span class="keyword">await</span> <span class="built_in">this</span>.clazzModel.save(cl);</span><br></pre></td></tr></table></figure>
-<p>但是，我们看执行的结果，虽然数据都添加到了数据库，但是，执行了两次 COMMIT （如下图） ，<br>而且，假如我们在执行完 student 的添加之后，抛出异常，那么此时 student 的数据是已经添加成功了的，class 里的数据却没有添加进去，这显然不符合事务的特性。</p>
+<p>但是，我们看执行的结果，虽然数据都添加到了数据库，但是，执行了两次 COMMIT （如下图） ，<br>而且，假如我们在执行完 student 的添加之后，抛出异常，那么此时 student 的数据是已经添加成功了的，class 里的数据却没有添加进去，这显然不符合预期。</p>
 <img src="/blogs/2022/05/18/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%94)%E4%BA%8B%E5%8A%A1%E8%AE%B2%E8%A7%A3/error.png" class="" width="778" height="410">
-<p>所以，我们就需要去了解 QueryRunner ，来实现这一需求。</p>
+<p>所以，我们就需要去了解 QueryRunner ，来将两个 INSERT 放到同一个事务中。</p>
 <h1 id="QueryRunner"><a href="#QueryRunner" class="headerlink" title="QueryRunner"></a>QueryRunner</h1><p>TypeORM 给出了三种应用事务的方式：</p>
 <ul>
 <li>手动创建和使用事务</li>
