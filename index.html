@@ -243,7 +243,7 @@
 <h4 id="扇形交换机"><a href="#扇形交换机" class="headerlink" title="扇形交换机"></a>扇形交换机</h4><p>扇形交换机是最基础的交换机类型，把能接收到的消息全部发给绑定在自己身上的队列，即广播消息，因为不需要思考，所以扇形交换机处理消息的速度也是最快的。</p>
 <img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E6%89%87%E5%BD%A2%E4%BA%A4%E6%8D%A2%E6%9C%BA.png" class="" width="370" height="120">
 <h4 id="直连交换机"><a href="#直连交换机" class="headerlink" title="直连交换机"></a>直连交换机</h4><p>直连交换机是一种带路由功能的交换机，队列和交换机绑定时，会需要一个 routing_key ,当消息被发送时，需要指定一个 bing_key ,当消息被送达交换机的时候，就会被送到指定的队列。</p>
-<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E7%9B%B4%E8%BF%9E%E4%BA%A4%E6%8D%A2%E6%9C%BA.png" class="" width="481" height="191">
+<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E7%9B%B4%E8%BF%9E%E4%BA%A4%E6%8D%A2%E6%9C%BA.png" class="" width="511" height="316">
 <h4 id="主题交换机"><a href="#主题交换机" class="headerlink" title="主题交换机"></a>主题交换机</h4><p>直连交换机的 routing_key 方案很简单，如果我们希望一条消息发送给多个队列，就需要绑定多个 routing_key ,假设每个交换机上都要绑定多个 routing_key ,这样管理起来会很繁琐，所以 RabbitMQ 提供了主题交换机。<br>即发送到主题交换机上的消息需要携带指定规则的 routing_key ,主题交换机会根据这个规则将消息发送到对应的一个或多个队列。<br>交换机和队列的 routing_key 需要采用  <em>.#.</em>…… 的格式，每个部分用 . 隔开</p>
 <ul>
 <li>‘*’表示一个单词</li>
