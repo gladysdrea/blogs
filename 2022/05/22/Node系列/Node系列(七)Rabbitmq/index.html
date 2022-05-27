@@ -6,21 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://gladysdrea.github.io">
-  <title>Gladysdrea</title>
+  <title>Node 系列（七）RabbitMQ | Gladysdrea</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    
-    <!-- <meta name="keywords" content="">
-    <meta name="description" content=""> -->
-  
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Gladysdrea">
-<meta property="og:url" content="https://gladysdrea.github.io/page/10/">
+  <meta name="description" content="介绍在复杂系统的架构中，会有负责处理消息队列的微服务，如：服务A负责产生消息给消息队列，而服务B则负责消费消息队列中的任务。开发中消息队列通常有如下使用场景：  任务异步处理将不需要同步处理的并且耗时长的操作由消息队列通知消息接收方进行异步处理。提高应用程序的响应时间 应用程序解耦合MQ 相当于一个中介，生产方通过 MQ 与消费方交互，将应用程序进行解耦  其工作原理如下图：  说明：  Prod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node 系列（七）RabbitMQ">
+<meta property="og:url" content="https://gladysdrea.github.io/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/">
 <meta property="og:site_name" content="Gladysdrea">
+<meta property="og:description" content="介绍在复杂系统的架构中，会有负责处理消息队列的微服务，如：服务A负责产生消息给消息队列，而服务B则负责消费消息队列中的任务。开发中消息队列通常有如下使用场景：  任务异步处理将不需要同步处理的并且耗时长的操作由消息队列通知消息接收方进行异步处理。提高应用程序的响应时间 应用程序解耦合MQ 相当于一个中介，生产方通过 MQ 与消费方交互，将应用程序进行解耦  其工作原理如下图：  说明：  Prod">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/RabbitMQ.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E6%89%87%E5%BD%A2%E4%BA%A4%E6%8D%A2%E6%9C%BA.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E7%9B%B4%E8%BF%9E%E4%BA%A4%E6%8D%A2%E6%9C%BA.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/login.png">
+<meta property="article:published_time" content="2022-05-22T08:00:35.000Z">
+<meta property="article:modified_time" content="2022-05-27T09:26:17.855Z">
 <meta property="article:author" content="Gladysdrea">
+<meta property="article:tag" content="Node">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gladysdrea.github.io/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/RabbitMQ.png">
   
     <link rel="alternative" href="/blogs/atom.xml" title="Gladysdrea" type="application/atom+xml">
   
@@ -186,75 +192,145 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-
-  
-    <article id="post-阿里云/阿里云上传图片" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Node系列/Node系列(七)Rabbitmq" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" target="_blank">阿里云上传图片</a>
-  
+    <h1 class="article-title" itemprop="name">
+      Node 系列（七）RabbitMQ
     </h1>
   
 
 
   
   
-<a href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" class="archive-article-date">
-        <time datetime="2021-07-13T09:29:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-13</time>
+        
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/" class="archive-article-date">
+        <time datetime="2022-05-22T08:00:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-22</time>
 </a>
 
   
   
     
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">1.7k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">7分</span>
+    </span>
+  </span>
+</div>
+
 
   
   </header>
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为了更好的掌握 OSS 存储，可以先去了解一下这些<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/31827.htm?spm=a2c4g.11186623.2.3.e47d42cdi0nTz0#concept-izx-fmt-tdb">基本概念</a></p>
-<h2 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h2><h3 id="创建-Bucket"><a href="#创建-Bucket" class="headerlink" title="创建 Bucket"></a>创建 Bucket</h3><h4 id="1、首先需要一个阿里云帐号，没有的可以自己去注册一下"><a href="#1、首先需要一个阿里云帐号，没有的可以自己去注册一下" class="headerlink" title="1、首先需要一个阿里云帐号，没有的可以自己去注册一下"></a>1、首先需要一个阿里云帐号，没有的可以自己去注册一下</h4><h4 id="2、登录之后点击右上角-–-控制台"><a href="#2、登录之后点击右上角-–-控制台" class="headerlink" title="2、登录之后点击右上角 – 控制台"></a>2、登录之后点击右上角 – 控制台</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/console.png" class="" width="736" height="252">
-
-<h4 id="3、鼠标移入箭头处（图1），会出现图2，然后点击-对象存储-OSS-，或者在搜索框搜索-对象存储-OSS-也可以"><a href="#3、鼠标移入箭头处（图1），会出现图2，然后点击-对象存储-OSS-，或者在搜索框搜索-对象存储-OSS-也可以" class="headerlink" title="3、鼠标移入箭头处（图1），会出现图2，然后点击 对象存储 OSS ，或者在搜索框搜索 对象存储 OSS 也可以"></a>3、鼠标移入箭头处（图1），会出现图2，然后点击 对象存储 OSS ，或者在搜索框搜索 对象存储 OSS 也可以</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/oss.png" class="" width="588" height="382">
-
-<h4 id="4、创建-Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了"><a href="#4、创建-Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了" class="headerlink" title="4、创建 Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了"></a>4、创建 Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/createBucket.png" class="" width="744" height="282">
-
-
-<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/bucketStep.png" class="" width="378" height="379">
-
-<h4 id="5、怎么查看创建的-Bucket，下图中点击红框里的内容就可以查看啦"><a href="#5、怎么查看创建的-Bucket，下图中点击红框里的内容就可以查看啦" class="headerlink" title="5、怎么查看创建的 Bucket，下图中点击红框里的内容就可以查看啦"></a>5、怎么查看创建的 Bucket，下图中点击红框里的内容就可以查看啦</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/lookBucket.png" class="" width="742" height="284">
-
-<h4 id="6、进入列表，点击创建好的-Bucket-点击进入，就可以设置创建的-Bucket-了，点击概览，就能找到需要在代码里用到的参数了"><a href="#6、进入列表，点击创建好的-Bucket-点击进入，就可以设置创建的-Bucket-了，点击概览，就能找到需要在代码里用到的参数了" class="headerlink" title="6、进入列表，点击创建好的 Bucket ,点击进入，就可以设置创建的 Bucket 了，点击概览，就能找到需要在代码里用到的参数了"></a>6、进入列表，点击创建好的 Bucket ,点击进入，就可以设置创建的 Bucket 了，点击概览，就能找到需要在代码里用到的参数了</h4><ul>
-<li>region里填写的是参数1对应的绿框里的内容</li>
-<li>bucket里填写的是参数2对应的绿框里的内容，即你创建的 Bucket 名称</li>
-</ul>
-<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/params.png" class="" width="692" height="382">
-
-<h4 id="7、获取-accessKeyId-和-accessKeySecret"><a href="#7、获取-accessKeyId-和-accessKeySecret" class="headerlink" title="7、获取 accessKeyId 和 accessKeySecret"></a>7、获取 accessKeyId 和 accessKeySecret</h4><p>点击头像 –&gt; AccessKey 管理 –&gt; 创建 AccessKey ，第一次创建的时候，会提示下载 ID 与密码，建议下载，至此，所需的参数就都拿到了</p>
+    <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>在复杂系统的架构中，会有负责处理消息队列的微服务，如：服务A负责产生消息给消息队列，而服务B则负责消费消息队列中的任务。<br>开发中消息队列通常有如下使用场景：</p>
+<ol>
+<li>任务异步处理<br>将不需要同步处理的并且耗时长的操作由消息队列通知消息接收方进行异步处理。提高应用程序的响应时间</li>
+<li>应用程序解耦合<br>MQ 相当于一个中介，生产方通过 MQ 与消费方交互，将应用程序进行解耦</li>
+</ol>
+<p>其工作原理如下图：</p>
+<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/RabbitMQ.png" class="" width="700" height="200">
+<p>说明：</p>
 <ul>
-<li>accessKeySecret 填写的是拿到的密码</li>
-<li>accessKeyId 填写的是 AccessKey ID ，即刚刚拿到的 ID</li>
+<li>Producer：消息生产者，将生产的消息发送到 MQ</li>
+<li>Broker：消息队列服务进程，包括 Exchange 和 Queue</li>
+<li>Exchange：消息队列交换机，将消息按一定的规则转发到某个队列，对消息进行过滤</li>
+<li>Queue：消息队列，存储消息的队列，消息到达队列将消息转发给指定的消费者</li>
+<li>Consumer: 消息消费者，接收 MQ 转发过来的消息</li>
 </ul>
-<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/accessKey.png" class="" width="742" height="212">
-
-<h2 id="二、Vue-上传图片到阿里云"><a href="#二、Vue-上传图片到阿里云" class="headerlink" title="二、Vue 上传图片到阿里云"></a>二、Vue 上传图片到阿里云</h2><h3 id="1、安装-ali-oss"><a href="#1、安装-ali-oss" class="headerlink" title="1、安装 ali-oss"></a>1、安装 ali-oss</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ali-oss</span><br></pre></td></tr></table></figure>
-<h3 id="2、创建工具类文件"><a href="#2、创建工具类文件" class="headerlink" title="2、创建工具类文件"></a>2、创建工具类文件</h3><p>在 utils 文件夹内创建一个 alioss.js 文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span> (<span class="params">file, ossConfig, resultUrl</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> OSS = <span class="built_in">require</span>(<span class="string">&#x27;ali-oss&#x27;</span>)</span><br><span class="line">  <span class="comment">// 这里是通过接口拿到的这些参数，所以在调用该方法之前，需调用后台接口先拿到这些参数</span></span><br><span class="line">  <span class="comment">// 如果这些参数不是通过后台接口拿到的话，可以从上边介绍的第6条中，找到需要的参数放过来就可以了</span></span><br><span class="line">  <span class="keyword">const</span> client = <span class="keyword">new</span> OSS(&#123;</span><br><span class="line">    <span class="attr">region</span>: ossConfig.region,</span><br><span class="line">    <span class="attr">accessKeyId</span>: ossConfig.accessKeyId,</span><br><span class="line">    <span class="attr">accessKeySecret</span>: ossConfig.accessKeySecret,</span><br><span class="line">    <span class="attr">bucket</span>: ossConfig.bucket</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">put</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 这里加个时间戳，目的是以防有同名的文件被覆盖</span></span><br><span class="line">      <span class="keyword">var</span> timestamp = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime()</span><br><span class="line">      <span class="keyword">var</span> fileName = ossConfig.path + <span class="string">&#x27;/&#x27;</span> + timestamp + <span class="string">&#x27;/&#x27;</span> + file.name</span><br><span class="line">      <span class="comment">// 上传到OSS</span></span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> client.put(fileName, file)</span><br><span class="line">      <span class="built_in">console</span>.log(result)</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;阿里云OSS上传文件接口返回：&#x27;</span>, result)</span><br><span class="line"></span><br><span class="line">      resultUrl(result)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;阿里云OSS上传文件接口返回错误：&#x27;</span>, e)</span><br><span class="line">      resultUrl()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> put()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  uploadFile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3、在-vue-文件中引入并使用"><a href="#3、在-vue-文件中引入并使用" class="headerlink" title="3、在 vue 文件中引入并使用"></a>3、在 vue 文件中引入并使用</h3><ul>
-<li>引入<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; uploadFile &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/utils&#x27;</span></span><br></pre></td></tr></table></figure></li>
-<li>使用 Element 的图片上传组件，这里就不介绍 element 图片上传组件的使用了，直接讲调用 uploadFile 方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">uploadImg (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e)</span><br><span class="line">  <span class="keyword">if</span> (e.file.type !== <span class="string">&#x27;image/jpeg&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/png&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/jpg&#x27;</span> &amp;&amp;</span><br><span class="line">    e.file.type !== <span class="string">&#x27;image/bmp&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/gif&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.$message.error(<span class="string">&#x27;请选择图片文件&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> isLt5M = e.file.size / <span class="number">1024</span> / <span class="number">1024</span> &lt; <span class="number">5</span></span><br><span class="line">  <span class="keyword">if</span> (!isLt5M) &#123;</span><br><span class="line">    <span class="built_in">this</span>.$message.error(<span class="string">&#x27;上传图片大小不能超过 5MB!&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果 oss 配置参数没有经过后台接口，则忽略 ossConfig 参数，如果是接口获取的，则先调用接口拿到参数</span></span><br><span class="line">  uploadFile(e.file, <span class="built_in">this</span>.ossConfig, <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (res === <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 更新展示的图片地址, res.name 为图片的名称，此处写自己的逻辑代码即可</span></span><br><span class="line">      <span class="built_in">console</span>.log(res.name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<h3 id="Exchange"><a href="#Exchange" class="headerlink" title="Exchange"></a>Exchange</h3><p>有 4 种不同的交换机：</p>
+<ul>
+<li>直连交换机 Direct Exchange</li>
+<li>扇形交换机 Fanout Exchange</li>
+<li>主题交换机 Topic Exchange</li>
+<li>首部交换机 Headers Exchange</li>
 </ul>
+<h4 id="扇形交换机"><a href="#扇形交换机" class="headerlink" title="扇形交换机"></a>扇形交换机</h4><p>扇形交换机是最基础的交换机类型，把能接收到的消息全部发给绑定在自己身上的队列，即广播消息，因为不需要思考，所以扇形交换机处理消息的速度也是最快的。</p>
+<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E6%89%87%E5%BD%A2%E4%BA%A4%E6%8D%A2%E6%9C%BA.png" class="" width="370" height="120">
+<h4 id="直连交换机"><a href="#直连交换机" class="headerlink" title="直连交换机"></a>直连交换机</h4><p>直连交换机是一种带路由功能的交换机，队列和交换机绑定时，会需要一个 routing_key ,当消息被发送时，需要指定一个 bing_key ,当消息被送达交换机的时候，就会被送到指定的队列。</p>
+<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/%E7%9B%B4%E8%BF%9E%E4%BA%A4%E6%8D%A2%E6%9C%BA.png" class="" width="481" height="191">
+<h4 id="主题交换机"><a href="#主题交换机" class="headerlink" title="主题交换机"></a>主题交换机</h4><p>直连交换机的 routing_key 方案很简单，如果我们希望一条消息发送给多个队列，就需要绑定多个 routing_key ,假设每个交换机上都要绑定多个 routing_key ,这样管理起来会很繁琐，所以 RabbitMQ 提供了主题交换机。<br>即发送到主题交换机上的消息需要携带指定规则的 routing_key ,主题交换机会根据这个规则将消息发送到对应的一个或多个队列。<br>交换机和队列的 routing_key 需要采用  <em>.#.</em>…… 的格式，每个部分用 . 隔开</p>
+<ul>
+<li>‘*’表示一个单词</li>
+<li>‘#’表示任意数量（零个或多个）单词</li>
+</ul>
+<h4 id="首部交换机"><a href="#首部交换机" class="headerlink" title="首部交换机"></a>首部交换机</h4><p>首部交换机是通过 Headers 信息来交换的。有点像 HTTP 的 Headers。首部交换机应用相对少，这里就不过多解释了。</p>
+<h1 id="下载和启动"><a href="#下载和启动" class="headerlink" title="下载和启动"></a>下载和启动</h1><p>RabbitMQ 下载镜像和 MySQL 类似，也是去 <a target="_blank" rel="noopener" href="https://hub.docker.com/_/rabbitmq?tab=tags">【 Docker 】</a>里下载</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker pull rabbitmq:3.9.18-management-alpine</span></span><br></pre></td></tr></table></figure>
+<p>这里下载，我们需要下载有 UI 页面的，即版本号带 ‘management’ 的，因为 RabbitMQ 没有客户端。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d --restart=always --name rabbitmq -p 5672:5672 -p 15672:15672 -v /Users/gladysdrea/Applications/Docker/RabbitMQ/data:/var/lib/rabbitmq/ -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:3.9.18-management-alpine</span></span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li>这里有 2个 -p ,一个是服务端的端口（5672），一个是客户端页面的访问端口（15672）。</li>
+<li>2个 -e ，也是同理</li>
+</ul>
+<p>启动之后，我们可以打开客户端访问地址（ <a target="_blank" rel="noopener" href="http://localhost:15672/#/">http://localhost:15672/#/</a> ），登录（密码就是启动命令里设置的，这里我们是 admin ），就会看到如下页面</p>
+<img src="/blogs/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/login.png" class="" width="800" height="300">
+<h1 id="在-MidWay-中使用-RabbitMQ"><a href="#在-MidWay-中使用-RabbitMQ" class="headerlink" title="在 MidWay 中使用 RabbitMQ"></a>在 MidWay 中使用 RabbitMQ</h1><h2 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h2><p>首先安装需要的依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm i amqplib amqp-connection-manager --save</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm i @types/amqplib --save-dev</span></span><br></pre></td></tr></table></figure>
+<p>接下来创建连接，在 service 目录下，新建一个 rabbitmq.ts 的文件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/service/rabbitmq.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  Provide,</span><br><span class="line">  Scope,</span><br><span class="line">  ScopeEnum,</span><br><span class="line">  Init,</span><br><span class="line">  Autoload,</span><br><span class="line">  Destroy,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> amqp <span class="keyword">from</span> <span class="string">&#x27;amqp-connection-manager&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autoload</span>()</span><br><span class="line"><span class="meta">@Provide</span>()</span><br><span class="line"><span class="meta">@Scope</span>(ScopeEnum.Singleton) <span class="comment">// Singleton 单例，全局唯一（进程级别）</span></span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">RabbitmqService</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> connection: amqp.AmqpConnectionManager;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> channelWrapper;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Init</span>()</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">connect</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// config 是连接的配置信息</span></span><br><span class="line">    <span class="keyword">const</span> config = <span class="built_in">Object</span>.assign(&#123;</span><br><span class="line">      <span class="attr">protocol</span>: <span class="string">&#x27;amqp&#x27;</span>,</span><br><span class="line">      <span class="attr">hostname</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">      <span class="attr">port</span>: <span class="number">5672</span>,</span><br><span class="line">      <span class="attr">username</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">      <span class="attr">password</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">      <span class="attr">frameMax</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">heartbeat</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">vhost</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 创建连接</span></span><br><span class="line">    <span class="built_in">this</span>.connection = <span class="keyword">await</span> amqp.connect(config);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建 channel</span></span><br><span class="line">    <span class="built_in">this</span>.channelWrapper = <span class="built_in">this</span>.connection.createChannel(&#123;</span><br><span class="line">      <span class="attr">json</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">setup</span>: <span class="function"><span class="keyword">function</span> (<span class="params">channel</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Promise</span>.all([</span><br><span class="line">          <span class="comment">// 绑定队列</span></span><br><span class="line">          channel.assertQueue(<span class="string">&#x27;tasks&#x27;</span>, &#123; <span class="attr">durable</span>: <span class="literal">true</span> &#125;),</span><br><span class="line">        ]);</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 发送消息</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">async</span> <span class="function"><span class="title">sendToQueue</span>(<span class="params">queueName: <span class="built_in">string</span>, data: <span class="built_in">any</span></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.channelWrapper.sendToQueue(queueName, data);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="meta">@Destroy</span>()</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">close</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">this</span>.channelWrapper.close();</span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">this</span>.connection.close();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建了一个用来封装消息通信的 service ，是全局唯一的 Singleton 单例。因为增加了 @Autoload() 装饰器，所以可以自执行初始化。<br>这样基础的调用服务就抽象好了，我们只需要在使用的地方，调用 sendToQueue 方法就可以了。如下：<br>我们在用户注册的时候，发送一个消息队列</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/service/user.service.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; RabbitmqService &#125; <span class="keyword">from</span> <span class="string">&#x27;./rabbitmq&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Provide</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">rabbitmqService</span>: RabbitmqService;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">saveUser</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 这里是注册逻辑</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// 发送消息</span></span><br><span class="line">    <span class="keyword">await</span> <span class="built_in">this</span>.rabbitmqService.sendToQueue(<span class="string">&#x27;task&#x27;</span>, &#123;</span><br><span class="line">      <span class="attr">hello</span>: <span class="string">&#x27;Welcome to register&#x27;</span>,</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以打开上边说的客户端页面，找到 Queue ，看是否有刚刚发送的队列。</p>
+<h2 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h2><p>消费者需要的依赖如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm i @midwayjs/rabbitmq@3 --save</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm i amqplib --save</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm i @types/amqplib --save-dev</span></span><br></pre></td></tr></table></figure>
+<p>安装好之后，我们需要开启组件，在 configuration.ts 中进行如下配置：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/configuration.ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> rabbitmq <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/rabbitmq&#x27;</span>;</span><br><span class="line"><span class="meta">@Configuration</span>(&#123;</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    rabbitmq</span><br><span class="line">  ],</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>组件开始之后，我们还需要在 config 中配置 RabbitMQ 地址</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/config/config.default.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">rabbitmq</span>: &#123;</span><br><span class="line">    <span class="attr">url</span>: &#123;</span><br><span class="line">      <span class="attr">protocol</span>: <span class="string">&#x27;amqp&#x27;</span>,</span><br><span class="line">      <span class="attr">hostname</span>: <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">      <span class="attr">port</span>: <span class="number">5672</span>,</span><br><span class="line">      <span class="attr">username</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">      <span class="attr">password</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">      <span class="attr">frameMax</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">heartbeat</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">vhost</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125; <span class="keyword">as</span> MidwayConfig;</span><br></pre></td></tr></table></figure>
+<p>一般消费者，我们习惯写在 consumer 中，比如：src/consumer/user.consumer.ts</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/consumer/user.consumer.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  Consumer,</span><br><span class="line">  MSListenerType,</span><br><span class="line">  RabbitMQListener,</span><br><span class="line">  Inject,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/decorator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Context &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/rabbitmq&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ConsumeMessage &#125; <span class="keyword">from</span> <span class="string">&#x27;amqplib&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ILogger &#125; <span class="keyword">from</span> <span class="string">&#x27;@midwayjs/logger&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Consumer</span>(MSListenerType.RABBITMQ)</span><br><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">UserConsumer</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">ctx</span>: Context;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Inject</span>()</span><br><span class="line">  <span class="attr">logger</span>: ILogger;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">  * @RabbitMQListener() 第一个参数是队列的名称，代表需要监听的队列</span></span><br><span class="line"><span class="comment">  * 第二个参数是可选参数，类型为对象，包含队列、交换机等，具体参数我们可以从源码中找到，这里会贴在文章的最后</span></span><br><span class="line"><span class="comment">  * 这里根据自己的需求，选择交换机类型，以及一些配置项</span></span><br><span class="line"><span class="comment">  * **/</span></span><br><span class="line">  <span class="meta">@RabbitMQListener</span>(<span class="string">&#x27;tasks&#x27;</span>,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">exchangeOptions</span>: &#123;</span><br><span class="line">      <span class="attr">type</span>: <span class="string">&#x27;fanout&#x27;</span>,</span><br><span class="line">      <span class="attr">durable</span>: <span class="literal">false</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">consumeOptions</span>: &#123;</span><br><span class="line">      <span class="attr">noAck</span>: <span class="literal">true</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="title">gotData</span>(<span class="params">msg: ConsumeMessage</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.ctx.channel.ack(msg);</span><br><span class="line">    <span class="built_in">this</span>.logger.info(msg.content);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>@RabbitMQListener() 装饰器第二个参数</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> RabbitMQListenerOptions &#123;</span><br><span class="line">  exchange?: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * queue options</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  exclusive?: <span class="built_in">boolean</span>;</span><br><span class="line">  durable?: <span class="built_in">boolean</span>;</span><br><span class="line">  autoDelete?: <span class="built_in">boolean</span>;</span><br><span class="line">  messageTtl?: <span class="built_in">number</span>;</span><br><span class="line">  expires?: <span class="built_in">number</span>;</span><br><span class="line">  deadLetterExchange?: <span class="built_in">string</span>;</span><br><span class="line">  deadLetterRoutingKey?: <span class="built_in">string</span>;</span><br><span class="line">  maxLength?: <span class="built_in">number</span>;</span><br><span class="line">  maxPriority?: <span class="built_in">number</span>;</span><br><span class="line">  pattern?: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * prefetch</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  prefetch?: <span class="built_in">number</span>;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * router</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  routingKey?: <span class="built_in">string</span>;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * exchange options</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  exchangeOptions?: &#123;</span><br><span class="line">    <span class="keyword">type</span>?: <span class="string">&#x27;direct&#x27;</span> | <span class="string">&#x27;topic&#x27;</span> | <span class="string">&#x27;headers&#x27;</span> | <span class="string">&#x27;fanout&#x27;</span> | <span class="string">&#x27;match&#x27;</span> | <span class="built_in">string</span>;</span><br><span class="line">    durable?: <span class="built_in">boolean</span>;</span><br><span class="line">    internal?: <span class="built_in">boolean</span>;</span><br><span class="line">    autoDelete?: <span class="built_in">boolean</span>;</span><br><span class="line">    alternateExchange?: <span class="built_in">string</span>;</span><br><span class="line">    <span class="built_in">arguments</span>?: <span class="built_in">any</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * consumeOptions</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  consumeOptions?: &#123;</span><br><span class="line">    consumerTag?: <span class="built_in">string</span>;</span><br><span class="line">    noLocal?: <span class="built_in">boolean</span>;</span><br><span class="line">    noAck?: <span class="built_in">boolean</span>;</span><br><span class="line">    exclusive?: <span class="built_in">boolean</span>;</span><br><span class="line">    priority?: <span class="built_in">number</span>;</span><br><span class="line">    <span class="built_in">arguments</span>?: <span class="built_in">any</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到此 RabbitMQ 就介绍完了。</p>
 
     
 
     
 
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          Gladysdrea
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://gladysdrea.github.io/blogs/2022/05/22/Node系列/Node系列(七)Rabbitmq/" title="Node 系列（七）RabbitMQ" target="_blank">https://gladysdrea.github.io/blogs/2022/05/22/Node系列/Node系列(七)Rabbitmq/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
     
 
   </div>
@@ -266,7 +342,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">阿里云</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Node</a>
         		</li>
       		
 		</ul>
@@ -275,16 +351,76 @@
     
 
     
-    <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">展开全文 >></a>
-    </p>
+
     
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/05/22/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%83)Rabbitmq/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/blogs/2022/05/18/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E5%85%AD)%E4%BD%BF%E7%94%A8Redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Node 系列（六）使用 Redis</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -299,6 +435,19 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Exchange"><span class="toc-number">1.0.1.</span> <span class="toc-text">Exchange</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%87%E5%BD%A2%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">扇形交换机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E8%BF%9E%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">直连交换机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">1.0.1.3.</span> <span class="toc-text">主题交换机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E9%83%A8%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="toc-number">1.0.1.4.</span> <span class="toc-text">首部交换机</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%90%AF%E5%8A%A8"><span class="toc-number">2.</span> <span class="toc-text">下载和启动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD"><span class="toc-number">2.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-number">2.2.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9C%A8-MidWay-%E4%B8%AD%E4%BD%BF%E7%94%A8-RabbitMQ"><span class="toc-number">3.</span> <span class="toc-text">在 MidWay 中使用 RabbitMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">生产者</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">3.2.</span> <span class="toc-text">消费者</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -307,12 +456,36 @@
 
 
 
+
+
+
+
+
+
+
+
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'ae76b7972b5dcc2335ed',
+  	clientSecret: 'cc40c0e264033bb7d9b25db36893d4e220df4bda',
+  	repo: 'blogs',
+  	owner: 'Gladysdrea',
+  	admin: ['Gladysdrea'],
+  	id: 'Sun May 22 2022 16:00:35 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/9/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/8/">8</a><a class="page-number" href="/blogs/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/blogs/page/11/">11</a><a class="page-number" href="/blogs/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/28/">28</a><a class="extend next" rel="next" href="/blogs/page/11/">下一页</a>
-    </nav>
-  
+
+
 
 
 
@@ -348,8 +521,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
