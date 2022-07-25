@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-WeChat/小程序/扫描普通链接二维码打开小程序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Node系列/Node系列(二)启动mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/" target="_blank">扫描普通链接二维码打开小程序</a>
+	  <a class="article-title" href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/" target="_blank">Node 系列（二）启动 MySQL</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="archive-article-date">
-        <time datetime="2021-10-09T06:48:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-09</time>
+<a href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/" class="archive-article-date">
+        <time datetime="2022-05-10T05:20:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-10</time>
 </a>
 
   
@@ -218,41 +218,56 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
-<p>前段时间接到一个需求，想要扫码进入小程序指定的页面，并且根据投放渠道的不同，生成对应的二维码， 于是找到了微信小程的文档中的<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/introduction/qrcode.html#%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B">【通过扫普通链接二维码打开微信小程序】</a><br>看完之后感觉发现了新大陆，小程序还可以这么玩，于是开整</p>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>上一篇我们简单的创建了一个 Midway 应用，并使用 Jwt 做了登录鉴权，接下来我们需要把用户信息存储到服务器，所以我们开始启动 mysql 。</p>
 </blockquote>
-<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h1><blockquote>
-<p>首先开启 扫描普通链接二维码打开小程序 功能</p>
-</blockquote>
-<p>登录小程序账号，找到【开发】-&gt; 【开发管理】-&gt; 【开发设置】-&gt; 【扫普通链接二维码打开小程序】，如图</p>
-<img src="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/open.png" class="" width="1200" height="150">
-<p>点击启用，就可以开始配置二维码规则啦</p>
-<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h1><blockquote>
-<p>配置二维码规则</p>
-</blockquote>
-<p>先来看下需要配置的内容吧</p>
-<img src="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/one.png" class="" width="700" height="800">
-<p>1.首先我们需要先下载校验文件，放到服务器指定的目录下</p>
+<h1 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h1><p>首先我们打开 <a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a> 网站，搜索 MySQL ，找到想要下载的版本，复制下载命令，打开终端，下载镜像。 eg: docker pull mysql:8.0.29<br>Tips: 前提是我们需要先在电脑上装 Docker ，并启动。</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/download.png" class="" width="878" height="610">
+<h1 id="启动-MySQL"><a href="#启动-MySQL" class="headerlink" title="启动 MySQL"></a>启动 MySQL</h1><p>启动 MySQL 之前，我们需要先下载一个 Docker Desktop ，因为我们后续的东西都是运行在 Docker 中，所以需要一个桌面版的 App ，方面操作。<br>镜像下载完成之后，我们就可以启动 MySQL 了。我们可以查看之前打开的网址，找到 Description ，根据文档说明使用命令行去启动 MySQL 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run -d --name mysql -p 3306:3306 -v /Users/gladysdrea/Applications/Docker/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root123 mysql:8.0.29</span></span><br></pre></td></tr></table></figure>
+<p>命令行说明：</p>
 <ul>
-<li>验证文件放置规则： 放置于URL中声明的最后一级子目录下，若无子目录，则放置于host所属服务器的顶层目录下。</li>
+<li>–name : –name 后边加的是 MySQL 的名字，我们根据自己的需求去取名就行，这里我们就叫 mysql</li>
+<li>-p : 端口号</li>
+<li>-e : 修改环境变量，这里可以修改 root 密码</li>
+<li>-v : 为了数据的持久化，我们需要把容器的数据挂载到宿主机上，所以这里，我们把本地的路径和容器的路径做一个映射</li>
+<li>mysql:8.0.29 : 镜像的名字，我们下载的是 8.0.29 版本，所以我们可以用版本号来命名</li>
 </ul>
-<p>2.二维码规则<br>根据二维码跳转规则，开发者需要填写需要跳转小程序的二维码规则。要求如下：</p>
+<h1 id="建库"><a href="#建库" class="headerlink" title="建库"></a>建库</h1><p>这里我们选用 Navicat ，下载之后，打开软件，新建连接。如图，点击左上角 + 号，会出现图中的弹框。填好之后，点击 Save 就可以了。</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/add.png" class="" width="878" height="410">
+<p>说明：</p>
 <ul>
-<li>二维码规则的域名须通过ICP备案的验证。</li>
-<li>支持http、https、ftp开头的链接（如：<a target="_blank" rel="noopener" href="http://wx.qq.com、https//wx.qq.com/mp/%E3%80%81https://wx.qq.com/mp?id=123%EF%BC%89%E3%80%82">http://wx.qq.com、https://wx.qq.com/mp/、https://wx.qq.com/mp?id=123）。</a></li>
-<li>一个小程序帐号可配置不多于100个二维码前缀规则。</li>
+<li>Connection name: 自己根据需求起名字就好</li>
+<li>password: 上边通过命令行 ‘ -e MYSQL_ROOT_PASSWORD=root123’ 设置的密码，这里为 root123</li>
 </ul>
-<p>3.小程序功能页面</p>
+<p>保存之后，会出现如图所示的 docker_mysql，单机右键，新建数据库，如图：</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/addDatabase.png" class="" width="258" height="310">
+<p>说明：</p>
 <ul>
-<li>配置扫描二维码后打开的小程序功能页面路径，如：pages/index/index。<h1 id="Step3"><a href="#Step3" class="headerlink" title="Step3"></a>Step3</h1><blockquote>
-<p>扫码进入小程序指定页面</p>
+<li>Database Name: 数据库名字</li>
+<li>Character Set: 字符集，选择 utf8mb4</li>
+<li>Collation: 排序，选择 utf8mb4_0900_ai_ci</li>
+</ul>
+<p>填好之后，点击 OK 就可以了，就会出现我们刚刚建好的数据库。数据库建好之后，我们就可以建表了。</p>
+<h1 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h1><p>数据库建好之后，我们点进去，会发现有个 Tables ，点击，可以在下图中新建表，我们先来建个用户表，如图：</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/addUserTable.png" class="" width="500" height="300">
+<p>点击 New Table ，会出现类似页面，就可以开始新建表了（这里已经把表的字段都填好了）。</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/newTable.png" class="" width="500" height="300">
+<p>说明：</p>
+<ul>
+<li>name: 表里的字段名</li>
+<li>type: 字段类型，根据需求定</li>
+<li>length: 字段长度，根据需求定</li>
+<li>comment: 字段描述</li>
+<li>key: 唯一值，一般 id 会设为 key</li>
+<li>not null: 是否可以为 null</li>
+</ul>
+<p>填好表的字段之后，保存，会出现一个弹框，如下图，我们输入表的名字，点击 OK 就可以啦。</p>
+<img src="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/name1.png" class="" width="580" height="280">
+<p>到此，我们的用户表就建好了，之后我们就可以根据具体的业务去建不同的表了。</p>
+<blockquote>
+<p>下一篇文章，我们就开始连接数据库了，<a href="https://gladysdrea.github.io/blogs/2022/05/12/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%B8%89)%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">【数据库连接】</a></p>
 </blockquote>
-</li>
-<li>开发测试的时候，可以配置测试链接，使用草料二维码工具生成普通二维码，以方便测试</li>
-<li>我们的链接 ? 后携带了参数，那么怎么提取链接里的参数呢？接下来继续</li>
-<li>二维码链接内容会以参数 q 的形式带给页面，在onLoad事件中提取 q 参数并自行 decodeURIComponent 一次（对于小游戏可使用 wx.getEnterOptionsSync 接口获取），即可获取原二维码的完整内容。同时会附加一个参数 scancode_time（UNIX 时间戳，单位秒），表示用户扫码的时间。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  <span class="function"><span class="title">onLoad</span>(<span class="params">query</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> q = <span class="built_in">decodeURIComponent</span>(query.q) <span class="comment">// 获取到二维码原始链接内容</span></span><br><span class="line">    <span class="keyword">const</span> scancode_time = <span class="built_in">parseInt</span>(query.scancode_time) <span class="comment">// 获取用户扫码时间 UNIX 时间戳</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-<li>拿到了小程序二维码原始链接，我们就可以截取链接里的参数以备用啦</li>
-</ul>
 
     
 
@@ -269,7 +284,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Node</a>
         		</li>
       		
 		</ul>
@@ -279,7 +294,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/10/09/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E6%89%AB%E6%8F%8F%E6%99%AE%E9%80%9A%E9%93%BE%E6%8E%A5%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%89%93%E5%BC%80%E5%B0%8F%E7%A8%8B%E5%BA%8F/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2022/05/10/Node%E7%B3%BB%E5%88%97/Node%E7%B3%BB%E5%88%97(%E4%BA%8C)%E5%90%AF%E5%8A%A8mysql/">展开全文 >></a>
     </p>
     
 
@@ -313,7 +328,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/7/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/6/">6</a><a class="page-number" href="/blogs/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/blogs/page/9/">9</a><a class="page-number" href="/blogs/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/28/">28</a><a class="extend next" rel="next" href="/blogs/page/9/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/7/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/6/">6</a><a class="page-number" href="/blogs/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/blogs/page/9/">9</a><a class="page-number" href="/blogs/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/30/">30</a><a class="extend next" rel="next" href="/blogs/page/9/">下一页</a>
     </nav>
   
 

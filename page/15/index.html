@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-WeChat/公众号/微信公众号开发之监听返回事件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-JavaScript系列/js页面传递参数乱码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" target="_blank">微信公众号开发之监听返回事件</a>
+	  <a class="article-title" href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/" target="_blank">JavaScript 页面传递参数乱码</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" class="archive-article-date">
-        <time datetime="2021-01-07T07:51:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-07</time>
+<a href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/" class="archive-article-date">
+        <time datetime="2021-07-12T05:57:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-12</time>
 </a>
 
   
@@ -218,10 +218,9 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>项目中经常会遇到，用户填写表单之类的内容，填了一部分之后，可能会返回上一页，此时需要给用户一个提示，这就需要监听微信浏览器的返回事件，直接上代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mounted () &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.history &amp;&amp; <span class="built_in">window</span>.history.pushState) &#123;</span><br><span class="line">      history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  destroyed () &#123;</span><br><span class="line">    <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">   <span class="comment">// 监听微信返回按钮</span></span><br><span class="line">   backChange () &#123;</span><br><span class="line">     <span class="comment">// const that = this</span></span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">&#x27;监听到了&#x27;</span>)</span><br><span class="line">     <span class="keyword">if</span> (<span class="built_in">localStorage</span>.getItem(<span class="string">&#x27;reason&#x27;</span>)) &#123;</span><br><span class="line">       history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">       <span class="comment">// 这里是如果用户填写信息，自定义弹框显示，提示用户</span></span><br><span class="line">       <span class="built_in">this</span>.leaveDialog = <span class="literal">true</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <p>JavaScript 页面传递参数如果是中文，会出现乱码，解决方法如下：</p>
+<h4 id="1-在传递参数的页面，使用-encodeURI-进行转码，注意需要加两层"><a href="#1-在传递参数的页面，使用-encodeURI-进行转码，注意需要加两层" class="headerlink" title="1.在传递参数的页面，使用 encodeURI 进行转码，注意需要加两层"></a>1.在传递参数的页面，使用 encodeURI 进行转码，注意需要加两层</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> url = <span class="string">&#x27;./result.html?examId=&#x27;</span> + examId + <span class="string">&#x27;&amp;phone=&#x27;</span> + phone + <span class="string">&#x27;&amp;name=&#x27;</span> + name</span><br><span class="line">url = <span class="built_in">encodeURI</span>(url);</span><br><span class="line">url = <span class="built_in">encodeURI</span>(url);</span><br></pre></td></tr></table></figure>
+<h4 id="2-在接收参数的页面，使用-decodeURI-解码"><a href="#2-在接收参数的页面，使用-decodeURI-解码" class="headerlink" title="2.在接收参数的页面，使用 decodeURI 解码"></a>2.在接收参数的页面，使用 decodeURI 解码</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 截取 URL 参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getParams</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">&quot;(^|&amp;)&quot;</span> + key + <span class="string">&quot;=([^&amp;]*)(&amp;|$)&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg);</span><br><span class="line">    <span class="keyword">if</span> (r != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">unescape</span>(r[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> name = <span class="built_in">decodeURI</span>(getParams(<span class="string">&#x27;name&#x27;</span>))</span><br></pre></td></tr></table></figure>
 
     
 
@@ -238,7 +237,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">公众号</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
         		</li>
       		
 		</ul>
@@ -248,7 +247,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/">展开全文 >></a>
     </p>
     
 
@@ -282,7 +281,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/14/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/13/">13</a><a class="page-number" href="/blogs/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/blogs/page/16/">16</a><a class="page-number" href="/blogs/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/28/">28</a><a class="extend next" rel="next" href="/blogs/page/16/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/14/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/13/">13</a><a class="page-number" href="/blogs/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/blogs/page/16/">16</a><a class="page-number" href="/blogs/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/30/">30</a><a class="extend next" rel="next" href="/blogs/page/16/">下一页</a>
     </nav>
   
 
