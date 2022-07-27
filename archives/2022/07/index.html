@@ -6,17 +6,13 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://gladysdrea.github.io">
-  <title>Gladysdrea</title>
+  <title>Archives: 2022/7 | Gladysdrea</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    
-    <!-- <meta name="keywords" content="">
-    <meta name="description" content=""> -->
-  
   <meta property="og:type" content="website">
 <meta property="og:title" content="Gladysdrea">
-<meta property="og:url" content="https://gladysdrea.github.io/page/18/">
+<meta property="og:url" content="https://gladysdrea.github.io/archives/2022/07/">
 <meta property="og:site_name" content="Gladysdrea">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Gladysdrea">
@@ -187,104 +183,64 @@
           </div>
           <div id="js-content" class="content-ll">
             
-
   
-    <article id="post-WeChat/公众号/微信公众号开发之监听返回事件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
     
-      <header class="article-header">
-  
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/blogs/archives/2022" class="archive-year">2022</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	
+<a href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+        <time datetime="2022-07-26T08:07:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-26</time>
+</a>
+
+        </div>
+    	 
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" target="_blank">微信公众号开发之监听返回事件</a>
+	  <a class="archive-article-title" href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" target="_blank">JavaScript 事件循环机制</a>
   
     </h1>
   
 
 
-  
-  
-<a href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" class="archive-article-date">
-        <time datetime="2021-01-07T07:51:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-07</time>
-</a>
-
-  
-  
-    
-
-  
-  </header>
-  
-  <div class="article-entry" itemprop="articleBody">
-    
-    <p>项目中经常会遇到，用户填写表单之类的内容，填了一部分之后，可能会返回上一页，此时需要给用户一个提示，这就需要监听微信浏览器的返回事件，直接上代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mounted () &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.history &amp;&amp; <span class="built_in">window</span>.history.pushState) &#123;</span><br><span class="line">      history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  destroyed () &#123;</span><br><span class="line">    <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">   <span class="comment">// 监听微信返回按钮</span></span><br><span class="line">   backChange () &#123;</span><br><span class="line">     <span class="comment">// const that = this</span></span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">&#x27;监听到了&#x27;</span>)</span><br><span class="line">     <span class="keyword">if</span> (<span class="built_in">localStorage</span>.getItem(<span class="string">&#x27;reason&#x27;</span>)) &#123;</span><br><span class="line">       history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">       <span class="comment">// 这里是如果用户填写信息，自定义弹框显示，提示用户</span></span><br><span class="line">       <span class="built_in">this</span>.leaveDialog = <span class="literal">true</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-    
-
-    
-
-    
-
-  </div>
-  <div class="article-info article-info-index">
-    
-    
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">公众号</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
         		</li>
       		
 		</ul>
 	</div>
 
-    
+          
 
-    
-    <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/">展开全文 >></a>
-    </p>
-    
-
-    
-    <div class="clearfix"></div>
-  </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/17/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/16/">16</a><a class="page-number" href="/blogs/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/blogs/page/19/">19</a><a class="page-number" href="/blogs/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/31/">31</a><a class="extend next" rel="next" href="/blogs/page/19/">下一页</a>
-    </nav>
+    </div></section>
   
+
+    
 
 
 
@@ -320,9 +276,9 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
+		isHome: false,
 		isPost: false,
-		isArchive: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

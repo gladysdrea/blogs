@@ -6,21 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://gladysdrea.github.io">
-  <title>Gladysdrea</title>
+  <title>JavaScript 事件循环机制 | Gladysdrea</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-    
-    <!-- <meta name="keywords" content="">
-    <meta name="description" content=""> -->
-  
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Gladysdrea">
-<meta property="og:url" content="https://gladysdrea.github.io/page/18/">
+  <meta name="description" content="前言我们知道 JavaScript 是单线程语言，也就是同一时间只能做一件事，这是因为 JavaScript 的主要作用是与用户互动以及操作 DOM ，如果是多线程的话，就会带来复杂的同步问题，比如：两个线程同时操作一个 DOM 节点，一个线程修改该节点，另一个线程删除该节点，此时就不知道该以哪个线程为准了。但是单线程，又意味着任务需要排队等待，前一个任务执行完之后，后一个任务才会执行，这样就会导">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 事件循环机制">
+<meta property="og:url" content="https://gladysdrea.github.io/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/">
 <meta property="og:site_name" content="Gladysdrea">
+<meta property="og:description" content="前言我们知道 JavaScript 是单线程语言，也就是同一时间只能做一件事，这是因为 JavaScript 的主要作用是与用户互动以及操作 DOM ，如果是多线程的话，就会带来复杂的同步问题，比如：两个线程同时操作一个 DOM 节点，一个线程修改该节点，另一个线程删除该节点，此时就不知道该以哪个线程为准了。但是单线程，又意味着任务需要排队等待，前一个任务执行完之后，后一个任务才会执行，这样就会导">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/tongbuyibu.png">
+<meta property="og:image" content="https://gladysdrea.github.io/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/hongrenwuweirenwu.png">
+<meta property="article:published_time" content="2022-07-26T08:07:39.000Z">
+<meta property="article:modified_time" content="2022-07-27T06:53:19.057Z">
 <meta property="article:author" content="Gladysdrea">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gladysdrea.github.io/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/tongbuyibu.png">
   
     <link rel="alternative" href="/blogs/atom.xml" title="Gladysdrea" type="application/atom+xml">
   
@@ -186,47 +190,120 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-
-  
-    <article id="post-WeChat/公众号/微信公众号开发之监听返回事件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-JavaScript系列/js事件循环机制" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
   
   
-    <h1 itemprop="name">
-	
-	  <a class="article-title" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" target="_blank">微信公众号开发之监听返回事件</a>
-  
+    <h1 class="article-title" itemprop="name">
+      JavaScript 事件循环机制
     </h1>
   
 
 
   
   
-<a href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/" class="archive-article-date">
-        <time datetime="2021-01-07T07:51:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-07</time>
+        
+        <span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+              <i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+        </span>
+
+<a href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+        <time datetime="2022-07-26T08:07:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-26</time>
 </a>
 
   
   
     
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">1.2k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">4分</span>
+    </span>
+  </span>
+</div>
+
 
   
   </header>
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>项目中经常会遇到，用户填写表单之类的内容，填了一部分之后，可能会返回上一页，此时需要给用户一个提示，这就需要监听微信浏览器的返回事件，直接上代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mounted () &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.history &amp;&amp; <span class="built_in">window</span>.history.pushState) &#123;</span><br><span class="line">      history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  destroyed () &#123;</span><br><span class="line">    <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;popstate&#x27;</span>, <span class="built_in">this</span>.backChange, <span class="literal">false</span>) <span class="comment">// false阻止默认事件</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">   <span class="comment">// 监听微信返回按钮</span></span><br><span class="line">   backChange () &#123;</span><br><span class="line">     <span class="comment">// const that = this</span></span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">&#x27;监听到了&#x27;</span>)</span><br><span class="line">     <span class="keyword">if</span> (<span class="built_in">localStorage</span>.getItem(<span class="string">&#x27;reason&#x27;</span>)) &#123;</span><br><span class="line">       history.pushState(<span class="literal">null</span>, <span class="literal">null</span>, <span class="built_in">document</span>.URL)</span><br><span class="line">       <span class="comment">// 这里是如果用户填写信息，自定义弹框显示，提示用户</span></span><br><span class="line">       <span class="built_in">this</span>.leaveDialog = <span class="literal">true</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们知道 JavaScript 是单线程语言，也就是同一时间只能做一件事，这是因为 JavaScript 的主要作用是与用户互动以及操作 DOM ，如果是多线程的话，就会带来复杂的同步问题，比如：两个线程同时操作一个 DOM 节点，一个线程修改该节点，另一个线程删除该节点，此时就不知道该以哪个线程为准了。<br>但是单线程，又意味着任务需要排队等待，前一个任务执行完之后，后一个任务才会执行，这样就会导致一些执行很慢的任务会耽误大量的时间，于是 JavaScript 把所有的任务分成两种：同步任务、异步任务</p>
+<h1 id="同步任务和异步任务"><a href="#同步任务和异步任务" class="headerlink" title="同步任务和异步任务"></a>同步任务和异步任务</h1><ul>
+<li>同步任务，指的是，在主线程上排队执行的任务，只有前一个任务执行完毕之后，后一个任务才会开始执行。</li>
+<li>异步任务，指的是，不进入主线程，而是进入任务队列，如果有多个任务，会在任务队列中排队等待，只有主线程的任务执行完毕之后，才会依次执行任务队列中的任务。</li>
+</ul>
+<p>在了解同步任务异步任务的运行机制之前，我们先了解一下 执行栈、Event Table 以及 Event Queue 这几个名词</p>
+<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>我们知道，所有同步任务都在主线程执行，这样就形成来一个执行栈，也就是说，执行栈是一个存储函数调用的栈结构，主要负责跟踪所有要执行的代码</p>
+<h2 id="Event-Table"><a href="#Event-Table" class="headerlink" title="Event Table"></a>Event Table</h2><p>Event Table 可以理解为是一张事件表格，存储的是异步任务中的事件以及其对应的回调函数列表，当异步任务有了结果，就会被丢到 Event Queue 中</p>
+<h2 id="Event-Queue"><a href="#Event-Queue" class="headerlink" title="Event Queue"></a>Event Queue</h2><p>Event Queue 就是所说的任务队列，当 Event Table 中的事件触发之后其对应的回调函数会被 push 到这个任务队列中，等待主线程任务完成后执行栈</p>
+<p>那么，我们来看下其主要运行机制吧：</p>
+<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/tongbuyibu.png" class="" width="617" height="496">
+<ul>
+<li>JavaScript 代码执行时，将同步任务放入执行栈中，按顺序执行</li>
+<li>异步任务进入 Event Table 注册，当指定的事件完成时，Event Table 会将函数回调放入任务队列中，等待执行</li>
+<li>主线程任务执行完毕，会去 Event Queue 中取出完成的异步任务的回调放入主线程去执行</li>
+<li>不断重复上述过程，直至所有任务全部执行完毕，也就是我们所说的事件循环</li>
+</ul>
+<p>到此，我们就了解了 JavaScript 中的同步任务和异步任务，但是我们的异步任务又可以分为两种：宏任务和微任务</p>
+<h1 id="宏任务和微任务"><a href="#宏任务和微任务" class="headerlink" title="宏任务和微任务"></a>宏任务和微任务</h1><ul>
+<li>宏任务：script （整体代码）、setTimeout 、 setInterval 、 I/O （Mouse Events、Keyboard Events）、UI交互事件</li>
+<li>微任务：Promise.then （非 new Promise）、 process.nextTick、</li>
+</ul>
+<p>宏任务和微任务的区别在于队列中事件执行的优先级，微任务的优先级高于宏任务，也就是说，进入整体代码后，执行任务，当执行栈清空之后，会先查看有没有微任务，有微任务的话，会执行完所有的微任务之后，在执行一次宏任务，执行完之后，会再次检查有没有微任务，如此反复，直至所有任务都执行完毕。</p>
+<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/hongrenwuweirenwu.png" class="" width="511" height="371">
+<p>由此我们可以简单的总结出来这个执行顺序：</p>
+<ol>
+<li>同步任务执行</li>
+<li>同步任务执行完毕，执行所有的微任务</li>
+<li>读取任务队列中的一个宏任务执行</li>
+<li>执行完宏任务之后，执行所有的微任务</li>
+<li>再读取宏任务执行</li>
+<li>……如此反复，直至代码执行完毕</li>
+</ol>
+<p>那么了解了这些之后，我们来看一道题：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;4&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;6&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;7&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;10&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;11&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里就不详细讲解这道题了，相信上面所说的都理解之后，这道题就很简单了。这里直接放出答案：1，7，6，8，2，4，3，5，9，11，10，12</p>
 
     
 
     
 
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          Gladysdrea
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="https://gladysdrea.github.io/blogs/2022/07/26/JavaScript系列/js事件循环机制/" title="JavaScript 事件循环机制" target="_blank">https://gladysdrea.github.io/blogs/2022/07/26/JavaScript系列/js事件循环机制/</a>
+        </li>
+        
+        <li>
+          <strong>版权声明： </strong>
+          
+          本博客所有文章除特别声明外，均采用 <a href="https://github.com/JoeyBling/hexo-theme-yilia-plus/blob/master/LICENSE" rel="external nofollow" target="_blank">MIT</a> 许可协议。转载请注明出处！
+        </li>
+        
+      </ul>
+    </div>
     
 
   </div>
@@ -238,7 +315,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">公众号</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
         		</li>
       		
 		</ul>
@@ -247,16 +324,76 @@
     
 
     
-    <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E7%9B%91%E5%90%AC%E8%BF%94%E5%9B%9E%E4%BA%8B%E4%BB%B6/">展开全文 >></a>
-    </p>
+
     
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=https://gladysdrea.github.io/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
 
     
     <div class="clearfix"></div>
   </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript 垃圾回收机制</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -271,6 +408,19 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">同步任务和异步任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%A0%88"><span class="toc-number">2.1.</span> <span class="toc-text">执行栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Event-Table"><span class="toc-number">2.2.</span> <span class="toc-text">Event Table</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Event-Queue"><span class="toc-number">2.3.</span> <span class="toc-text">Event Queue</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8F%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.</span> <span class="toc-text">宏任务和微任务</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -279,12 +429,36 @@
 
 
 
+
+
+
+
+
+
+
+
+  <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: 'ae76b7972b5dcc2335ed',
+  	clientSecret: 'cc40c0e264033bb7d9b25db36893d4e220df4bda',
+  	repo: 'blogs',
+  	owner: 'Gladysdrea',
+  	admin: ['Gladysdrea'],
+  	id: 'Tue Jul 26 2022 16:07:39 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
   
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/17/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/16/">16</a><a class="page-number" href="/blogs/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/blogs/page/19/">19</a><a class="page-number" href="/blogs/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/31/">31</a><a class="extend next" rel="next" href="/blogs/page/19/">下一页</a>
-    </nav>
-  
+
+
 
 
 
@@ -320,8 +494,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
