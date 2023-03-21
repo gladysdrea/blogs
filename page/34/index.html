@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-WeChat/小程序/小程序背景音频" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Vue系列/巧用Vue过滤器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2020/07/02/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E9%A2%91/" target="_blank">小程序背景音频</a>
+	  <a class="article-title" href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/" target="_blank">巧用 Vue 过滤器</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2020/07/02/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E9%A2%91/" class="archive-article-date">
-        <time datetime="2020-07-02T06:48:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-02</time>
+<a href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/" class="archive-article-date">
+        <time datetime="2020-07-09T08:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
 </a>
 
   
@@ -218,58 +218,39 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="1-功能需求："><a href="#1-功能需求：" class="headerlink" title="1.功能需求："></a>1.功能需求：</h1><ul>
-<li>小程序后台可以继续播放音频</li>
-<li>音频播放，暂停，播放进度时时更新</li>
-<li>进度条拖拽</li>
-</ul>
-<h1 id="2-效果图："><a href="#2-效果图：" class="headerlink" title="2.效果图："></a>2.效果图：</h1><img src="/blogs/2020/07/02/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E9%A2%91/video.png" class="" width="376" height="396">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>在项目中经常会遇到时间戳转换，手机号、身份证号脱敏，状态的转换等，如果不复用会存在很多问题：<br>一、维护困难<br>二、开发重复性工作比较多<br>三、代码量比较多，不雅观那么，如何解决这些问题呢？</p>
+</blockquote>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我们可以使用 Vue 的过滤器 Filter 定义工具类 globalFilter.js，然后全局注册到 Vue 中，以供各个模块使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局导入过滤器</span></span><br><span class="line"><span class="keyword">import</span> filter <span class="keyword">from</span> <span class="string">&#x27;./utils/globalFilter&#x27;</span></span><br><span class="line"><span class="built_in">Object</span>.keys(filter).forEach(<span class="function"><span class="params">key</span> =&gt;</span> Vue.filter(key, filter[key]))</span><br></pre></td></tr></table></figure>
 
+<p>当然，前提是要先在 utils 文件夹中创建对应的文件 globalFilter.js 那么 globalFilter.js 文件中要怎么写过滤器呢？</p>
+<h2 id="我们以时间戳转换为例："><a href="#我们以时间戳转换为例：" class="headerlink" title="我们以时间戳转换为例："></a>我们以时间戳转换为例：</h2><blockquote>
+<p>一般情况下，我们会写个时间戳转换的 function，粗糙一点的写法是在 function 最后 return 需要的格式(如：xxxx/xx/xx)，但是假如想要换成其他格式，或者想要把时分秒也加上（如：xxxx-xx-xx xx:xx），就需要在写一个方法，或者高级一点的写法是，把需要的格式当成参数，这样一个 function 就够了，但是有日期处理类库 moment ，为什么要那么麻烦写那么多代码呢？</p>
+</blockquote>
+<h2 id="moment-使用"><a href="#moment-使用" class="headerlink" title="moment 使用"></a>moment 使用</h2><h3 id="1-npm-安装"><a href="#1-npm-安装" class="headerlink" title="1. npm  安装"></a>1. npm  安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install moment --save</span><br></pre></td></tr></table></figure>
 
-<h1 id="3-直接上代码"><a href="#3-直接上代码" class="headerlink" title="3.直接上代码"></a>3.直接上代码</h1><p>index.wxml文件（没啥可说的，小程序slider组件）</p>
-<p>slider相关属性参考官方文档：<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/component/slider.html">slider</a></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;view <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;progress&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;audiosBox&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&#x27;slid&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 进度时长 --&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">text</span> <span class="attr">class</span>=<span class="string">&#x27;times&#x27;</span>&gt;</span>&#123;&#123;startTime&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">slider</span> <span class="attr">bindchanging</span>=<span class="string">&quot;sliderChange&quot;</span> <span class="attr">bindchange</span>=<span class="string">&quot;sliderChange&quot;</span> <span class="attr">block-size</span>=<span class="string">&quot;16rpx&quot;</span> <span class="attr">color</span>=<span class="string">&quot;#F2F2F2&quot;</span> <span class="attr">step</span>=<span class="string">&quot;1&quot;</span> <span class="attr">value</span>=<span class="string">&quot;&#123;&#123;progress&#125;&#125;&quot;</span> <span class="attr">max</span>=<span class="string">&quot;100&quot;</span> <span class="attr">selected-color</span>=<span class="string">&quot;#7490EF&quot;</span> <span class="attr">block-color</span>=<span class="string">&quot;#7490EF&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="comment">&lt;!-- 总时长 --&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">text</span> <span class="attr">class</span>=<span class="string">&#x27;times&#x27;</span>&gt;</span>&#123;&#123;duration&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&lt;/view&gt;</span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;pause&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- 播放,暂停图片展示--&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">&quot;audioOpen&quot;</span> <span class="attr">bindtap</span>=<span class="string">&quot;audioPlay&quot;</span> <span class="attr">wx:if</span>=<span class="string">&quot;&#123;&#123;!isOpen&#125;&#125;&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">&quot;&#123;&#123;isOpen ? &#x27;https://fs.partner.luboedu.cn/meditate-project/web/playPause.png&#x27; : &#x27;https://fs.partner.luboedu.cn/meditate-project/web/playPagePlay.png&#x27;&#125;&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="2-在-globalFilter-中引入，并使用"><a href="#2-在-globalFilter-中引入，并使用" class="headerlink" title="2. 在 globalFilter 中引入，并使用"></a>2. 在 globalFilter 中引入，并使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue 的时间格式化插件</span></span><br><span class="line"><span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span></span><br><span class="line"><span class="comment">// 时间格式化函数，默认格式为 YYYY-MM-DD HH:mm:ss ，若需要其他格式，只需使用的时候将想要的格式作为参数传入即可</span></span><br><span class="line"><span class="comment">// 使用方法 &#123;&#123;时间戳 | dateFormat&#125;&#125; 或 &#123;&#123;时间戳 | dateFormat(&#x27;YYYY-MM-DD HH:mm:ss&#x27;)&#125;&#125;</span></span><br><span class="line"><span class="keyword">const</span> dateFormat = <span class="function">(<span class="params">dataStr, pattern = <span class="string">&#x27;YYYY/MM/DD&#x27;</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> moment(dataStr).format(pattern)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>index.js文件</p>
-<p>参考小程序背景音频API  <a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/api/media/background-audio/wx.getBackgroundAudioManager.html">BackgroundAudioManager</a></p>
-<p>1）首先获取全局唯一的背景音频管理器</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> backgroundAudioManager = wx.getBackgroundAudioManager()</span><br></pre></td></tr></table></figure>
-<p>2）从微信客户端6.7.2版本开始，若需要在小程序切后台后继续播放音频，需要在 app.json 中配置 requiredBackgroundModes 属性。开发版和体验版上可以直接生效，正式版还需通过审核。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;“pages”: [“pages/index/index”],“requiredBackgroundModes”: [“audio”]&#125;</span><br></pre></td></tr></table></figure>
+<p>使用的时候，也很方便，直接在html代码处，用过滤器的形式使用就行了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;data | dateFormat(<span class="string">&#x27;YYYY-MM-DD HH:mm:ss&#x27;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
 
-<p>3）通过接口获取音频播放源，注意音频播放源不要有汉字！不要有汉字！不要有汉字！会导致苹果手机报错code：10003，文件错误。即使通过encodeURI(‘src’)，苹果手机有时还是会播放不了。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;</span><br><span class="line">    <span class="attr">src</span>: <span class="string">&#x27;&#x27;</span>, <span class="comment">//   音源</span></span><br><span class="line">    <span class="attr">isOpen</span>: <span class="literal">false</span>, <span class="comment">// 控制播放暂停图片显示</span></span><br><span class="line">    <span class="attr">startTime</span>: <span class="string">&#x27;00:00&#x27;</span> , <span class="comment">// 开始时间</span></span><br><span class="line">     <span class="attr">progress</span>: <span class="number">0</span>, <span class="comment">// 进度条步长</span></span><br><span class="line">    <span class="attr">duration</span>: <span class="string">&#x27;&#x27;</span>, <span class="comment">// 总时长</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 接口调用，获取音频信息，在onLoad中调用该方法</span></span><br><span class="line">getData () &#123;</span><br><span class="line">    <span class="comment">// 可以封装一下微信请求数据的方法，这里就不封装了</span></span><br><span class="line">    wx.request(&#123;</span><br><span class="line">        <span class="attr">url</span>: <span class="string">&#x27;https://www.xxxxx&#x27;</span>,</span><br><span class="line">        <span class="attr">method</span>: <span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">        <span class="attr">data</span>: data, </span><br><span class="line">        <span class="attr">success</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 请求成功，更新音频数据</span></span><br><span class="line">            <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">                <span class="attr">src</span>: res.data.src,</span><br><span class="line">                 <span class="attr">duration</span>: res.data.duration</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="comment">// title必须有并且不能为空，否则苹果手机会报错，设置src后，音频自动播放，不必执行play方法</span></span><br><span class="line">            backgroundAudioManager.title = res.data.unitTitle</span><br><span class="line">            backgroundAudioManager.src = <span class="built_in">this</span>.data.src</span><br><span class="line">            <span class="comment">// 可以通过onError方法监测音频错误</span></span><br><span class="line">            backgroundAudioManager.onError(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123; <span class="built_in">console</span>.log(err)&#125;)</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 播放和暂停事件比较简单，直接调用方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 暂停事件</span></span><br><span class="line"></span><br><span class="line">audioPause () &#123;</span><br><span class="line">    backgroundAudioManager.pause() </span><br><span class="line">    <span class="built_in">this</span>.setData(&#123; <span class="attr">isOpen</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 播放事件</span></span><br><span class="line"></span><br><span class="line">audioPlay () &#123;</span><br><span class="line">    backgroundAudioManager.play()</span><br><span class="line">    <span class="built_in">this</span>.setData(&#123; <span class="attr">isOpen</span>: <span class="literal">false</span> &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 进度条拖拽</span></span><br><span class="line"><span class="function"><span class="title">sliderChange</span>(<span class="params">e</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> duration = <span class="built_in">this</span>.data.duration</span><br><span class="line">    <span class="keyword">let</span> offset = <span class="built_in">parseInt</span>(e.detail.value) / <span class="number">100</span>;</span><br><span class="line">    <span class="comment">// 音频跳转时间</span></span><br><span class="line">    <span class="keyword">let</span> time = <span class="built_in">parseInt</span>(duration * offset)</span><br><span class="line">    <span class="comment">// seek()   方法跳转到指定时间，单位S</span></span><br><span class="line">    backgroundAudioManager.seek(time);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 背景音乐播放进度，在背景音频播放时调用该方法起到监测的作用，用来时时更新当前播放时间以及进度条步长</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">currentTimeChange</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    backgroundAudioManager.onTimeUpdate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> offset = backgroundAudioManager.currentTime;</span><br><span class="line">        <span class="keyword">let</span> current = <span class="built_in">parseInt</span>(offset)</span><br><span class="line">        <span class="keyword">let</span> duration = backgroundAudioManager.duration;</span><br><span class="line">        <span class="keyword">const</span> progress = <span class="built_in">parseInt</span>((current / duration) * <span class="number">100</span>)</span><br><span class="line">        <span class="built_in">this</span>.setData(&#123; <span class="attr">progress</span>: progress, <span class="attr">startTime</span>: time.timeDuration(current) &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监测播放结束</span></span><br><span class="line"><span class="function"><span class="title">endPlay</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    backgroundAudioManager.onEnded(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;监测播放结束&#x27;</span>)</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">     &#125;)</span><br><span class="line">&#125;,</span><br><span class="line"><span class="comment">// 监测音频停止</span></span><br><span class="line"><span class="function"><span class="title">stopPlay</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    backgroundAudioManager.onStop(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;监测音频停止&#x27;</span>)</span><br><span class="line">       <span class="comment">// do something</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样是不是比自己写个方法要简化的多呢？</p>
+<h4 id="手机号、身份证号脱敏"><a href="#手机号、身份证号脱敏" class="headerlink" title="手机号、身份证号脱敏"></a>手机号、身份证号脱敏</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 手机号脱敏</span></span><br><span class="line"><span class="keyword">const</span> telHide = <span class="function"><span class="params">phone</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (phone === <span class="literal">undefined</span> || phone === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> phone.toString().replace(<span class="regexp">/(\d&#123;3&#125;)\d&#123;4&#125;(\d*)/</span>, <span class="string">&#x27;$1****$2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 身份证号脱</span></span><br><span class="line"><span class="keyword">const</span> IDCardHide = <span class="function"><span class="params">IDCard</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (IDCard === <span class="literal">undefined</span> || IDCard === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> IDCard.toString().replace(<span class="regexp">/(\d&#123;8&#125;)\d&#123;8&#125;(\d*)/</span>, <span class="string">&#x27;$1********$2&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>写在最后，当音频处于播放状态时，点击列表中该条音频，应该是继续播放而不是重新播放，此时可以判断一下当前音频是否是播放状态，如果是的话，不做任何操作（此时音频会继续播放），不是的话赋值src和title进行播放</p>
-<p>errorCode说明：</p>
-<table>
-<thead>
-<tr>
-<th align="left">errorCode</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">10001</td>
-<td align="left">系统错误</td>
-</tr>
-<tr>
-<td align="left">10002</td>
-<td align="left">网络错误</td>
-</tr>
-<tr>
-<td align="left">10003</td>
-<td align="left">文件错误</td>
-</tr>
-<tr>
-<td align="left">10004</td>
-<td align="left">格式错误</td>
-</tr>
-<tr>
-<td align="left">-1</td>
-<td align="left">未知错误</td>
-</tr>
-</tbody></table>
+<p>使用方法和时间戳一样，也是过滤器的形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; phone | phone &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="状态值的转换"><a href="#状态值的转换" class="headerlink" title="状态值的转换"></a>状态值的转换</h4><blockquote>
+<p>比如，交易类型，一般情况，后台会返回给1，2，3这种状态值，需要前端去对应，优雅的写法是在这个文件的js中去做处理，页面直接渲染就好了，但是很多时候，可能这个状态不止在一个页面中使用，所以提取成公用的还是很有必要的，这样即使后期修改状态值，前端也可以很快的改好，不必一个文件一个文件去找</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 充值类型</span></span><br><span class="line"><span class="keyword">const</span> SubTradeType = <span class="function"><span class="params">type</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> status = &#123;</span><br><span class="line">        <span class="comment">// 1 在线充值、2 线下充值</span></span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;在线充值&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;线下充值&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> status[type]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候，还是过滤器的写法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;subTradeType | SubTradeType&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然了，上述这些，都需要在globalFilter.js最后export</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    dateFormat,</span><br><span class="line">    telHide,</span><br><span class="line">    IDCardHide,</span><br><span class="line">    SubTradeType</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
 
@@ -286,7 +267,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">小程序</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
         		</li>
       		
 		</ul>
@@ -296,7 +277,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2020/07/02/WeChat/%E5%B0%8F%E7%A8%8B%E5%BA%8F/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%83%8C%E6%99%AF%E9%9F%B3%E9%A2%91/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/">展开全文 >></a>
     </p>
     
 
@@ -330,7 +311,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/33/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/32/">32</a><a class="page-number" href="/blogs/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/blogs/page/35/">35</a><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/35/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/33/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/32/">32</a><a class="page-number" href="/blogs/page/33/">33</a><span class="page-number current">34</span><a class="page-number" href="/blogs/page/35/">35</a><a class="page-number" href="/blogs/page/36/">36</a><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/35/">下一页</a>
     </nav>
   
 
@@ -483,23 +464,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -507,15 +476,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-Vue系列/一次下载多个文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Vue系列/el-table中使用el-popover" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/" target="_blank">一次下载多个文件 js</a>
+	  <a class="article-title" href="/blogs/2020/12/01/Vue%E7%B3%BB%E5%88%97/el-table%E4%B8%AD%E4%BD%BF%E7%94%A8el-popover/" target="_blank">el-table 中使用 el-popover 点击取消按钮时 popover 框的显示与隐藏问题</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/" class="archive-article-date">
-        <time datetime="2020-09-23T08:39:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-23</time>
+<a href="/blogs/2020/12/01/Vue%E7%B3%BB%E5%88%97/el-table%E4%B8%AD%E4%BD%BF%E7%94%A8el-popover/" class="archive-article-date">
+        <time datetime="2020-12-01T10:00:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-01</time>
 </a>
 
   
@@ -219,9 +219,16 @@
   <div class="article-entry" itemprop="articleBody">
     
     <blockquote>
-<p>下载文件我们可以使用 window.location.href = ‘url’ ， 来实现，也可以使用 a 标签，但是如果一次下载多个文件，这种方法就不行了，可以使用以下方法来实现</p>
+<p>直接使用 popover 弹出框的时候，是没有任何问题的，但是在 el-table 中使用 popover 弹出框就会出现，点击取消按钮， popover 框不会隐藏，即使使用 v-model 绑定值，也是不管用的</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下载多个模版</span></span><br><span class="line">downloadBtn () &#123;</span><br><span class="line">    <span class="keyword">const</span> data = [<span class="string">&#x27;url1&#x27;</span>, <span class="string">&#x27;url2&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">&#x27;iframe&#x27;</span>)</span><br><span class="line">        iframe.style.display = <span class="string">&#x27;none&#x27;</span></span><br><span class="line">        iframe.style.height = <span class="number">0</span></span><br><span class="line">        <span class="comment">// url自己进行指定</span></span><br><span class="line">        iframe.src = data[i]</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(iframe)</span><br><span class="line">        <span class="comment">// 不能马上将iframe进行删除，否者会出现马上取消的情况</span></span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            iframe.remove()</span><br><span class="line">        &#125;, <span class="number">5</span> * <span class="number">1000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决方法如下</p>
+<h2 id="1-在-el-popover-中添加属性："><a href="#1-在-el-popover-中添加属性：" class="headerlink" title="1.在 el-popover 中添加属性："></a>1.在 el-popover 中添加属性：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:ref=<span class="string">&quot;`popover-$&#123;scope.$index&#125;`&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-取消按钮添加点击事件，添加-scope-参数"><a href="#2-取消按钮添加点击事件，添加-scope-参数" class="headerlink" title="2.取消按钮添加点击事件，添加 scope 参数"></a>2.取消按钮添加点击事件，添加 scope 参数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;el-table-column</span><br><span class="line">      label=<span class="string">&quot;操作&quot;</span>&gt;</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="name">template</span> <span class="attr">slot-scope</span>=<span class="string">&quot;scope&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">el-popover</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">          <span class="attr">placement</span>=<span class="string">&quot;top&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">          <span class="attr">:ref</span>=<span class="string">&quot;`popover-$&#123;scope.$index&#125;`&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;<span class="name">p</span>&gt;</span>是否已经回访完毕？<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;text-align: right; margin: 0&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">el-button</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">              <span class="attr">size</span>=<span class="string">&quot;mini&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">              <span class="attr">type</span>=<span class="string">&quot;text&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">              @<span class="attr">click</span>=<span class="string">&quot;cancelBtn(scope)&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">              取消</span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">          <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">slot</span>=<span class="string">&quot;reference&quot;</span>&gt;</span>回访<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">el-popover</span>&gt;</span></span></span><br><span class="line"><span class="xml">      <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line">&lt;/el-table-column&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-methods-方法中调用-doClose-："><a href="#3-methods-方法中调用-doClose-：" class="headerlink" title="3. methods 方法中调用 doClose() ："></a>3. methods 方法中调用 doClose() ：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scope._self.$refs[<span class="string">`popover-<span class="subst">$&#123;scope.$index&#125;</span>`</span>].doClose()</span><br></pre></td></tr></table></figure>
+<p>具体如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cancelBtn (scope) &#123;</span><br><span class="line">  scope._self.$refs[<span class="string">`popover-<span class="subst">$&#123;scope.$index&#125;</span>`</span>].doClose()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
 
@@ -238,7 +245,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Vue js</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
         		</li>
       		
 		</ul>
@@ -248,7 +255,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2020/12/01/Vue%E7%B3%BB%E5%88%97/el-table%E4%B8%AD%E4%BD%BF%E7%94%A8el-popover/">展开全文 >></a>
     </p>
     
 
@@ -282,7 +289,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/31/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/30/">30</a><a class="page-number" href="/blogs/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/blogs/page/33/">33</a><a class="page-number" href="/blogs/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/33/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/31/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/30/">30</a><a class="page-number" href="/blogs/page/31/">31</a><span class="page-number current">32</span><a class="page-number" href="/blogs/page/33/">33</a><a class="page-number" href="/blogs/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/33/">下一页</a>
     </nav>
   
 
@@ -435,23 +442,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -459,15 +454,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

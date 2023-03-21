@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-Vue系列/Vue国际化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Vue系列/Vue+Axios实现路由拦截和登录拦截" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/" target="_blank">Vue国际化（vue-i18n）</a>
+	  <a class="article-title" href="/blogs/2018/12/26/Vue%E7%B3%BB%E5%88%97/Vue+Axios%E5%AE%9E%E7%8E%B0%E8%B7%AF%E7%94%B1%E6%8B%A6%E6%88%AA%E5%92%8C%E7%99%BB%E5%BD%95%E6%8B%A6%E6%88%AA/" target="_blank">Vue + Axios 实现路由拦截和登录拦截</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/" class="archive-article-date">
-        <time datetime="2018-12-19T06:48:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-19</time>
+<a href="/blogs/2018/12/26/Vue%E7%B3%BB%E5%88%97/Vue+Axios%E5%AE%9E%E7%8E%B0%E8%B7%AF%E7%94%B1%E6%8B%A6%E6%88%AA%E5%92%8C%E7%99%BB%E5%BD%95%E6%8B%A6%E6%88%AA/" class="archive-article-date">
+        <time datetime="2018-12-26T08:05:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-26</time>
 </a>
 
   
@@ -218,25 +218,33 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h1><p>三种方式：</p>
-<h2 id="1、script引入"><a href="#1、script引入" class="headerlink" title="1、script引入"></a>1、script引入</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://unpkg.com/vue/dist/vue.js&quot;</span>&gt;&lt;/script&gt; </span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://unpkg.com/vue-i18n/dist/vue-i18n.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="2、npm安装"><a href="#2、npm安装" class="headerlink" title="2、npm安装"></a>2、npm安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-i18n</span><br></pre></td></tr></table></figure>
-<h2 id="3、yarn安装"><a href="#3、yarn安装" class="headerlink" title="3、yarn安装"></a>3、yarn安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add vue-i18n</span><br></pre></td></tr></table></figure>
-<h1 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h1><p>main.js文件配置</p>
-<h2 id="1-引入i18n国际化插件"><a href="#1-引入i18n国际化插件" class="headerlink" title="1.引入i18n国际化插件"></a>1.引入i18n国际化插件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> VueI18n <span class="keyword">from</span> <span class="string">&#x27;vue-i18n&#x27;</span></span><br><span class="line">Vue.use(VueI18n)</span><br></pre></td></tr></table></figure>
-<h2 id="2-注册i18n实例并引入语言文件，文件格式等下解析"><a href="#2-注册i18n实例并引入语言文件，文件格式等下解析" class="headerlink" title="2.注册i18n实例并引入语言文件，文件格式等下解析"></a>2.注册i18n实例并引入语言文件，文件格式等下解析</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> i18n = <span class="keyword">new</span> VueI18n(&#123;</span><br><span class="line"><span class="attr">locale</span>: <span class="string">&#x27;zh&#x27;</span>, <span class="comment">// 定义默认语言为中文</span></span><br><span class="line">    <span class="attr">messages</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;zh&#x27;</span>: <span class="built_in">require</span>(<span class="string">&#x27;@/assets/languages/zh.json&#x27;</span>),   </span><br><span class="line">        <span class="string">&#x27;en&#x27;</span>: <span class="built_in">require</span>(<span class="string">&#x27;@/assets/languages/en.json&#x27;</span>) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+    <h1 id="一、路由拦截"><a href="#一、路由拦截" class="headerlink" title="一、路由拦截"></a>一、路由拦截</h1><ul>
+<li>在项目中，有些页面往往需要登录后才可以浏览，有些页面则不需要，那么我们就可以通过路由拦截进行处理。</li>
+</ul>
+<ul>
+<li>首先，需要对router进行修改，如下：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span> <span class="string">&#x27;vue-router&#x27;</span>;</span><br><span class="line">Vue.use(Router);</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router(&#123;</span><br><span class="line">    &#123;</span><br><span class="line">       <span class="attr">path</span>: <span class="string">&#x27;/home&#x27;</span>,</span><br><span class="line">       <span class="attr">name</span>: <span class="string">&#x27;Home&#x27;</span>,</span><br><span class="line">       <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/view/pc/homePage/index&#x27;</span>),</span><br><span class="line">       <span class="attr">meta</span>: &#123;</span><br><span class="line">          <span class="attr">requireAuth</span>: <span class="literal">true</span>  <span class="comment">//  在需要登录权限的页面添加该字段</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router;</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-将i18n注入到vue实例中"><a href="#3-将i18n注入到vue实例中" class="headerlink" title="3.将i18n注入到vue实例中"></a>3.将i18n注入到vue实例中</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span><br><span class="line">    router,</span><br><span class="line">    i18n,</span><br><span class="line">    <span class="attr">components</span>: &#123; App&#125;,</span><br><span class="line">    <span class="attr">template</span>: <span class="string">&#x27;&lt;App/&gt;&#x27;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-文件格式（json文件）"><a href="#4-文件格式（json文件）" class="headerlink" title="4.文件格式（json文件）"></a>4.文件格式（json文件）</h2><p>首先来看zh.json文件，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&#x27;common&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;home&#x27;</span>: <span class="string">&#x27;中文&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;示例&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;user&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;名字&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对应的en.json格式与zh.json一样，只需要把中文改为英文即可，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&#x27;common&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;home&#x27;</span>: <span class="string">&#x27;English&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;title&#x27;</span>: <span class="string">&#x27;demo&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;user&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Avery&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="三、模板渲染"><a href="#三、模板渲染" class="headerlink" title="三、模板渲染"></a>三、模板渲染</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//html文件需要加&#123;&#123;&#125;&#125;</span></span><br><span class="line">&#123;&#123;$t(<span class="string">&#x27;common.home&#x27;</span>)&#125;&#125;</span><br><span class="line"><span class="comment">//js文件</span></span><br><span class="line">$t(<span class="string">&#x27;common.home&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>点击进行语言切换，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&#x27;hello&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;Ch&#x27;</span>&gt;</span>中文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&#x27;En&#x27;</span>&gt;</span>英文<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; $t(&#x27;common.home&#x27;) &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="attr">name</span>: <span class="string">&#x27;HelloWord&#x27;</span>,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="attr">methods</span>: &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        Ch () &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">           <span class="built_in">this</span>.$i18n.locale = <span class="string">&#x27;zh&#x27;</span> </span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;,</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        En () &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="built_in">this</span>.$i18n.locale = <span class="string">&#x27;en&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>继续–</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (to.matched.some(<span class="function"><span class="params">res</span> =&gt;</span> res.meta.requireAuth)) &#123;   <span class="comment">// 判断是否需要登录权限，如上，将需要登录权限的页面设置meta</span></span><br><span class="line">          <span class="comment">// 可以在用户登录后存储一个session或cookie，设置cookie有限期和后台的有限期一致，个人存的是cookie，在这里用session代替一下</span></span><br><span class="line">         <span class="keyword">if</span> (sessionStorage.getItem(<span class="string">&#x27;username&#x27;</span>)) &#123;   <span class="comment">// 判断是否登录</span></span><br><span class="line">           next()</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;   <span class="comment">// 如果没有登录跳转登录页面</span></span><br><span class="line">           next(&#123;</span><br><span class="line">             <span class="attr">path</span>: <span class="string">&#x27;/login&#x27;</span>,</span><br><span class="line">             <span class="attr">query</span>: &#123;<span class="attr">redirect</span>: to.fullPath&#125;</span><br><span class="line">           &#125;)</span><br><span class="line">         &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         next()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p>（注： github地址：Avery_G）</p>
+<ul>
+<li>vue-router提供了导航钩子，我们可以用router.beforeEach来注册一个全局的before 钩子（全局前置守卫），如上。</li>
+</ul>
+<p>其中有三个参数，</p>
+<ol>
+<li>to: Route: 即将要进入的目标 路由对象</li>
+<li>from: Route: 当前导航正要离开的路由</li>
+<li>next: Function: 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。<br>详情请参考Vue Router文档，这里不做过多解释。</li>
+</ol>
+<h1 id="二、请求拦截"><a href="#二、请求拦截" class="headerlink" title="二、请求拦截"></a>二、请求拦截</h1><ul>
+<li>我们可以单独建一个http的js文件，然后引入到main.js中<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Axiosfrom <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line">Axios.defaults.withCredentials = <span class="literal">true</span>;</span><br><span class="line"><span class="comment">// response拦截</span></span><br><span class="line">Axios.interceptors.response.use(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;, <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(error.response)&#123;</span><br><span class="line">          <span class="keyword">switch</span> (error.response.status) &#123;</span><br><span class="line">             <span class="keyword">case</span> <span class="number">401</span>:</span><br><span class="line">             router.replace(&#123;</span><br><span class="line">                  <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">                  <span class="attr">query</span>: &#123;<span class="attr">redirect</span>: router.currentRoute.fullPath&#125;</span><br><span class="line">               &#125;);</span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">          &#125;</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>一般情况下，登录之后会让其跳转到首页，但是当用户登录过期重新登录后，为了更友好，会希望跳转到刚刚浏览的页面，这样可以在登录的时候进行处理（个人见解，如果多余，敬请更正）<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">this</span>.$route.query.redirect) &#123;</span><br><span class="line">    <span class="built_in">this</span>.$router.push(<span class="built_in">this</span>.$route.query.redirect);  <span class="comment">// 登录过期重新登录</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.$router.push(<span class="string">&#x27;/&#x27;</span>);   <span class="comment">// 正常登录</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
 
     
 
@@ -263,7 +271,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2018/12/19/Vue%E7%B3%BB%E5%88%97/Vue%E5%9B%BD%E9%99%85%E5%8C%96/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2018/12/26/Vue%E7%B3%BB%E5%88%97/Vue+Axios%E5%AE%9E%E7%8E%B0%E8%B7%AF%E7%94%B1%E6%8B%A6%E6%88%AA%E5%92%8C%E7%99%BB%E5%BD%95%E6%8B%A6%E6%88%AA/">展开全文 >></a>
     </p>
     
 
@@ -297,7 +305,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/35/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/34/">34</a><a class="page-number" href="/blogs/page/35/">35</a><span class="page-number current">36</span>
+      <a class="extend prev" rel="prev" href="/blogs/page/35/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/34/">34</a><a class="page-number" href="/blogs/page/35/">35</a><span class="page-number current">36</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/37/">下一页</a>
     </nav>
   
 
@@ -450,23 +458,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -474,15 +470,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

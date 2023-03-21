@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-JavaScript系列/js页面传递参数乱码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-jQuery系列/jQuery实现省市区三级联动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/" target="_blank">JavaScript 页面传递参数乱码</a>
+	  <a class="article-title" href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" target="_blank">jQuery 实现省市区三级联动</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/" class="archive-article-date">
-        <time datetime="2021-07-12T05:57:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-12</time>
+<a href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" class="archive-article-date">
+        <time datetime="2021-07-12T07:36:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-12</time>
 </a>
 
   
@@ -218,9 +218,17 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>JavaScript 页面传递参数如果是中文，会出现乱码，解决方法如下：</p>
-<h4 id="1-在传递参数的页面，使用-encodeURI-进行转码，注意需要加两层"><a href="#1-在传递参数的页面，使用-encodeURI-进行转码，注意需要加两层" class="headerlink" title="1.在传递参数的页面，使用 encodeURI 进行转码，注意需要加两层"></a>1.在传递参数的页面，使用 encodeURI 进行转码，注意需要加两层</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> url = <span class="string">&#x27;./result.html?examId=&#x27;</span> + examId + <span class="string">&#x27;&amp;phone=&#x27;</span> + phone + <span class="string">&#x27;&amp;name=&#x27;</span> + name</span><br><span class="line">url = <span class="built_in">encodeURI</span>(url);</span><br><span class="line">url = <span class="built_in">encodeURI</span>(url);</span><br></pre></td></tr></table></figure>
-<h4 id="2-在接收参数的页面，使用-decodeURI-解码"><a href="#2-在接收参数的页面，使用-decodeURI-解码" class="headerlink" title="2.在接收参数的页面，使用 decodeURI 解码"></a>2.在接收参数的页面，使用 decodeURI 解码</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 截取 URL 参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getParams</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">&quot;(^|&amp;)&quot;</span> + key + <span class="string">&quot;=([^&amp;]*)(&amp;|$)&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg);</span><br><span class="line">    <span class="keyword">if</span> (r != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">unescape</span>(r[<span class="number">2</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> name = <span class="built_in">decodeURI</span>(getParams(<span class="string">&#x27;name&#x27;</span>))</span><br></pre></td></tr></table></figure>
+    <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
+<p>项目开发中，经常会遇到城市三级联动的需求，这里总结一下使用 jQuery 方式实现三级联动</p>
+</blockquote>
+<blockquote>
+<p>首先，城市数据有可能需要放在前端代码中，所以需要把数据单独放到一个 js 文件中，然后在页面引入</p>
+</blockquote>
+<h2 id="1-引入-jQuery-和-城市数据文件"><a href="#1-引入-jQuery-和-城市数据文件" class="headerlink" title="1.引入 jQuery 和 城市数据文件"></a>1.引入 jQuery 和 城市数据文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--  引入 jQuery --&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://probe.bjmantis.net/chat/jquery-1.12.4.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;!--  引入城市数据 --&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;application/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;provinceData.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="2-页面布局"><a href="#2-页面布局" class="headerlink" title="2.页面布局"></a>2.页面布局</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;list&quot;</span>&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selProvince&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selCity&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selCountry&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="3-js-逻辑"><a href="#3-js-逻辑" class="headerlink" title="3. js 逻辑"></a>3. js 逻辑</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 使用引入的数据</span></span><br><span class="line">    <span class="keyword">var</span> provinceList = provinceData</span><br><span class="line">    <span class="keyword">var</span> iNum1</span><br><span class="line">    <span class="keyword">var</span> iNum2</span><br><span class="line">    <span class="built_in">console</span>.log(provinceList)</span><br><span class="line">    <span class="comment">// 城市及联</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; provinceList.length; i++) &#123;</span><br><span class="line">      $(<span class="string">&#x27;#selProvince&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + provinceList[i].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    $(<span class="string">&#x27;#selProvince&#x27;</span>).change(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">&#x27;#selCity&#x27;</span>).children().not(<span class="string">&#x27;:eq(0)&#x27;</span>).remove()</span><br><span class="line">      iNum1 = $(<span class="built_in">this</span>).children(<span class="string">&#x27;option:selected&#x27;</span>).index()</span><br><span class="line">      <span class="keyword">var</span> aaCity = provinceList[iNum1 - <span class="number">1</span>].children</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; aaCity.length; j++) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#selCity&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + aaCity[j].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    $(<span class="string">&#x27;#selCity&#x27;</span>).change(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">&#x27;#selCountry&#x27;</span>).children().not(<span class="string">&#x27;:eq(0)&#x27;</span>).remove()</span><br><span class="line">      iNum2 = $(<span class="built_in">this</span>).children(<span class="string">&#x27;option:selected&#x27;</span>).index()</span><br><span class="line">      <span class="keyword">var</span> aaCountry = provinceList[iNum1 - <span class="number">1</span>].children[iNum2 - <span class="number">1</span>].children</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> k = <span class="number">0</span>; k &lt; aaCountry.length; k++) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#selCountry&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + aaCountry[k].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-js-数据文件"><a href="#4-js-数据文件" class="headerlink" title="4.js 数据文件"></a>4.js 数据文件</h2><p>文件地址以及完整代码：<a target="_blank" rel="noopener" href="https://github.com/gladysdrea/provinceChoose">城市数据</a></p>
 
     
 
@@ -237,7 +245,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jQuery</a>
         		</li>
       		
 		</ul>
@@ -247,7 +255,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/07/12/JavaScript%E7%B3%BB%E5%88%97/js%E9%A1%B5%E9%9D%A2%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0%E4%B9%B1%E7%A0%81/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/">展开全文 >></a>
     </p>
     
 
@@ -281,7 +289,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/20/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/19/">19</a><a class="page-number" href="/blogs/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/blogs/page/22/">22</a><a class="page-number" href="/blogs/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/22/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/20/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/19/">19</a><a class="page-number" href="/blogs/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/blogs/page/22/">22</a><a class="page-number" href="/blogs/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/22/">下一页</a>
     </nav>
   
 
@@ -434,23 +442,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -458,15 +454,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

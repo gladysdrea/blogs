@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-JavaScript系列/js垃圾回收机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-JavaScript系列/js事件循环机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" target="_blank">JavaScript 垃圾回收机制</a>
+	  <a class="article-title" href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" target="_blank">JavaScript 事件循环机制</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-        <time datetime="2022-06-28T09:37:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-06-28</time>
+<a href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+        <time datetime="2022-07-26T08:07:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-26</time>
 </a>
 
   
@@ -218,52 +218,42 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们知道，JavaScript 中的变量分为两种：基本类型和引用类型。基本类型的值存储在栈内存，引用类型的值存储于栈内存和堆内存，栈内存中保存的是堆内存地址，地址指向堆内存中保存着的具体的值。栈内存中的变量值使用完之后会自动出栈被立即回收，但是堆内存中的值则需要某种策略或手动回收。<br>JavaScript 自带一套内存管理引擎来进行内存分配以及垃圾回收，那么为了更好的开发和维护高性能的 JavaScript 代码，我们需要对垃圾回收机制进行一些了解。<br>下面我们从以下几个方面来了解垃圾回收机制</p>
-<ul>
-<li>什么是垃圾回收</li>
-<li>垃圾是怎么产生的</li>
-<li>垃圾回收机制</li>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们知道 JavaScript 是单线程语言，也就是同一时间只能做一件事，这是因为 JavaScript 的主要作用是与用户互动以及操作 DOM ，如果是多线程的话，就会带来复杂的同步问题，比如：两个线程同时操作一个 DOM 节点，一个线程修改该节点，另一个线程删除该节点，此时就不知道该以哪个线程为准了。<br>但是单线程，又意味着任务需要排队等待，前一个任务执行完之后，后一个任务才会执行，这样就会导致一些执行很慢的任务会耽误大量的时间，于是 JavaScript 把所有的任务分成两种：同步任务、异步任务</p>
+<h1 id="同步任务和异步任务"><a href="#同步任务和异步任务" class="headerlink" title="同步任务和异步任务"></a>同步任务和异步任务</h1><ul>
+<li>同步任务，指的是，在主线程上排队执行的任务，只有前一个任务执行完毕之后，后一个任务才会开始执行。</li>
+<li>异步任务，指的是，不进入主线程，而是进入任务队列，如果有多个任务，会在任务队列中排队等待，只有主线程的任务执行完毕之后，才会依次执行任务队列中的任务。</li>
 </ul>
-<h1 id="什么是垃圾回收"><a href="#什么是垃圾回收" class="headerlink" title="什么是垃圾回收"></a>什么是垃圾回收</h1><p>垃圾回收机制的原理即找到不再使用的变量，释放其内存，因此，垃圾收集器会按照固定的时间间隔（或代码执行中预定的收集时间），周期性地执行这已操作。</p>
-<h1 id="垃圾是怎么产生的"><a href="#垃圾是怎么产生的" class="headerlink" title="垃圾是怎么产生的"></a>垃圾是怎么产生的</h1><p>当一个对象没有任何变量或属性对它进行引用时，意味着我们无法在操作该对象了，这种对象就是所谓的”垃圾”，此时就需要进行垃圾回收，如果不进行清理，内存占用越来越高，就会影响性能，甚至会导致进程崩溃。<br>比如：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = [ <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span> ]</span><br><span class="line">obj = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;abc&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在 JavaScript 中，引用类型的数据保留在堆内存中，栈内存中会保留一个地址，这个地址即为堆内存中保存的值。<br>上面先声明了一个变量，为一个数组，之后，我们把这个变量重新赋值，那么之前的引用关系就没有了，此时，之前的那个数组就会失去引用关系，也就是我们无法在操作它了，它就变成了 “垃圾”，等待被回收。</p>
-<h1 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h1><p>最常见的垃圾回收机制有两种：</p>
+<p>在了解同步任务异步任务的运行机制之前，我们先了解一下 执行栈、Event Table 以及 Event Queue 这几个名词</p>
+<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>我们知道，所有同步任务都在主线程执行，这样就形成来一个执行栈，也就是说，执行栈是一个存储函数调用的栈结构，主要负责跟踪所有要执行的代码</p>
+<h2 id="Event-Table"><a href="#Event-Table" class="headerlink" title="Event Table"></a>Event Table</h2><p>Event Table 可以理解为是一张事件表格，存储的是异步任务中的事件以及其对应的回调函数列表，当异步任务有了结果，就会被丢到 Event Queue 中</p>
+<h2 id="Event-Queue"><a href="#Event-Queue" class="headerlink" title="Event Queue"></a>Event Queue</h2><p>Event Queue 就是所说的任务队列，当 Event Table 中的事件触发之后其对应的回调函数会被 push 到这个任务队列中，等待主线程任务完成后执行栈</p>
+<p>那么，我们来看下其主要运行机制吧：</p>
+<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/tongbuyibu.png" class="" width="617" height="496">
+<ul>
+<li>JavaScript 代码执行时，将同步任务放入执行栈中，按顺序执行</li>
+<li>异步任务进入 Event Table 注册，当指定的事件完成时，Event Table 会将函数回调放入任务队列中，等待执行</li>
+<li>主线程任务执行完毕，会去 Event Queue 中取出完成的异步任务的回调放入主线程去执行</li>
+<li>不断重复上述过程，直至所有任务全部执行完毕，也就是我们所说的事件循环</li>
+</ul>
+<p>到此，我们就了解了 JavaScript 中的同步任务和异步任务，但是我们的异步任务又可以分为两种：宏任务和微任务</p>
+<h1 id="宏任务和微任务"><a href="#宏任务和微任务" class="headerlink" title="宏任务和微任务"></a>宏任务和微任务</h1><ul>
+<li>宏任务：script （整体代码）、setTimeout 、 setInterval 、 I/O （Mouse Events、Keyboard Events）、UI交互事件</li>
+<li>微任务：Promise.then （非 new Promise）、 process.nextTick、</li>
+</ul>
+<p>宏任务和微任务的区别在于队列中事件执行的优先级，微任务的优先级高于宏任务，也就是说，进入整体代码后，执行任务，当执行栈清空之后，会先查看有没有微任务，有微任务的话，会执行完所有的微任务之后，在执行一次宏任务，执行完之后，会再次检查有没有微任务，如此反复，直至所有任务都执行完毕。</p>
+<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/hongrenwuweirenwu.png" class="" width="511" height="371">
+<p>由此我们可以简单的总结出来这个执行顺序：</p>
 <ol>
-<li>标记清除</li>
-<li>引用计数</li>
+<li>同步任务执行</li>
+<li>同步任务执行完毕，执行所有的微任务</li>
+<li>读取任务队列中的一个宏任务执行</li>
+<li>执行完宏任务之后，执行所有的微任务</li>
+<li>再读取宏任务执行</li>
+<li>……如此反复，直至代码执行完毕</li>
 </ol>
-<h2 id="标记清除（Mark-Sweep）"><a href="#标记清除（Mark-Sweep）" class="headerlink" title="标记清除（Mark-Sweep）"></a>标记清除（Mark-Sweep）</h2><p>标记清除，简单来说，就是使用某种方法，将不再使用的变量，也就是无用变量标记出来，等待垃圾收集器回收，释放内存。<br>那么，垃圾收集器是如何标记无用变量呢，这里，我们先了解一个概念——可达性。</p>
-<h3 id="可达性"><a href="#可达性" class="headerlink" title="可达性"></a>可达性</h3><p>可达性，指的是变量从”根”出发，经过一层或多层可以被访问到。即一个变量从”根”出发，可以被访问到，那么它就是”可达”的，垃圾回收器将这些”可达”的变量视为有用变量，反之则视为无用变量，无用变量会被打上标记，便于之后回收。<br>在 JavaScript 中，有一些基本的固有可达值，如：</p>
-<ol>
-<li>本地函数的局部变量和参数</li>
-<li>当前嵌套调用链上的其他函数的变量和参数</li>
-<li>全局变量</li>
-<li>一些其他的内部的值</li>
-</ol>
-<p>举一个简单的例子：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;Avery&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/kedaxing.png" class="" width="352" height="279">
-<p>这里是一个全局变量 user 引用了对象，当我们把 user 重写，那么这个引用就没有了，没有了引用就变成了不可达的，就会被回收</p>
-<img src="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/bukeda.png" class="" width="455" height="280">
-<p>了解了可达性，我们就来看下垃圾回收器是如何进行标记的吧，各个浏览器的具体实现不太相同，其运行机制如下：</p>
-<ul>
-<li>变量进入上下文，会被加上标记，证明其存在于该上下文</li>
-<li>将所有在上下文的变量以及上下文中被访问引用的变量标记去掉，表明这些变量活跃</li>
-<li>之后再被加上标记的变量为准备删除的变量，因为上下文中已访问不到它们了</li>
-<li>执行内存清理，销毁所有带标记的非活跃值并收回之前被占用的内存</li>
-</ul>
-<p>标记清除有一个缺点就是-内存碎片，因为标记清除，在清除之后，剩余内存的位置是不变的，所以会导致空闲的内存空间是不连续的，大小不同的碎片。<br>想要解决这个缺点，就需要标记整理，它会在标记结束后，将不需要清理的对象移至内存的一端，最后清理掉边界的内存。</p>
-<h2 id="引用计数（Reference-Counting）"><a href="#引用计数（Reference-Counting）" class="headerlink" title="引用计数（Reference Counting）"></a>引用计数（Reference Counting）</h2><p>引用计数，把”对象是否不再需要”简化定义为”对象有没有其他对象引用到它”，即该对象没有被任何对象或变量引用（零引用），就会被垃圾回收机制回收，其运行机制如下：</p>
-<ul>
-<li>当声明了一个变量，并赋予它一个引用的值时，该值的引用次数 +1</li>
-<li>当同一个值被赋值给另一个变量的时候，引用次数 +1</li>
-<li>当该变量被另一个值覆盖的时候，引用次数 -1</li>
-<li>当引用次数为 0 的时候，就会被内存回收</li>
-</ul>
-<p>引用计数有一个最大的问题，就是循环引用，如下：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a = &#123;&#125;</span><br><span class="line">  <span class="keyword">let</span> b = &#123;&#125;</span><br><span class="line">  a.c = b</span><br><span class="line">  b.c = a</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上，两个都互相引用了，引用计数不为 0 ，所以无法被回收，这样就会造成内存泄漏。</p>
+<p>那么了解了这些之后，我们来看一道题：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;4&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;6&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;7&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;10&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;11&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这里就不详细讲解这道题了，相信上面所说的都理解之后，这道题就很简单了。这里直接放出答案：1，7，6，8，2，4，3，5，9，11，10，12</p>
 
     
 
@@ -290,7 +280,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2022/06/28/JavaScript%E7%B3%BB%E5%88%97/js%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/">展开全文 >></a>
     </p>
     
 
@@ -324,7 +314,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/6/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/5/">5</a><a class="page-number" href="/blogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/blogs/page/8/">8</a><a class="page-number" href="/blogs/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/8/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/6/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/5/">5</a><a class="page-number" href="/blogs/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/blogs/page/8/">8</a><a class="page-number" href="/blogs/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/8/">下一页</a>
     </nav>
   
 
@@ -477,23 +467,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -501,15 +479,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

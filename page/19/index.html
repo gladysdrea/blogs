@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-WeChat/支付/微信支付-JASAPI支付" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-阿里云/阿里云上传图片" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/" target="_blank">微信支付 JASAPI 支付</a>
+	  <a class="article-title" href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" target="_blank">阿里云上传图片</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/" class="archive-article-date">
-        <time datetime="2021-07-13T03:50:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-13</time>
+<a href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" class="archive-article-date">
+        <time datetime="2021-07-13T09:29:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-13</time>
 </a>
 
   
@@ -218,116 +218,37 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="1-接入前准备"><a href="#1-接入前准备" class="headerlink" title="1. 接入前准备"></a>1. 接入前准备</h1><h2 id="1-1-支付授权目录设置"><a href="#1-1-支付授权目录设置" class="headerlink" title="1.1 支付授权目录设置"></a>1.1 支付授权目录设置</h2><p>微信支付商户平台 –&gt; 产品中心 –&gt; 开发配置<br>注：商户实际的支付目录必须和在微信支付商户平台设置的一致，不然会报错“当前页面的 URL 未注册”（一般情况，可以设置为顶级域名）</p>
-<h2 id="1-2-支付授权目录校验规则"><a href="#1-2-支付授权目录校验规则" class="headerlink" title="1.2 支付授权目录校验规则"></a>1.2 支付授权目录校验规则</h2><ul>
-<li>如果支付授权目录设置为顶级域名，则只校验顶级域名，不校验后缀。</li>
-<li>如果支付授权目录设置为多级域名，就会进行全匹配，例如设置的支付授权目录为 “<a target="_blank" rel="noopener" href="https://www.weixin.com/abc&quot;%EF%BC%8C%E9%82%A3%E4%B9%88%E5%AE%9E%E9%99%85%E8%AF%B7%E6%B1%82%E9%A1%B5%E9%9D%A2%E8%B7%AF%E5%BE%84%E4%B8%8D%E8%83%BD%E4%B8%BA">https://www.weixin.com/abc&quot;，那么实际请求页面路径不能为</a> “<a target="_blank" rel="noopener" href="https://www.weixin.com/qwe&quot;">https://www.weixin.com/qwe&quot;</a> 或其他任何后缀的页面，只能是 “<a target="_blank" rel="noopener" href="https://www.weixin.com/abc&quot;">https://www.weixin.com/abc&quot;</a></li>
-</ul>
-<h2 id="1-3-设置授权域名"><a href="#1-3-设置授权域名" class="headerlink" title="1.3 设置授权域名"></a>1.3 设置授权域名</h2><ul>
-<li>开发 JSAPI 支付时，在统一下单接口中要求必传用户 openid，而获取 openid 则需要您在公众平台设置获取 openid 的域名，只有被设置过的域名才是一个有效的获取 openid 的域名，否则将获取失败。</li>
-<li>设置授权域名路径：登录微信公众平台 –&gt; 公众号设置 –&gt; 功能设置 –&gt; 网页授权域名</li>
-<li>注：这里会有一个 txt 文件，需要下载下来，放到项目打包之后的根目录。</li>
-</ul>
-<h1 id="2-JSAPI-调起支付"><a href="#2-JSAPI-调起支付" class="headerlink" title="2. JSAPI 调起支付"></a>2. JSAPI 调起支付</h1><ul>
-<li>WeixinJSBridge 内置对象在其他浏览器中无效。</li>
-<li>示例代码</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">defray () &#123;</span><br><span class="line">  <span class="comment">// id 为订单 ID，这里是调用后台的接口提交订单，并获取网页端接口请求需要的参数</span></span><br><span class="line">  <span class="built_in">this</span>.$api.user.getwechatData(<span class="built_in">this</span>.id).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res.data)</span><br><span class="line">    <span class="keyword">if</span> (res.data.code === <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;获取微信 JSAPI 支付----&#x27;</span>, res)</span><br><span class="line">      <span class="keyword">const</span> weChatConfig = res.data.item</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> WeixinJSBridge === <span class="string">&#x27;undefined&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">document</span>.addEventListener) &#123;</span><br><span class="line">          <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;WeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady, <span class="literal">false</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.attachEvent) &#123;</span><br><span class="line">          <span class="built_in">document</span>.attachEvent(<span class="string">&#x27;WeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady)</span><br><span class="line">          <span class="built_in">document</span>.attachEvent(<span class="string">&#x27;onWeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        onBridgeReady(weChatConfig)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line no-inner-declarations</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">onBridgeReady</span> (<span class="params">weChatConfig</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;--------------&gt;&#x27;</span>, weChatConfig)</span><br><span class="line">        <span class="comment">// eslint-disable-next-line no-undef</span></span><br><span class="line">        WeixinJSBridge.invoke(</span><br><span class="line">          <span class="string">&#x27;getBrandWCPayRequest&#x27;</span>, &#123;</span><br><span class="line">            <span class="attr">appId</span>: weChatConfig.appId,          <span class="comment">// 公众号名称，由商户传入</span></span><br><span class="line">            <span class="attr">timeStamp</span>: weChatConfig.timeStamp,  <span class="comment">// 时间戳，自1970年以来的秒数</span></span><br><span class="line">            <span class="attr">nonceStr</span>: weChatConfig.nonceStr,    <span class="comment">// 随机串</span></span><br><span class="line">            <span class="attr">package</span>: weChatConfig._package,</span><br><span class="line">            <span class="attr">signType</span>: weChatConfig.signType,    <span class="comment">// 微信签名方式：</span></span><br><span class="line">            <span class="attr">paySign</span>: weChatConfig.paySign       <span class="comment">// 微信签名</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (res.err_msg === <span class="string">&#x27;get_brand_wcpay_request:ok&#x27;</span>) &#123;</span><br><span class="line">              <span class="comment">// 使用以上方式判断前端返回,微信团队郑重提示：</span></span><br><span class="line">              <span class="comment">// res.err_msg 将在用户支付成功后返回 ok，但并不保证它绝对可靠。</span></span><br><span class="line">              <span class="built_in">window</span>.location.href = <span class="built_in">encodeURIComponent</span>(<span class="string">&#x27;http://www.weixin.com/success&#x27;</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="built_in">window</span>.location.href = <span class="built_in">encodeURIComponent</span>(<span class="string">&#x27;http://www.weixin.com/error&#x27;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.$toast(<span class="string">&#x27;支付失败，请重新支付&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>为了更好的掌握 OSS 存储，可以先去了解一下这些<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/31827.htm?spm=a2c4g.11186623.2.3.e47d42cdi0nTz0#concept-izx-fmt-tdb">基本概念</a></p>
+<h2 id="一、准备工作"><a href="#一、准备工作" class="headerlink" title="一、准备工作"></a>一、准备工作</h2><h3 id="创建-Bucket"><a href="#创建-Bucket" class="headerlink" title="创建 Bucket"></a>创建 Bucket</h3><h4 id="1、首先需要一个阿里云帐号，没有的可以自己去注册一下"><a href="#1、首先需要一个阿里云帐号，没有的可以自己去注册一下" class="headerlink" title="1、首先需要一个阿里云帐号，没有的可以自己去注册一下"></a>1、首先需要一个阿里云帐号，没有的可以自己去注册一下</h4><h4 id="2、登录之后点击右上角-–-控制台"><a href="#2、登录之后点击右上角-–-控制台" class="headerlink" title="2、登录之后点击右上角 – 控制台"></a>2、登录之后点击右上角 – 控制台</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/console.png" class="" width="736" height="252">
 
+<h4 id="3、鼠标移入箭头处（图1），会出现图2，然后点击-对象存储-OSS-，或者在搜索框搜索-对象存储-OSS-也可以"><a href="#3、鼠标移入箭头处（图1），会出现图2，然后点击-对象存储-OSS-，或者在搜索框搜索-对象存储-OSS-也可以" class="headerlink" title="3、鼠标移入箭头处（图1），会出现图2，然后点击 对象存储 OSS ，或者在搜索框搜索 对象存储 OSS 也可以"></a>3、鼠标移入箭头处（图1），会出现图2，然后点击 对象存储 OSS ，或者在搜索框搜索 对象存储 OSS 也可以</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/oss.png" class="" width="588" height="382">
+
+<h4 id="4、创建-Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了"><a href="#4、创建-Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了" class="headerlink" title="4、创建 Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了"></a>4、创建 Bucket，名称和区域根据自己的需求填写即可，其他的默认选择就行了，设置好后点击确定就创建成功了</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/createBucket.png" class="" width="744" height="282">
+
+
+<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/bucketStep.png" class="" width="378" height="379">
+
+<h4 id="5、怎么查看创建的-Bucket，下图中点击红框里的内容就可以查看啦"><a href="#5、怎么查看创建的-Bucket，下图中点击红框里的内容就可以查看啦" class="headerlink" title="5、怎么查看创建的 Bucket，下图中点击红框里的内容就可以查看啦"></a>5、怎么查看创建的 Bucket，下图中点击红框里的内容就可以查看啦</h4><img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/lookBucket.png" class="" width="742" height="284">
+
+<h4 id="6、进入列表，点击创建好的-Bucket-点击进入，就可以设置创建的-Bucket-了，点击概览，就能找到需要在代码里用到的参数了"><a href="#6、进入列表，点击创建好的-Bucket-点击进入，就可以设置创建的-Bucket-了，点击概览，就能找到需要在代码里用到的参数了" class="headerlink" title="6、进入列表，点击创建好的 Bucket ,点击进入，就可以设置创建的 Bucket 了，点击概览，就能找到需要在代码里用到的参数了"></a>6、进入列表，点击创建好的 Bucket ,点击进入，就可以设置创建的 Bucket 了，点击概览，就能找到需要在代码里用到的参数了</h4><ul>
+<li>region里填写的是参数1对应的绿框里的内容</li>
+<li>bucket里填写的是参数2对应的绿框里的内容，即你创建的 Bucket 名称</li>
+</ul>
+<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/params.png" class="" width="692" height="382">
+
+<h4 id="7、获取-accessKeyId-和-accessKeySecret"><a href="#7、获取-accessKeyId-和-accessKeySecret" class="headerlink" title="7、获取 accessKeyId 和 accessKeySecret"></a>7、获取 accessKeyId 和 accessKeySecret</h4><p>点击头像 –&gt; AccessKey 管理 –&gt; 创建 AccessKey ，第一次创建的时候，会提示下载 ID 与密码，建议下载，至此，所需的参数就都拿到了</p>
 <ul>
-<li><p>网页端接口请求参数列表</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>变量名</th>
-<th>必填</th>
-<th>类型</th>
-<th>示例值</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>公众号 id</td>
-<td>appId</td>
-<td>是</td>
-<td>String(16)</td>
-<td>wx8888888888888</td>
-<td>appId 为当前服务商号绑定的 appId</td>
-</tr>
-<tr>
-<td>时间戳</td>
-<td>timeStamp</td>
-<td>是</td>
-<td>String(32)</td>
-<td>141561699</td>
-<td>当前的时间，其他详见<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2">【时间戳规则】</a></td>
-</tr>
-<tr>
-<td>随机字符串</td>
-<td>nonceStr</td>
-<td>是</td>
-<td>String(32)</td>
-<td>5K865LJH16CHLNNDJL20233JD</td>
-<td>随机字符串，不长于 32 位。推荐<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3">【随机数生成算法】</a></td>
-</tr>
-<tr>
-<td>订单详情扩展字符串</td>
-<td>package</td>
-<td>是</td>
-<td>String(128)</td>
-<td>prepay_id=12345678</td>
-<td>统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=***</td>
-</tr>
-<tr>
-<td>签名方式</td>
-<td>singType</td>
-<td>是</td>
-<td>String(32)</td>
-<td>MD5</td>
-<td>签名类型，默认为 MD5，支持 HMAC-SHA256 和 MD5。<font color="red">注意此处需与统一下单的签名类型一致</font></td>
-</tr>
-<tr>
-<td>签名</td>
-<td>paySign</td>
-<td>是</td>
-<td>String(64)</td>
-<td>C890JDMA7890DJKLSA</td>
-<td>签名，详见<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3">【签名生成算法】</a></td>
-</tr>
-</tbody></table>
-</li>
+<li>accessKeySecret 填写的是拿到的密码</li>
+<li>accessKeyId 填写的是 AccessKey ID ，即刚刚拿到的 ID</li>
 </ul>
-<ul>
-<li><p>返回结果值说明</p>
-<table>
-<thead>
-<tr>
-<th align="left">返回值</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">get_brand_wcpay_request:ok</td>
-<td align="left">支付成功</td>
-</tr>
-<tr>
-<td align="left">get_brand_wcpay_request:cancel</td>
-<td align="left">支付过程中用户取消</td>
-</tr>
-<tr>
-<td align="left">get_brand_wcpay_request:fail</td>
-<td align="left">支付失败</td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="支付常见问题"><a href="#支付常见问题" class="headerlink" title="支付常见问题"></a>支付常见问题</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_9&index=7">【参考官方：支付常见问题】</a></li>
-</ul>
-<hr>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_3">【官方文档】</a></li>
+<img src="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/accessKey.png" class="" width="742" height="212">
+
+<h2 id="二、Vue-上传图片到阿里云"><a href="#二、Vue-上传图片到阿里云" class="headerlink" title="二、Vue 上传图片到阿里云"></a>二、Vue 上传图片到阿里云</h2><h3 id="1、安装-ali-oss"><a href="#1、安装-ali-oss" class="headerlink" title="1、安装 ali-oss"></a>1、安装 ali-oss</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ali-oss</span><br></pre></td></tr></table></figure>
+<h3 id="2、创建工具类文件"><a href="#2、创建工具类文件" class="headerlink" title="2、创建工具类文件"></a>2、创建工具类文件</h3><p>在 utils 文件夹内创建一个 alioss.js 文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span> (<span class="params">file, ossConfig, resultUrl</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> OSS = <span class="built_in">require</span>(<span class="string">&#x27;ali-oss&#x27;</span>)</span><br><span class="line">  <span class="comment">// 这里是通过接口拿到的这些参数，所以在调用该方法之前，需调用后台接口先拿到这些参数</span></span><br><span class="line">  <span class="comment">// 如果这些参数不是通过后台接口拿到的话，可以从上边介绍的第6条中，找到需要的参数放过来就可以了</span></span><br><span class="line">  <span class="keyword">const</span> client = <span class="keyword">new</span> OSS(&#123;</span><br><span class="line">    <span class="attr">region</span>: ossConfig.region,</span><br><span class="line">    <span class="attr">accessKeyId</span>: ossConfig.accessKeyId,</span><br><span class="line">    <span class="attr">accessKeySecret</span>: ossConfig.accessKeySecret,</span><br><span class="line">    <span class="attr">bucket</span>: ossConfig.bucket</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">put</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 这里加个时间戳，目的是以防有同名的文件被覆盖</span></span><br><span class="line">      <span class="keyword">var</span> timestamp = (<span class="keyword">new</span> <span class="built_in">Date</span>()).getTime()</span><br><span class="line">      <span class="keyword">var</span> fileName = ossConfig.path + <span class="string">&#x27;/&#x27;</span> + timestamp + <span class="string">&#x27;/&#x27;</span> + file.name</span><br><span class="line">      <span class="comment">// 上传到OSS</span></span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> client.put(fileName, file)</span><br><span class="line">      <span class="built_in">console</span>.log(result)</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;阿里云OSS上传文件接口返回：&#x27;</span>, result)</span><br><span class="line"></span><br><span class="line">      resultUrl(result)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;阿里云OSS上传文件接口返回错误：&#x27;</span>, e)</span><br><span class="line">      resultUrl()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> put()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  uploadFile</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3、在-vue-文件中引入并使用"><a href="#3、在-vue-文件中引入并使用" class="headerlink" title="3、在 vue 文件中引入并使用"></a>3、在 vue 文件中引入并使用</h3><ul>
+<li>引入<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; uploadFile &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/utils&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li>使用 Element 的图片上传组件，这里就不介绍 element 图片上传组件的使用了，直接讲调用 uploadFile 方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">uploadImg (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e)</span><br><span class="line">  <span class="keyword">if</span> (e.file.type !== <span class="string">&#x27;image/jpeg&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/png&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/jpg&#x27;</span> &amp;&amp;</span><br><span class="line">    e.file.type !== <span class="string">&#x27;image/bmp&#x27;</span> &amp;&amp; e.file.type !== <span class="string">&#x27;image/gif&#x27;</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.$message.error(<span class="string">&#x27;请选择图片文件&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> isLt5M = e.file.size / <span class="number">1024</span> / <span class="number">1024</span> &lt; <span class="number">5</span></span><br><span class="line">  <span class="keyword">if</span> (!isLt5M) &#123;</span><br><span class="line">    <span class="built_in">this</span>.$message.error(<span class="string">&#x27;上传图片大小不能超过 5MB!&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果 oss 配置参数没有经过后台接口，则忽略 ossConfig 参数，如果是接口获取的，则先调用接口拿到参数</span></span><br><span class="line">  uploadFile(e.file, <span class="built_in">this</span>.ossConfig, <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (res === <span class="literal">undefined</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 更新展示的图片地址, res.name 为图片的名称，此处写自己的逻辑代码即可</span></span><br><span class="line">      <span class="built_in">console</span>.log(res.name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 
     
@@ -345,7 +266,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">微信支付</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">阿里云</a>
         		</li>
       		
 		</ul>
@@ -355,7 +276,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2021/07/13/%E9%98%BF%E9%87%8C%E4%BA%91/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">展开全文 >></a>
     </p>
     
 
@@ -389,7 +310,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/18/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/17/">17</a><a class="page-number" href="/blogs/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/blogs/page/20/">20</a><a class="page-number" href="/blogs/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/20/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/18/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/17/">17</a><a class="page-number" href="/blogs/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/blogs/page/20/">20</a><a class="page-number" href="/blogs/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/20/">下一页</a>
     </nav>
   
 
@@ -542,23 +463,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -566,15 +475,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

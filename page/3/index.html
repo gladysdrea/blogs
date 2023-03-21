@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-其他/Mac环境配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-uniapp系列/uniapp打包成apk" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank">Mac 环境配置</a>
+	  <a class="article-title" href="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/" target="_blank">uni-app 打包成 Android Apk</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="archive-article-date">
-        <time datetime="2022-09-07T08:58:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-07</time>
+<a href="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/" class="archive-article-date">
+        <time datetime="2022-11-04T03:05:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-04</time>
 </a>
 
   
@@ -218,27 +218,44 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="安装-oh-my-zsh"><a href="#安装-oh-my-zsh" class="headerlink" title="安装 oh-my-zsh"></a>安装 oh-my-zsh</h1><p>后续的环境配置是基于 zsh 的，所以先安装 oh-my-zsh ,可以自行配置自己喜欢的主题。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export REMOTE=https://gitee.com/imirror/ohmyzsh.git</span><br><span class="line">sh -c &quot;$(curl -fsSL https://cdn.jsdelivr.net/gh/ohmyzsh/ohmyzsh/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
-<p>安装之后，在根目录会出现两个隐藏文件，一个 .oh-my-zsh 文件夹,一个 .zshrc 文件，我们把 .oh-my-zsh 文件夹改成不是隐藏文件夹，然后把它移到 Applications/sh 中,具体目录结构是 Applications/sh/oh-my-zsh<br>然后我们修改 .zshrc 文件，让其指向移动之后的 oh-my-zsh 路径(具体的路径去自己的文件夹复制)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ZSH=&quot;/Users/gladysdrea/Applications/sh/oh-my-zsh&quot;</span><br></pre></td></tr></table></figure>
-<p>我们可以在 sh 文件夹新建一个 script.sh 文件，(具体目录结构为：Applications/sh/script.sh)用来添加配置的环境变量，这样文件内容看着也整洁。我们只需要在 .oh-my-zsh 中进行指向就可以了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source $ZSH/oh-my-zsh.sh</span><br><span class="line">source /Users/gladysdrea/Applications/sh/script.sh</span><br></pre></td></tr></table></figure>
-<p>具体的修改之后的 .oh-my-zsh 文件如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># If you come from bash you might have to change your $PATH.</span><br><span class="line"># export PATH=$HOME/bin:/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line"># Path to your oh-my-zsh installation.</span><br><span class="line">export ZSH=&quot;/Users/gladysdrea/Applications/sh/oh-my-zsh&quot;</span><br><span class="line"></span><br><span class="line"># Set name of the theme to load --- if set to &quot;random&quot;, it will</span><br><span class="line"># load a random theme each time oh-my-zsh is loaded, in which case,</span><br><span class="line"># to know which specific one was loaded, run: echo $RANDOM_THEME</span><br><span class="line"># See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes</span><br><span class="line">ZSH_THEME=&quot;powerlevel10k/powerlevel10k&quot;</span><br><span class="line"></span><br><span class="line"># Set list of themes to pick from when loading at random</span><br><span class="line"># Setting this variable when ZSH_THEME=random will cause zsh to load</span><br><span class="line"># a theme from this variable instead of looking in $ZSH/themes/</span><br><span class="line"># If set to an empty array, this variable will have no effect.</span><br><span class="line"># ZSH_THEME_RANDOM_CANDIDATES=( &quot;robbyrussell&quot; &quot;agnoster&quot; )</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use case-sensitive completion.</span><br><span class="line"># CASE_SENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use hyphen-insensitive completion.</span><br><span class="line"># Case-sensitive completion must be off. _ and - will be interchangeable.</span><br><span class="line"># HYPHEN_INSENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable bi-weekly auto-update checks.</span><br><span class="line"># DISABLE_AUTO_UPDATE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to automatically update without prompting.</span><br><span class="line"># DISABLE_UPDATE_PROMPT=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to change how often to auto-update (in days).</span><br><span class="line"># export UPDATE_ZSH_DAYS=13</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if pasting URLs and other text is messed up.</span><br><span class="line"># DISABLE_MAGIC_FUNCTIONS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable colors in ls.</span><br><span class="line"># DISABLE_LS_COLORS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable auto-setting terminal title.</span><br><span class="line"># DISABLE_AUTO_TITLE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to enable command auto-correction.</span><br><span class="line"># ENABLE_CORRECTION=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to display red dots whilst waiting for completion.</span><br><span class="line"># Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)</span><br><span class="line"># See https://github.com/ohmyzsh/ohmyzsh/issues/5765</span><br><span class="line"># COMPLETION_WAITING_DOTS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to disable marking untracked files</span><br><span class="line"># under VCS as dirty. This makes repository status check for large repositories</span><br><span class="line"># much, much faster.</span><br><span class="line"># DISABLE_UNTRACKED_FILES_DIRTY=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to change the command execution time</span><br><span class="line"># stamp shown in the history command output.</span><br><span class="line"># You can set one of the optional three formats:</span><br><span class="line"># &quot;mm/dd/yyyy&quot;|&quot;dd.mm.yyyy&quot;|&quot;yyyy-mm-dd&quot;</span><br><span class="line"># or set a custom format using the strftime function format specifications,</span><br><span class="line"># see &#x27;man strftime&#x27; for details.</span><br><span class="line"># HIST_STAMPS=&quot;mm/dd/yyyy&quot;</span><br><span class="line"></span><br><span class="line"># Would you like to use another custom folder than $ZSH/custom?</span><br><span class="line"># ZSH_CUSTOM=/path/to/new-custom-folder</span><br><span class="line"></span><br><span class="line"># Which plugins would you like to load?</span><br><span class="line"># Standard plugins can be found in $ZSH/plugins/</span><br><span class="line"># Custom plugins may be added to $ZSH_CUSTOM/plugins/</span><br><span class="line"># Example format: plugins=(rails git textmate ruby lighthouse)</span><br><span class="line"># Add wisely, as too many plugins slow down shell startup.</span><br><span class="line">plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</span><br><span class="line"></span><br><span class="line">source $ZSH/oh-my-zsh.sh</span><br><span class="line">source /Users/gladysdrea/Applications/sh/script.sh</span><br><span class="line"># User configuration</span><br><span class="line"></span><br><span class="line"># export MANPATH=&quot;/usr/local/man:$MANPATH&quot;</span><br><span class="line"></span><br><span class="line"># You may need to manually set your language environment</span><br><span class="line"># export LANG=en_US.UTF-8</span><br><span class="line"></span><br><span class="line"># Preferred editor for local and remote sessions</span><br><span class="line"># if [[ -n $SSH_CONNECTION ]]; then</span><br><span class="line">#   export EDITOR=&#x27;vim&#x27;</span><br><span class="line"># else</span><br><span class="line">#   export EDITOR=&#x27;mvim&#x27;</span><br><span class="line"># fi</span><br><span class="line"></span><br><span class="line"># Compilation flags</span><br><span class="line"># export ARCHFLAGS=&quot;-arch x86_64&quot;</span><br><span class="line"></span><br><span class="line"># Set personal aliases, overriding those provided by oh-my-zsh libs,</span><br><span class="line"># plugins, and themes. Aliases can be placed here, though oh-my-zsh</span><br><span class="line"># users are encouraged to define aliases within the ZSH_CUSTOM folder.</span><br><span class="line"># For a full list of active aliases, run `alias`.</span><br><span class="line">#</span><br><span class="line"># Example aliases</span><br><span class="line"># alias zshconfig=&quot;mate ~/.zshrc&quot;</span><br><span class="line"># alias ohmyzsh=&quot;mate ~/.oh-my-zsh&quot;</span><br><span class="line"></span><br><span class="line"># To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.</span><br><span class="line">[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>接下来，我们可以在 script.sh 中编写几个别名，方便使用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alias ll=&#x27;ls -l&#x27;</span><br><span class="line">alias update=&#x27;source ~/.zshrc&#x27;</span><br><span class="line">alias path_variables=&#x27;open /Users/gladysdrea/Applications/sh/script.sh&#x27;</span><br><span class="line">alias zsh_profile=&#x27;open ~/.zshrc&#x27;</span><br></pre></td></tr></table></figure>
-<h1 id="安装-Node"><a href="#安装-Node" class="headerlink" title="安装 Node"></a>安装 Node</h1><p>接下来就可以安装 Node 了，我们采用 .tar.gz 形式，这种形式的方便我们开发中切换版本，下载需要的版本的压缩包，解压之后，我们放在 Applications/Node 文件夹中，需要几个版本的就下载之后都放这个文件夹中。</p>
-<h3 id="配置-Node-的环境变量"><a href="#配置-Node-的环境变量" class="headerlink" title="配置 Node 的环境变量"></a>配置 Node 的环境变量</h3><p>script.sh文件 (后边的路径还是复制自己的文件夹路径)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NODE_HOME=/Users/gladysdrea/Applications/Node/node-v14.20.0/bin</span><br></pre></td></tr></table></figure>
-<p>然后，我们在 Node 文件夹下新建一个 respository 文件夹，具体目录结构为：Applications/Node/respository，用来放我们 npm 安装的东西</p>
-<h3 id="配置-npm-安装路径"><a href="#配置-npm-安装路径" class="headerlink" title="配置 npm 安装路径"></a>配置 npm 安装路径</h3><p>然后执行一下命令，配置 npm 安装路径</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set prefix &quot;/Users/gladysdrea/Applications/Node/respository/node_global&quot;</span><br><span class="line">npm config set cache &quot;/Users/gladysdrea/Applications/Node/respository/node_cache&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="安装全局的-Vue-，WebPack-Hexo-等"><a href="#安装全局的-Vue-，WebPack-Hexo-等" class="headerlink" title="安装全局的 Vue ，WebPack, Hexo 等"></a>安装全局的 Vue ，WebPack, Hexo 等</h3><p>之后，我们就可以安装全局的 Vue ，WebPack, Hexo 等<br>最后，我们还需要在 script.sh 文件中去配置一下，完整的配置如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alias ll=&#x27;ls -l&#x27;</span><br><span class="line">alias update=&#x27;source ~/.zshrc&#x27;</span><br><span class="line">alias path_variables=&#x27;open /Users/gladysdrea/Applications/sh/script.sh&#x27;</span><br><span class="line">alias zsh_profile=&#x27;open ~/.zshrc&#x27;</span><br><span class="line">NODE_HOME=/Users/gladysdrea/Applications/Node/node-v14.20.0/bin</span><br><span class="line">NODE_GLOBAL=/Users/gladysdrea/Applications/Node/respository/node_global/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PATH=$PATH:$NODE_HOME:$NODE_GLOBAL</span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure>
-<p>以上，Mac 环境配置就完成了。仅此作为每次配置环境变量的笔记记录</p>
-<p>最后额外记录 Mac 生成 ssh 命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t ed25519 -C &#x27;Gladysdrea@gmail.com&#x27; </span><br></pre></td></tr></table></figure>
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>uni-app 打包成 Android Apk ,中心问题其实就是证书的生成，这里我们介绍两种证书生成方式，一种是通过命令行生成证书，一种是通过 DCloud 开发者中心生成证书。</p>
+<h1 id="工具准备"><a href="#工具准备" class="headerlink" title="工具准备"></a>工具准备</h1><ul>
+<li>HBuilderx 编辑器</li>
+<li>DCloud 开发者中心注册 <a target="_blank" rel="noopener" href="https://dev.dcloud.net.cn/">开发者中心</a></li>
+<li>电脑安装 JRE 环境</li>
+</ul>
+<h1 id="App-配置"><a href="#App-配置" class="headerlink" title="App 配置"></a>App 配置</h1><p>我们可以在 HBuilderx 中打开 manifest.json 这个文件，选择 APP 图标配置去配置应用图标，也可以按需进行一些其它的配置</p>
+<ul>
+<li>App 图标配置，建议使用 1024*1024 图标自动生成图标，图标自动存放至 unpackage 文件中<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/config.jpeg" class=""></li>
+</ul>
+<h1 id="HBuilderx-云打包"><a href="#HBuilderx-云打包" class="headerlink" title="HBuilderx 云打包"></a>HBuilderx 云打包</h1><p>在使用 HBuilderx 云打包之前，需要先生产证书，这里介绍两种生成证书的方式</p>
+<h2 id="一、生成证书"><a href="#一、生成证书" class="headerlink" title="一、生成证书"></a>一、生成证书</h2><h3 id="1-开发者中心生成证书"><a href="#1-开发者中心生成证书" class="headerlink" title="1. 开发者中心生成证书"></a>1. 开发者中心生成证书</h3><p>登录<a target="_blank" rel="noopener" href="https://dev.dcloud.net.cn/">开发者中心</a>之后，在我的应用里会有你创建好的项目，点进去,有一个证书管理，去生成证书就可以了，（这里是已经生成证书了，可以查看证书详情和密码以及下载）具体步骤如下图：</p>
+<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img.png" class="">
+<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_1.png" class="">
+<p>接下来把证书下载下来，就可以使用 HBuilderx 的云打包功能了</p>
+<ul>
+<li>Tips: 因为有一些项目是通过 miniprogram-to-uniapp v2 这个插件转换过来的，所以需要手动获取一下 uni-app 的 AppID，步骤如下图，找到 manifest.json 文件 - 基础配置 - 重新获取（获取）</li>
+</ul>
+<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_6.png" class="">
+
+<h3 id="2-通过命令行申请"><a href="#2-通过命令行申请" class="headerlink" title="2. 通过命令行申请"></a>2. 通过命令行申请</h3><p>这里，我们的电脑需要安装 JRE 环境 ，建议 JRE8 。可去 <a target="_blank" rel="noopener" href="https://adoptopenjdk.net/archive.html?variant=openjdk8&jvmVariant=hotspot">JRE</a> 自行下载。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -alias wyyalias -keyalg RSA -keysize 2048 -validity 36500 -keystore wyy.keystore</span><br></pre></td></tr></table></figure>
+<p>Tips: 这里需要注意的是，生成证书的过程中会提示输入密码，这个密码一定要记住！！！</p>
+<ul>
+<li>wyyalias: 证书别名，可修改成自己想设置的字符，建议使用英文字母和数字</li>
+<li>wyy.keystore: 证书文件名，可修改成自己想设置的字符，也可指定完整的文件路径</li>
+<li>36500: 证书的有效期，表示 100 年有效，单位天，建议设置时间长点，避免证书过期</li>
+</ul>
+<p>执行完之后，就可以在电脑 Home 目录下看到一个 wyy.keystore 的文件<br>查看证书，注意证书名要一致</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -list -v -keystore wyy.keystore</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、找到-HBuilderx-的发行-原生-APP-云打包"><a href="#二、找到-HBuilderx-的发行-原生-APP-云打包" class="headerlink" title="二、找到 HBuilderx 的发行-原生 APP - 云打包"></a>二、找到 HBuilderx 的发行-原生 APP - 云打包</h2><img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_2.png" class="">
+<h2 id="三、把下载下来的证书导入，并填写证书别名以及私钥密码（这些信息都可以在生成证书的地方找到）"><a href="#三、把下载下来的证书导入，并填写证书别名以及私钥密码（这些信息都可以在生成证书的地方找到）" class="headerlink" title="三、把下载下来的证书导入，并填写证书别名以及私钥密码（这些信息都可以在生成证书的地方找到）"></a>三、把下载下来的证书导入，并填写证书别名以及私钥密码（这些信息都可以在生成证书的地方找到）</h2><h2 id="四、然后选择快速安心打包，这种方式不会上传代码以及证书信息，然后点击打包就可以了，会提示正在排队以及排队信息，耐心等待一下就可以了"><a href="#四、然后选择快速安心打包，这种方式不会上传代码以及证书信息，然后点击打包就可以了，会提示正在排队以及排队信息，耐心等待一下就可以了" class="headerlink" title="四、然后选择快速安心打包，这种方式不会上传代码以及证书信息，然后点击打包就可以了，会提示正在排队以及排队信息，耐心等待一下就可以了"></a>四、然后选择快速安心打包，这种方式不会上传代码以及证书信息，然后点击打包就可以了，会提示正在排队以及排队信息，耐心等待一下就可以了</h2><img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_3.png" class="">
+<p> 打包完成之后，控制台会显示安装包路径，我们点击路径就可以找到安装包了，把安装包发送到手机就可以直接安装了</p>
+<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_4.png" class="">
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>可将 APK 文件上传至<a target="_blank" rel="noopener" href="https://www.pgyer.com/app/publish">蒲公英</a> 管理平台,供测试人员下载使用<br>上传成功之后，直接发布，就可以查看应用信息以及下载地址了（需要实名认证之后，下载二维码才生效）</p>
+<img src="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/img_5.png" class="">
+<h1 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h1><p>注意证书有一个特点，用 A 证书打包后，后续新版若改用 B 证书，会导致升级包无法安装。因为相同包名但签名不同时，Android rom 不允许安装新包。所以商用第一版应用发布时，证书一定选择好。</p>
 
     
 
@@ -255,7 +272,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其他</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">uni-app</a>
         		</li>
       		
 		</ul>
@@ -265,7 +282,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2022/11/04/uniapp%E7%B3%BB%E5%88%97/uniapp%E6%89%93%E5%8C%85%E6%88%90apk/">展开全文 >></a>
     </p>
     
 
@@ -299,7 +316,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/2/">上一页</a><a class="page-number" href="/blogs/">1</a><a class="page-number" href="/blogs/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/blogs/page/4/">4</a><a class="page-number" href="/blogs/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/4/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/2/">上一页</a><a class="page-number" href="/blogs/">1</a><a class="page-number" href="/blogs/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/blogs/page/4/">4</a><a class="page-number" href="/blogs/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/4/">下一页</a>
     </nav>
   
 
@@ -452,23 +469,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -476,15 +481,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

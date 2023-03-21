@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-Vue系列/vue3项目初始化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-其他/Mac环境配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_blank">Vue3 项目初始化</a>
+	  <a class="article-title" href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" target="_blank">Mac 环境配置</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/" class="archive-article-date">
-        <time datetime="2022-08-12T05:56:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-08-12</time>
+<a href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="archive-article-date">
+        <time datetime="2022-09-07T08:58:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-09-07</time>
 </a>
 
   
@@ -218,20 +218,27 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>现在越来越多的人开始使用 Typescript ，而 Vue3 的正式发版也可以看出来，Vue3 的源码是用 TypeScript 来编写的，TypeScript 增加了代码的可读性和可维护性。TypeScript 的支持也是这次 Vue 升级的一大亮点。那么接下来我们就从新手的角度来学习 Vue3。首先从项目的初始化开始吧。</p>
-<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><p>我们看到官方文档中有这样一段警告</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/warning.jpeg" class="" width="751" height="233">
-<p>意思是 Vue-CLI 包的名字从 vue-cli 改成了 @vue/cli ，如果我们之前全局安装过 vue-cli ，那么需要通过 npm uninstall vue-cli -g or yarn global remove vue-cli 命令卸载。 还有一点需要注意的就是 Node 的版本需要 v8.9及以上的版本才可以。<br>其实这一点，我们从终端创建项目的时候，也可以发现，需要我们卸载旧的版本重新安装新版本的。</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/old.png" class="" width="646" height="127">
-<p>但是如果我们全局升级的话，就会面临一个 Vue2 和 Vue3 共存的问题，毕竟之前的很多项目还是采用的 Vue2 进行开发的，那怎么办呢？ Vue2 和 Vue3 都想要，成年人的世界不存在选择题，结果就是我都要。所以，我有了以下的方案，来看看吧。<br>首先，我们需要一个 WebStorm ，个人开发习惯使用这个工具了也，毕竟这个工具也够强大。然后，我们本地安装的全局 Vue-cli 不升级。这里可能有人疑惑了，不升级咋开发 Vue3 呢？不要慌，接下来我们来使用 WebStorm 来创建 Vue3 项目。<br>我们选择 WebStorm 中的 New Project ，会出现如下的弹框：</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/vue3create.png" class="" width="789" height="547">
-<p>可以看到，我们在这里可以选择 Node 和 Vue CLI 运行的版本，Vue CLI 这里选择的是最新版本（这里可以选择本地安装的版本，也可以选择远程的最新版本，我们需要创建 Vue3 ，所以肯定是选择最新版本啦）。<br>小 Tips：我们看到下边有一行小字，使用默认的项目配置，我们把对勾去掉，因为默认的只有 babel 和 eslint ，我们需要的其实还有 Vuex 、Router 等。<br>之后，点击 create，在 Terminal 中会出现这样的选项：</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/chooseVersion.png" class="" width="683" height="202">
-<p>我们选择自定义配置安装，选择自己需要的勾上就可以了。</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/choose.png" class="" width="999" height="284">
-<p>之后，会让我们选择 Vue 的版本，我们选择 Vue3 就行了，后续就根据自己的需要继续就可以了。</p>
-<img src="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/version.png" class="" width="1061" height="164">
-<p>这样，我们就创建好了一个 Vue3 的项目，而且也保证了 Vue2 和 Vue3 的共存。</p>
+    <h1 id="安装-oh-my-zsh"><a href="#安装-oh-my-zsh" class="headerlink" title="安装 oh-my-zsh"></a>安装 oh-my-zsh</h1><p>后续的环境配置是基于 zsh 的，所以先安装 oh-my-zsh ,可以自行配置自己喜欢的主题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export REMOTE=https://gitee.com/imirror/ohmyzsh.git</span><br><span class="line">sh -c &quot;$(curl -fsSL https://cdn.jsdelivr.net/gh/ohmyzsh/ohmyzsh/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>安装之后，在根目录会出现两个隐藏文件，一个 .oh-my-zsh 文件夹,一个 .zshrc 文件，我们把 .oh-my-zsh 文件夹改成不是隐藏文件夹，然后把它移到 Applications/sh 中,具体目录结构是 Applications/sh/oh-my-zsh<br>然后我们修改 .zshrc 文件，让其指向移动之后的 oh-my-zsh 路径(具体的路径去自己的文件夹复制)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ZSH=&quot;/Users/gladysdrea/Applications/sh/oh-my-zsh&quot;</span><br></pre></td></tr></table></figure>
+<p>我们可以在 sh 文件夹新建一个 script.sh 文件，(具体目录结构为：Applications/sh/script.sh)用来添加配置的环境变量，这样文件内容看着也整洁。我们只需要在 .oh-my-zsh 中进行指向就可以了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source $ZSH/oh-my-zsh.sh</span><br><span class="line">source /Users/gladysdrea/Applications/sh/script.sh</span><br></pre></td></tr></table></figure>
+<p>具体的修改之后的 .oh-my-zsh 文件如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># If you come from bash you might have to change your $PATH.</span><br><span class="line"># export PATH=$HOME/bin:/usr/local/bin:$PATH</span><br><span class="line"></span><br><span class="line"># Path to your oh-my-zsh installation.</span><br><span class="line">export ZSH=&quot;/Users/gladysdrea/Applications/sh/oh-my-zsh&quot;</span><br><span class="line"></span><br><span class="line"># Set name of the theme to load --- if set to &quot;random&quot;, it will</span><br><span class="line"># load a random theme each time oh-my-zsh is loaded, in which case,</span><br><span class="line"># to know which specific one was loaded, run: echo $RANDOM_THEME</span><br><span class="line"># See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes</span><br><span class="line">ZSH_THEME=&quot;powerlevel10k/powerlevel10k&quot;</span><br><span class="line"></span><br><span class="line"># Set list of themes to pick from when loading at random</span><br><span class="line"># Setting this variable when ZSH_THEME=random will cause zsh to load</span><br><span class="line"># a theme from this variable instead of looking in $ZSH/themes/</span><br><span class="line"># If set to an empty array, this variable will have no effect.</span><br><span class="line"># ZSH_THEME_RANDOM_CANDIDATES=( &quot;robbyrussell&quot; &quot;agnoster&quot; )</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use case-sensitive completion.</span><br><span class="line"># CASE_SENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to use hyphen-insensitive completion.</span><br><span class="line"># Case-sensitive completion must be off. _ and - will be interchangeable.</span><br><span class="line"># HYPHEN_INSENSITIVE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable bi-weekly auto-update checks.</span><br><span class="line"># DISABLE_AUTO_UPDATE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to automatically update without prompting.</span><br><span class="line"># DISABLE_UPDATE_PROMPT=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to change how often to auto-update (in days).</span><br><span class="line"># export UPDATE_ZSH_DAYS=13</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if pasting URLs and other text is messed up.</span><br><span class="line"># DISABLE_MAGIC_FUNCTIONS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable colors in ls.</span><br><span class="line"># DISABLE_LS_COLORS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to disable auto-setting terminal title.</span><br><span class="line"># DISABLE_AUTO_TITLE=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to enable command auto-correction.</span><br><span class="line"># ENABLE_CORRECTION=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line to display red dots whilst waiting for completion.</span><br><span class="line"># Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)</span><br><span class="line"># See https://github.com/ohmyzsh/ohmyzsh/issues/5765</span><br><span class="line"># COMPLETION_WAITING_DOTS=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to disable marking untracked files</span><br><span class="line"># under VCS as dirty. This makes repository status check for large repositories</span><br><span class="line"># much, much faster.</span><br><span class="line"># DISABLE_UNTRACKED_FILES_DIRTY=&quot;true&quot;</span><br><span class="line"></span><br><span class="line"># Uncomment the following line if you want to change the command execution time</span><br><span class="line"># stamp shown in the history command output.</span><br><span class="line"># You can set one of the optional three formats:</span><br><span class="line"># &quot;mm/dd/yyyy&quot;|&quot;dd.mm.yyyy&quot;|&quot;yyyy-mm-dd&quot;</span><br><span class="line"># or set a custom format using the strftime function format specifications,</span><br><span class="line"># see &#x27;man strftime&#x27; for details.</span><br><span class="line"># HIST_STAMPS=&quot;mm/dd/yyyy&quot;</span><br><span class="line"></span><br><span class="line"># Would you like to use another custom folder than $ZSH/custom?</span><br><span class="line"># ZSH_CUSTOM=/path/to/new-custom-folder</span><br><span class="line"></span><br><span class="line"># Which plugins would you like to load?</span><br><span class="line"># Standard plugins can be found in $ZSH/plugins/</span><br><span class="line"># Custom plugins may be added to $ZSH_CUSTOM/plugins/</span><br><span class="line"># Example format: plugins=(rails git textmate ruby lighthouse)</span><br><span class="line"># Add wisely, as too many plugins slow down shell startup.</span><br><span class="line">plugins=(git zsh-autosuggestions zsh-syntax-highlighting)</span><br><span class="line"></span><br><span class="line">source $ZSH/oh-my-zsh.sh</span><br><span class="line">source /Users/gladysdrea/Applications/sh/script.sh</span><br><span class="line"># User configuration</span><br><span class="line"></span><br><span class="line"># export MANPATH=&quot;/usr/local/man:$MANPATH&quot;</span><br><span class="line"></span><br><span class="line"># You may need to manually set your language environment</span><br><span class="line"># export LANG=en_US.UTF-8</span><br><span class="line"></span><br><span class="line"># Preferred editor for local and remote sessions</span><br><span class="line"># if [[ -n $SSH_CONNECTION ]]; then</span><br><span class="line">#   export EDITOR=&#x27;vim&#x27;</span><br><span class="line"># else</span><br><span class="line">#   export EDITOR=&#x27;mvim&#x27;</span><br><span class="line"># fi</span><br><span class="line"></span><br><span class="line"># Compilation flags</span><br><span class="line"># export ARCHFLAGS=&quot;-arch x86_64&quot;</span><br><span class="line"></span><br><span class="line"># Set personal aliases, overriding those provided by oh-my-zsh libs,</span><br><span class="line"># plugins, and themes. Aliases can be placed here, though oh-my-zsh</span><br><span class="line"># users are encouraged to define aliases within the ZSH_CUSTOM folder.</span><br><span class="line"># For a full list of active aliases, run `alias`.</span><br><span class="line">#</span><br><span class="line"># Example aliases</span><br><span class="line"># alias zshconfig=&quot;mate ~/.zshrc&quot;</span><br><span class="line"># alias ohmyzsh=&quot;mate ~/.oh-my-zsh&quot;</span><br><span class="line"></span><br><span class="line"># To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.</span><br><span class="line">[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接下来，我们可以在 script.sh 中编写几个别名，方便使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alias ll=&#x27;ls -l&#x27;</span><br><span class="line">alias update=&#x27;source ~/.zshrc&#x27;</span><br><span class="line">alias path_variables=&#x27;open /Users/gladysdrea/Applications/sh/script.sh&#x27;</span><br><span class="line">alias zsh_profile=&#x27;open ~/.zshrc&#x27;</span><br></pre></td></tr></table></figure>
+<h1 id="安装-Node"><a href="#安装-Node" class="headerlink" title="安装 Node"></a>安装 Node</h1><p>接下来就可以安装 Node 了，我们采用 .tar.gz 形式，这种形式的方便我们开发中切换版本，下载需要的版本的压缩包，解压之后，我们放在 Applications/Node 文件夹中，需要几个版本的就下载之后都放这个文件夹中。</p>
+<h3 id="配置-Node-的环境变量"><a href="#配置-Node-的环境变量" class="headerlink" title="配置 Node 的环境变量"></a>配置 Node 的环境变量</h3><p>script.sh文件 (后边的路径还是复制自己的文件夹路径)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NODE_HOME=/Users/gladysdrea/Applications/Node/node-v14.20.0/bin</span><br></pre></td></tr></table></figure>
+<p>然后，我们在 Node 文件夹下新建一个 respository 文件夹，具体目录结构为：Applications/Node/respository，用来放我们 npm 安装的东西</p>
+<h3 id="配置-npm-安装路径"><a href="#配置-npm-安装路径" class="headerlink" title="配置 npm 安装路径"></a>配置 npm 安装路径</h3><p>然后执行一下命令，配置 npm 安装路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set prefix &quot;/Users/gladysdrea/Applications/Node/respository/node_global&quot;</span><br><span class="line">npm config set cache &quot;/Users/gladysdrea/Applications/Node/respository/node_cache&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="安装全局的-Vue-，WebPack-Hexo-等"><a href="#安装全局的-Vue-，WebPack-Hexo-等" class="headerlink" title="安装全局的 Vue ，WebPack, Hexo 等"></a>安装全局的 Vue ，WebPack, Hexo 等</h3><p>之后，我们就可以安装全局的 Vue ，WebPack, Hexo 等<br>最后，我们还需要在 script.sh 文件中去配置一下，完整的配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alias ll=&#x27;ls -l&#x27;</span><br><span class="line">alias update=&#x27;source ~/.zshrc&#x27;</span><br><span class="line">alias path_variables=&#x27;open /Users/gladysdrea/Applications/sh/script.sh&#x27;</span><br><span class="line">alias zsh_profile=&#x27;open ~/.zshrc&#x27;</span><br><span class="line">NODE_HOME=/Users/gladysdrea/Applications/Node/node-v14.20.0/bin</span><br><span class="line">NODE_GLOBAL=/Users/gladysdrea/Applications/Node/respository/node_global/bin</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PATH=$PATH:$NODE_HOME:$NODE_GLOBAL</span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure>
+<p>以上，Mac 环境配置就完成了。仅此作为每次配置环境变量的笔记记录</p>
+<p>最后额外记录 Mac 生成 ssh 命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t ed25519 -C &#x27;Gladysdrea@gmail.com&#x27; </span><br></pre></td></tr></table></figure>
 
     
 
@@ -248,7 +255,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">其他</a>
         		</li>
       		
 		</ul>
@@ -258,7 +265,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2022/08/12/Vue%E7%B3%BB%E5%88%97/vue3%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2022/09/07/%E5%85%B6%E4%BB%96/Mac%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">展开全文 >></a>
     </p>
     
 
@@ -292,7 +299,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/3/">上一页</a><a class="page-number" href="/blogs/">1</a><a class="page-number" href="/blogs/page/2/">2</a><a class="page-number" href="/blogs/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/blogs/page/5/">5</a><a class="page-number" href="/blogs/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/5/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/3/">上一页</a><a class="page-number" href="/blogs/">1</a><a class="page-number" href="/blogs/page/2/">2</a><a class="page-number" href="/blogs/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/blogs/page/5/">5</a><a class="page-number" href="/blogs/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/5/">下一页</a>
     </nav>
   
 
@@ -445,23 +452,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -469,15 +464,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

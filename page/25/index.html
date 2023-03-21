@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-Vue系列/vue-infinite-scroll实现无限滚动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-WeChat/公众号/微信公众号开发之关闭微信浏览器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2020/12/28/Vue%E7%B3%BB%E5%88%97/vue-infinite-scroll%E5%AE%9E%E7%8E%B0%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8/" target="_blank">vue-infinite-scroll 实现无限滚动</a>
+	  <a class="article-title" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%B3%E9%97%AD%E5%BE%AE%E4%BF%A1%E6%B5%8F%E8%A7%88%E5%99%A8/" target="_blank">微信公众号开发之关闭微信浏览器</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2020/12/28/Vue%E7%B3%BB%E5%88%97/vue-infinite-scroll%E5%AE%9E%E7%8E%B0%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8/" class="archive-article-date">
-        <time datetime="2020-12-28T03:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-28</time>
+<a href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%B3%E9%97%AD%E5%BE%AE%E4%BF%A1%E6%B5%8F%E8%A7%88%E5%99%A8/" class="archive-article-date">
+        <time datetime="2021-01-07T07:04:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-07</time>
 </a>
 
   
@@ -218,21 +218,13 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Web 中，无限加载是必需的一项功能，大部分流行的插件都是基于 jQuery 的，好在找到一个 vue-infinite-scroll 插件。于是开始了 vue-infinite-scroll 的踩坑。</p>
-<h2 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-infinite-scroll --save</span><br></pre></td></tr></table></figure>
-<h2 id="2-载入"><a href="#2-载入" class="headerlink" title="2.载入"></a>2.载入</h2><p>在 main.js 文件中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无限加载</span></span><br><span class="line"><span class="keyword">import</span> infiniteScroll <span class="keyword">from</span> <span class="string">&#x27;vue-infinite-scroll&#x27;</span></span><br><span class="line">Vue.use(infiniteScroll)</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-infinite-scroll</span>=<span class="string">&quot;loadMore&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">infinite-scroll-throttle-delay</span>=<span class="string">&quot;500&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">infinite-scroll-disabled</span>=<span class="string">&quot;busy&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">immediate-check</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">infinite-scroll-distance</span>=<span class="string">&quot;50&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;(item, key) in list&quot;</span> <span class="attr">:key</span>=<span class="string">&quot;key&quot;</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">list</span>: [],</span><br><span class="line">      <span class="attr">busy</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">page</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">total</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">params</span>: &#123;</span><br><span class="line">        <span class="attr">current</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">size</span>: <span class="number">10</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">   <span class="attr">loadMore</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">     <span class="built_in">this</span>.busy = <span class="literal">true</span></span><br><span class="line">     <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">       <span class="comment">// 当前页数如果小于总页数，则继续请求数据，如果大于总页数，则滚动加载停止</span></span><br><span class="line">       <span class="keyword">if</span> (<span class="built_in">this</span>.params.current &lt; <span class="built_in">this</span>.total) &#123;</span><br><span class="line">         <span class="comment">//  这里是列表请求数据的接口,在这个接口中更新总页数</span></span><br><span class="line">         <span class="built_in">this</span>.getData(<span class="built_in">this</span>.page)</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">       <span class="built_in">this</span>.busy = <span class="literal">false</span></span><br><span class="line">     &#125;, <span class="number">1000</span>)</span><br><span class="line">   &#125;,</span><br><span class="line">   getData (data) &#123;</span><br><span class="line">     <span class="built_in">this</span>.params.current = data</span><br><span class="line">     <span class="built_in">this</span>.$api.exam.examIndex(<span class="built_in">this</span>.params).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">       <span class="built_in">this</span>.log(res.data)</span><br><span class="line">       <span class="keyword">if</span> (res.data.code === <span class="number">200</span>) &#123;</span><br><span class="line">         <span class="built_in">this</span>.busy = <span class="literal">false</span></span><br><span class="line">         <span class="comment">// 总条数</span></span><br><span class="line">         <span class="built_in">this</span>.total = res.data.page.total</span><br><span class="line">         <span class="comment">// 页数递增</span></span><br><span class="line">         <span class="built_in">this</span>.page++</span><br><span class="line">         <span class="keyword">const</span> list = res.data.list</span><br><span class="line">     &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>v-infinite-scroll=”loadMore” : 表示回调函数是 loadMore<br>infinite-scroll-throttle-delay=”500”: 检查 busy 的值的时间间隔，默认值是 200 ，因为 vue-infinite-scroll 的基础原理就是，vue-infinite-scroll 会循环检查 busy 的值，以及是否滚动到底，只有当：busy 为 false 且滚动到底，回调函数才会执行。<br>infinite-scroll-disabled=”busy”: 表示由变量 busy 决定是否执行 loadMore ， false 则执行 loadMore ， true 则不执行<br>immediate-check=”false”: 默认值 true ， 表示该指令应该在绑定后立即检查。如果可能，内容不够高，不足以填满可滚动的容器。<br>infinite-scroll-distance=”50”: 距离页面底部多少像素时，执行 loadMore 函数</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/ElemeFE/vue-infinite-scroll">官方文档</a></p>
+    <p>最近公众号项目开发中，有一个解绑需求，要求解绑之后，关闭微信浏览器。因为是微信内置浏览器，用不了 window 对象，所以有 2 种关闭方式。</p>
+<h1 id="一、WeixinJSBridge-对象"><a href="#一、WeixinJSBridge-对象" class="headerlink" title="一、WeixinJSBridge 对象"></a>一、WeixinJSBridge 对象</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WeixinJSBridge.call(<span class="string">&#x27;closeWindow&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="二、公众号开发比较适用的方法"><a href="#二、公众号开发比较适用的方法" class="headerlink" title="二、公众号开发比较适用的方法"></a>二、公众号开发比较适用的方法</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wx.closeWindow();</span><br></pre></td></tr></table></figure>
+<p>这个方法必须引入 JS-SDK ，如果不是公众号项目的话，建议使用第一种方法。<br>下面附上完整代码<br>index.html 文件中引入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;https://res.wx.qq.com/open/js/jweixin-1.6.0.js &quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>在需要关闭微信浏览器的地方直接使用此方法，我这里是解绑之后关闭，所以写在了接口里</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">close () &#123;</span><br><span class="line">    <span class="built_in">this</span>.$api.user.unBing().then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (res.data.code === <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.$toast(<span class="string">&#x27;解绑成功&#x27;</span>)</span><br><span class="line">        wx.closeWindow()</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.$toast(res.data.msg)</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
 
@@ -249,7 +241,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">公众号</a>
         		</li>
       		
 		</ul>
@@ -259,7 +251,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2020/12/28/Vue%E7%B3%BB%E5%88%97/vue-infinite-scroll%E5%AE%9E%E7%8E%B0%E6%97%A0%E9%99%90%E6%BB%9A%E5%8A%A8/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2021/01/07/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%B3%E9%97%AD%E5%BE%AE%E4%BF%A1%E6%B5%8F%E8%A7%88%E5%99%A8/">展开全文 >></a>
     </p>
     
 
@@ -293,7 +285,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/24/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/23/">23</a><a class="page-number" href="/blogs/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/blogs/page/26/">26</a><a class="page-number" href="/blogs/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/26/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/24/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/23/">23</a><a class="page-number" href="/blogs/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/blogs/page/26/">26</a><a class="page-number" href="/blogs/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/26/">下一页</a>
     </nav>
   
 
@@ -446,23 +438,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -470,15 +450,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

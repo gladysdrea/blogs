@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-jQuery系列/jQuery实现省市区三级联动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-WeChat/支付/微信支付-JASAPI支付" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" target="_blank">jQuery 实现省市区三级联动</a>
+	  <a class="article-title" href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/" target="_blank">微信支付 JASAPI 支付</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/" class="archive-article-date">
-        <time datetime="2021-07-12T07:36:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-12</time>
+<a href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/" class="archive-article-date">
+        <time datetime="2021-07-13T03:50:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-13</time>
 </a>
 
   
@@ -218,17 +218,117 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><blockquote>
-<p>项目开发中，经常会遇到城市三级联动的需求，这里总结一下使用 jQuery 方式实现三级联动</p>
-</blockquote>
-<blockquote>
-<p>首先，城市数据有可能需要放在前端代码中，所以需要把数据单独放到一个 js 文件中，然后在页面引入</p>
-</blockquote>
-<h2 id="1-引入-jQuery-和-城市数据文件"><a href="#1-引入-jQuery-和-城市数据文件" class="headerlink" title="1.引入 jQuery 和 城市数据文件"></a>1.引入 jQuery 和 城市数据文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--  引入 jQuery --&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://probe.bjmantis.net/chat/jquery-1.12.4.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">&lt;!--  引入城市数据 --&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;application/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;provinceData.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="2-页面布局"><a href="#2-页面布局" class="headerlink" title="2.页面布局"></a>2.页面布局</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;list&quot;</span>&gt;</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selProvince&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selCity&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">id</span>=<span class="string">&quot;selCountry&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span>请选择<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span></span><br><span class="line"><span class="xml">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="3-js-逻辑"><a href="#3-js-逻辑" class="headerlink" title="3. js 逻辑"></a>3. js 逻辑</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 使用引入的数据</span></span><br><span class="line">    <span class="keyword">var</span> provinceList = provinceData</span><br><span class="line">    <span class="keyword">var</span> iNum1</span><br><span class="line">    <span class="keyword">var</span> iNum2</span><br><span class="line">    <span class="built_in">console</span>.log(provinceList)</span><br><span class="line">    <span class="comment">// 城市及联</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; provinceList.length; i++) &#123;</span><br><span class="line">      $(<span class="string">&#x27;#selProvince&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + provinceList[i].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    $(<span class="string">&#x27;#selProvince&#x27;</span>).change(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">&#x27;#selCity&#x27;</span>).children().not(<span class="string">&#x27;:eq(0)&#x27;</span>).remove()</span><br><span class="line">      iNum1 = $(<span class="built_in">this</span>).children(<span class="string">&#x27;option:selected&#x27;</span>).index()</span><br><span class="line">      <span class="keyword">var</span> aaCity = provinceList[iNum1 - <span class="number">1</span>].children</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; aaCity.length; j++) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#selCity&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + aaCity[j].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    $(<span class="string">&#x27;#selCity&#x27;</span>).change(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      $(<span class="string">&#x27;#selCountry&#x27;</span>).children().not(<span class="string">&#x27;:eq(0)&#x27;</span>).remove()</span><br><span class="line">      iNum2 = $(<span class="built_in">this</span>).children(<span class="string">&#x27;option:selected&#x27;</span>).index()</span><br><span class="line">      <span class="keyword">var</span> aaCountry = provinceList[iNum1 - <span class="number">1</span>].children[iNum2 - <span class="number">1</span>].children</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">var</span> k = <span class="number">0</span>; k &lt; aaCountry.length; k++) &#123;</span><br><span class="line">        $(<span class="string">&#x27;#selCountry&#x27;</span>).append(<span class="string">&#x27;&lt;option&gt;&#x27;</span> + aaCountry[k].name + <span class="string">&#x27;&lt;/option&gt;&#x27;</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+    <h1 id="1-接入前准备"><a href="#1-接入前准备" class="headerlink" title="1. 接入前准备"></a>1. 接入前准备</h1><h2 id="1-1-支付授权目录设置"><a href="#1-1-支付授权目录设置" class="headerlink" title="1.1 支付授权目录设置"></a>1.1 支付授权目录设置</h2><p>微信支付商户平台 –&gt; 产品中心 –&gt; 开发配置<br>注：商户实际的支付目录必须和在微信支付商户平台设置的一致，不然会报错“当前页面的 URL 未注册”（一般情况，可以设置为顶级域名）</p>
+<h2 id="1-2-支付授权目录校验规则"><a href="#1-2-支付授权目录校验规则" class="headerlink" title="1.2 支付授权目录校验规则"></a>1.2 支付授权目录校验规则</h2><ul>
+<li>如果支付授权目录设置为顶级域名，则只校验顶级域名，不校验后缀。</li>
+<li>如果支付授权目录设置为多级域名，就会进行全匹配，例如设置的支付授权目录为 “<a target="_blank" rel="noopener" href="https://www.weixin.com/abc&quot;%EF%BC%8C%E9%82%A3%E4%B9%88%E5%AE%9E%E9%99%85%E8%AF%B7%E6%B1%82%E9%A1%B5%E9%9D%A2%E8%B7%AF%E5%BE%84%E4%B8%8D%E8%83%BD%E4%B8%BA">https://www.weixin.com/abc&quot;，那么实际请求页面路径不能为</a> “<a target="_blank" rel="noopener" href="https://www.weixin.com/qwe&quot;">https://www.weixin.com/qwe&quot;</a> 或其他任何后缀的页面，只能是 “<a target="_blank" rel="noopener" href="https://www.weixin.com/abc&quot;">https://www.weixin.com/abc&quot;</a></li>
+</ul>
+<h2 id="1-3-设置授权域名"><a href="#1-3-设置授权域名" class="headerlink" title="1.3 设置授权域名"></a>1.3 设置授权域名</h2><ul>
+<li>开发 JSAPI 支付时，在统一下单接口中要求必传用户 openid，而获取 openid 则需要您在公众平台设置获取 openid 的域名，只有被设置过的域名才是一个有效的获取 openid 的域名，否则将获取失败。</li>
+<li>设置授权域名路径：登录微信公众平台 –&gt; 公众号设置 –&gt; 功能设置 –&gt; 网页授权域名</li>
+<li>注：这里会有一个 txt 文件，需要下载下来，放到项目打包之后的根目录。</li>
+</ul>
+<h1 id="2-JSAPI-调起支付"><a href="#2-JSAPI-调起支付" class="headerlink" title="2. JSAPI 调起支付"></a>2. JSAPI 调起支付</h1><ul>
+<li>WeixinJSBridge 内置对象在其他浏览器中无效。</li>
+<li>示例代码</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">defray () &#123;</span><br><span class="line">  <span class="comment">// id 为订单 ID，这里是调用后台的接口提交订单，并获取网页端接口请求需要的参数</span></span><br><span class="line">  <span class="built_in">this</span>.$api.user.getwechatData(<span class="built_in">this</span>.id).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res.data)</span><br><span class="line">    <span class="keyword">if</span> (res.data.code === <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;获取微信 JSAPI 支付----&#x27;</span>, res)</span><br><span class="line">      <span class="keyword">const</span> weChatConfig = res.data.item</span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> WeixinJSBridge === <span class="string">&#x27;undefined&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">document</span>.addEventListener) &#123;</span><br><span class="line">          <span class="built_in">document</span>.addEventListener(<span class="string">&#x27;WeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady, <span class="literal">false</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.attachEvent) &#123;</span><br><span class="line">          <span class="built_in">document</span>.attachEvent(<span class="string">&#x27;WeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady)</span><br><span class="line">          <span class="built_in">document</span>.attachEvent(<span class="string">&#x27;onWeixinJSBridgeReady&#x27;</span>, <span class="built_in">this</span>.onBridgeReady)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        onBridgeReady(weChatConfig)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line no-inner-declarations</span></span><br><span class="line">      <span class="function"><span class="keyword">function</span> <span class="title">onBridgeReady</span> (<span class="params">weChatConfig</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;--------------&gt;&#x27;</span>, weChatConfig)</span><br><span class="line">        <span class="comment">// eslint-disable-next-line no-undef</span></span><br><span class="line">        WeixinJSBridge.invoke(</span><br><span class="line">          <span class="string">&#x27;getBrandWCPayRequest&#x27;</span>, &#123;</span><br><span class="line">            <span class="attr">appId</span>: weChatConfig.appId,          <span class="comment">// 公众号名称，由商户传入</span></span><br><span class="line">            <span class="attr">timeStamp</span>: weChatConfig.timeStamp,  <span class="comment">// 时间戳，自1970年以来的秒数</span></span><br><span class="line">            <span class="attr">nonceStr</span>: weChatConfig.nonceStr,    <span class="comment">// 随机串</span></span><br><span class="line">            <span class="attr">package</span>: weChatConfig._package,</span><br><span class="line">            <span class="attr">signType</span>: weChatConfig.signType,    <span class="comment">// 微信签名方式：</span></span><br><span class="line">            <span class="attr">paySign</span>: weChatConfig.paySign       <span class="comment">// 微信签名</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (res.err_msg === <span class="string">&#x27;get_brand_wcpay_request:ok&#x27;</span>) &#123;</span><br><span class="line">              <span class="comment">// 使用以上方式判断前端返回,微信团队郑重提示：</span></span><br><span class="line">              <span class="comment">// res.err_msg 将在用户支付成功后返回 ok，但并不保证它绝对可靠。</span></span><br><span class="line">              <span class="built_in">window</span>.location.href = <span class="built_in">encodeURIComponent</span>(<span class="string">&#x27;http://www.weixin.com/success&#x27;</span>)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="built_in">window</span>.location.href = <span class="built_in">encodeURIComponent</span>(<span class="string">&#x27;http://www.weixin.com/error&#x27;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.$toast(<span class="string">&#x27;支付失败，请重新支付&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-js-数据文件"><a href="#4-js-数据文件" class="headerlink" title="4.js 数据文件"></a>4.js 数据文件</h2><p>文件地址以及完整代码：<a target="_blank" rel="noopener" href="https://github.com/gladysdrea/provinceChoose">城市数据</a></p>
+<ul>
+<li><p>网页端接口请求参数列表</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>变量名</th>
+<th>必填</th>
+<th>类型</th>
+<th>示例值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公众号 id</td>
+<td>appId</td>
+<td>是</td>
+<td>String(16)</td>
+<td>wx8888888888888</td>
+<td>appId 为当前服务商号绑定的 appId</td>
+</tr>
+<tr>
+<td>时间戳</td>
+<td>timeStamp</td>
+<td>是</td>
+<td>String(32)</td>
+<td>141561699</td>
+<td>当前的时间，其他详见<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2">【时间戳规则】</a></td>
+</tr>
+<tr>
+<td>随机字符串</td>
+<td>nonceStr</td>
+<td>是</td>
+<td>String(32)</td>
+<td>5K865LJH16CHLNNDJL20233JD</td>
+<td>随机字符串，不长于 32 位。推荐<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3">【随机数生成算法】</a></td>
+</tr>
+<tr>
+<td>订单详情扩展字符串</td>
+<td>package</td>
+<td>是</td>
+<td>String(128)</td>
+<td>prepay_id=12345678</td>
+<td>统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=***</td>
+</tr>
+<tr>
+<td>签名方式</td>
+<td>singType</td>
+<td>是</td>
+<td>String(32)</td>
+<td>MD5</td>
+<td>签名类型，默认为 MD5，支持 HMAC-SHA256 和 MD5。<font color="red">注意此处需与统一下单的签名类型一致</font></td>
+</tr>
+<tr>
+<td>签名</td>
+<td>paySign</td>
+<td>是</td>
+<td>String(64)</td>
+<td>C890JDMA7890DJKLSA</td>
+<td>签名，详见<a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3">【签名生成算法】</a></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><p>返回结果值说明</p>
+<table>
+<thead>
+<tr>
+<th align="left">返回值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">get_brand_wcpay_request:ok</td>
+<td align="left">支付成功</td>
+</tr>
+<tr>
+<td align="left">get_brand_wcpay_request:cancel</td>
+<td align="left">支付过程中用户取消</td>
+</tr>
+<tr>
+<td align="left">get_brand_wcpay_request:fail</td>
+<td align="left">支付失败</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="支付常见问题"><a href="#支付常见问题" class="headerlink" title="支付常见问题"></a>支付常见问题</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_9&index=7">【参考官方：支付常见问题】</a></li>
+</ul>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_3">【官方文档】</a></li>
+</ul>
 
     
 
@@ -245,7 +345,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jQuery</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">微信支付</a>
         		</li>
       		
 		</ul>
@@ -255,7 +355,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2021/07/12/jQuery%E7%B3%BB%E5%88%97/jQuery%E5%AE%9E%E7%8E%B0%E7%9C%81%E5%B8%82%E5%8C%BA%E4%B8%89%E7%BA%A7%E8%81%94%E5%8A%A8/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2021/07/13/WeChat/%E6%94%AF%E4%BB%98/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98-JASAPI%E6%94%AF%E4%BB%98/">展开全文 >></a>
     </p>
     
 
@@ -289,7 +389,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/19/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/18/">18</a><a class="page-number" href="/blogs/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/blogs/page/21/">21</a><a class="page-number" href="/blogs/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/21/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/19/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/18/">18</a><a class="page-number" href="/blogs/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/blogs/page/21/">21</a><a class="page-number" href="/blogs/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/21/">下一页</a>
     </nav>
   
 
@@ -442,23 +542,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -466,15 +554,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

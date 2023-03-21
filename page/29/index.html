@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-WeChat/公众号/微信公众号开发 （二）网页授权" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-WeChat/公众号/微信公众号开发（三）微信 h5 跳转小程序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2020/12/22/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%20%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83/" target="_blank">微信公众号开发 （二）网页授权</a>
+	  <a class="article-title" href="/blogs/2020/12/23/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89%E5%BE%AE%E4%BF%A1%20h5%20%E8%B7%B3%E8%BD%AC%E5%B0%8F%E7%A8%8B%E5%BA%8F/" target="_blank">微信公众号开发（三）微信 h5 跳转小程序</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2020/12/22/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%20%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83/" class="archive-article-date">
-        <time datetime="2020-12-22T09:21:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-22</time>
+<a href="/blogs/2020/12/23/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89%E5%BE%AE%E4%BF%A1%20h5%20%E8%B7%B3%E8%BD%AC%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="archive-article-date">
+        <time datetime="2020-12-23T05:54:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-23</time>
 </a>
 
   
@@ -218,60 +218,42 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>用户在微信客户端中访问第三方网页，公众号可以通过微信网页授权机制，来获取用户基本信息，进而实现业务逻辑。</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>具体而言，网页授权流程分为四步：<br>1、引导用户进入授权页面同意授权，获取 code<br>2、通过 code 换取网页授权 access_token（与基础支持中的 access_token 不同）<br>3、如果需要，开发者可以刷新网页授权 access_token ，避免过期<br>4、通过网页授权 access_token 和 openid 获取用户基本信息（支持 UnionID 机制）</p>
-<h3 id="一、用户同意授权，获取code"><a href="#一、用户同意授权，获取code" class="headerlink" title="一、用户同意授权，获取code"></a>一、用户同意授权，获取code</h3><p>引导关注者打开如下页面：<br><a target="_blank" rel="noopener" href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&amp;redirect_uri=REDIRECT_URI&amp;response_type=code&amp;scope=SCOPE&amp;state=STATE#wechat_redirect">https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&amp;redirect_uri=REDIRECT_URI&amp;response_type=code&amp;scope=SCOPE&amp;state=STATE#wechat_redirect</a> 若提示“该链接无法访问”，请检查参数是否填写错误，是否拥有 scope 参数对应的授权作用域权限。</p>
-<p>尤其注意：由于授权操作安全等级较高，所以在发起授权请求时，微信会对授权链接做正则强匹配校验，如果链接的参数顺序不对，授权页面将无法正常访问。后续步骤，协同后台参照官方文档处理即可。</p>
-<h6 id="具体代码如下："><a href="#具体代码如下：" class="headerlink" title="具体代码如下："></a>具体代码如下：</h6><p>1.封装获取地址栏参数的方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUrlCode</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">`(^|&amp;)<span class="subst">$&#123;name&#125;</span>=([^&amp;]*)(&amp;|$)`</span>, <span class="string">&#x27;i&#x27;</span>)</span><br><span class="line">    <span class="keyword">const</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg)</span><br><span class="line">    <span class="keyword">if</span> (r != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">decodeURIComponent</span>(r[<span class="number">2</span>])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>2.截取 url 中的 code</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCode</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId</span></span><br><span class="line">    <span class="keyword">const</span> code = getUrlCode(<span class="string">&#x27;code&#x27;</span>)</span><br><span class="line">    <span class="comment">// 分环境打包配置中的 appID,从公众号中找appId</span></span><br><span class="line">    <span class="keyword">const</span> appId = process.env.appid</span><br><span class="line">    <span class="comment">// 分环境打包配置中的 url , 此处的url需要添加 http:// 或 https://</span></span><br><span class="line">    <span class="keyword">const</span> local = process.env.url</span><br><span class="line">    <span class="built_in">console</span>.log(code)</span><br><span class="line">    <span class="built_in">console</span>.log(appId)</span><br><span class="line">    <span class="keyword">if</span> (code == <span class="literal">null</span> || code === <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;获取code&#x27;</span>)</span><br><span class="line">      location.href = <span class="string">&#x27;https://open.weixin.qq.com/connect/oauth2/authorize?appid=&#x27;</span> + appId + <span class="string">&#x27;&amp;redirect_uri=&#x27;</span> + <span class="built_in">encodeURIComponent</span>(local) + <span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE&amp;connect_redirect=1#wechat_redirect&#x27;</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;接口调用&#x27;</span>)</span><br><span class="line">      getUnitCode(code)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>参数说明：</p>
-<table>
+    <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>H5网页接入公众号的 JSSDK 以后终于可以跳转到小程序了，正好项目中有这个需求，于是就来踩坑了。</p>
+<h6 id="版本要求："><a href="#版本要求：" class="headerlink" title="版本要求："></a>版本要求：</h6><p>微信版本要求为：7.0.12及以上。 系统版本要求为：iOS 10.3 及以上、Android 5.0 及以上。</p>
+<h3 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h3><p>微信开放标签使用步骤与微信 JS-SDK 类似，也需要引入 JS 文件等步骤。如果是公众号身份的网页，需要绑定安全域名，因我的项目是公众号，所以需要去绑定域名</p>
+<h4 id="一、绑定域名"><a href="#一、绑定域名" class="headerlink" title="一、绑定域名"></a>一、绑定域名</h4><p>登录<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/">微信公众平台</a>进入“公众号设置”的“功能设置”里填写“ JS 接口安全域名”。</p>
+<h4 id="二、引入JS文件"><a href="#二、引入JS文件" class="headerlink" title="二、引入JS文件"></a>二、引入JS文件</h4><p>在需要调用 JS 接口的页面引入如下 JS 文件：<a target="_blank" rel="noopener" href="http://res.wx.qq.com/open/js/jweixin-1.6.0.js">http://res.wx.qq.com/open/js/jweixin-1.6.0.js</a> （支持 https ）<br>如需进一步提升服务稳定性，当上述资源不可访问时，可改访问：<a target="_blank" rel="noopener" href="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js">http://res2.wx.qq.com/open/js/jweixin-1.6.0.js</a> （支持 https ）<br>备注：支持使用 AMD/CMD 标准模块加载方法加载。</p>
+<h4 id="三、通过-config-接口注入权限验证配置并申请所需开放标签"><a href="#三、通过-config-接口注入权限验证配置并申请所需开放标签" class="headerlink" title="三、通过 config 接口注入权限验证配置并申请所需开放标签"></a>三、通过 config 接口注入权限验证配置并申请所需开放标签</h4><p>与使用 JS-SDK 配置方式相同，所有需要使用开放标签的页面必须先注入配置信息，并通过 openTagList 字段申请所需要的开放标签，否则将无法使用（同一个 url 仅需调用一次）。开放标签的申请和 JS 接口的申请相互独立，因此是可以同时申请的。</p>
+<p>这里需要后台提供一个接口，返回所需的时间戳，签名，随机串，appId （ appId 可以接口返回，也可以前端根据分环境打包去配置）<br>需要注意的是，signature 此签名是由 后端通过 jsapi_ticket 、noncestr 、 timestamp 、url ( 当前页面 location.href ) 来生成的。 url需要前端传给后端。在项目中遇到一个签名失败的问题，接口信息返回了签名等信息，但是 debug 却是签名失败，此时要检查下是不是 token 或者 ticket 过期了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取微信配置</span></span><br><span class="line">getConfig () &#123;</span><br><span class="line">  <span class="comment">// 这里是接口调用，需要传 url ，返回所需要的签名等参数</span></span><br><span class="line">  <span class="keyword">const</span> url = <span class="built_in">window</span>.location.href.split(<span class="string">&#x27;#&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="built_in">this</span>.log(url)</span><br><span class="line">  <span class="keyword">const</span> param = &#123;</span><br><span class="line">    <span class="attr">url</span>: url</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">this</span>.$api.user.getConfigData(param).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;config配置&#x27;</span>, res)</span><br><span class="line">    <span class="keyword">const</span> self = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">if</span> (res.data.code === <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line no-undef</span></span><br><span class="line">      wx.config(&#123;</span><br><span class="line">        <span class="attr">debug</span>: <span class="literal">false</span>, <span class="comment">// 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印</span></span><br><span class="line">        <span class="attr">appId</span>: process.env.appid, <span class="comment">// 必填，公众号的唯一标识</span></span><br><span class="line">        <span class="attr">timestamp</span>: res.data.item.timestamp, <span class="comment">// 必填，生成签名的时间戳</span></span><br><span class="line">        <span class="attr">nonceStr</span>: res.data.item.nonceStr, <span class="comment">// 必填，生成签名的随机串</span></span><br><span class="line">        <span class="attr">signature</span>: res.data.item.signature, <span class="comment">// 必填，签名</span></span><br><span class="line">        <span class="attr">jsApiList</span>: [<span class="string">&#x27;chooseImage&#x27;</span>], <span class="comment">// 必填，需要使用的JS接口列表，因为是必填项，这里可以随意写一个</span></span><br><span class="line">        <span class="attr">openTagList</span>: [<span class="string">&#x27;wx-open-launch-weapp&#x27;</span>] <span class="comment">// 可选，需要使用的开放标签列表，这里写跳转小程序的开放标签 [&#x27;wx-open-launch-weapp&#x27;]</span></span><br><span class="line">      &#125;)</span><br><span class="line">      wx.ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        self.$nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;launch-btn&#x27;</span>)</span><br><span class="line">            btn.addEventListener(<span class="string">&#x27;launch&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">&#x27;success&#x27;</span>)</span><br><span class="line">              <span class="built_in">console</span>.log(e)</span><br><span class="line">            &#125;)</span><br><span class="line">            btn.addEventListener(<span class="string">&#x27;error&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">&#x27;fail&#x27;</span>, e)</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="四、通过-ready-接口处理成功验证"><a href="#四、通过-ready-接口处理成功验证" class="headerlink" title="四、通过 ready 接口处理成功验证"></a>四、通过 ready 接口处理成功验证</h4><p>这个步骤在第三步中已经一起写明了，可参考第三步</p>
+<h4 id="五、通过-error-接口处理失败验证"><a href="#五、通过-error-接口处理失败验证" class="headerlink" title="五、通过 error 接口处理失败验证"></a>五、通过 error 接口处理失败验证</h4><p>可以通过 error 查看失败信息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wx.error(<span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="六、开放标签的使用"><a href="#六、开放标签的使用" class="headerlink" title="六、开放标签的使用"></a>六、开放标签的使用</h4><h6 id="小程序跳转按钮："><a href="#小程序跳转按钮：" class="headerlink" title="小程序跳转按钮："></a>小程序跳转按钮：<wx-open-launch-weapp></h6><p>用于页面中提供一个可跳转指定小程序的按钮。使用此标签后，用户需在网页内点击标签按钮方可跳转小程序。</p>
+<h6 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h6><table>
 <thead>
 <tr>
-<th align="left">参数</th>
-<th align="left">是否必填</th>
-<th align="left">说明</th>
+<th align="center">名称</th>
+<th align="center">必填</th>
+<th align="center">备注</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">appid</td>
-<td align="left">是</td>
-<td align="left">公众号唯一标识</td>
+<td align="center">username</td>
+<td align="center">是</td>
+<td align="center">所需跳转的小程序原始id，即小程序对应的以gh_开头的id</td>
 </tr>
 <tr>
-<td align="left">redirect_url</td>
-<td align="left">是</td>
-<td align="left">授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理</td>
-</tr>
-<tr>
-<td align="left">response_type</td>
-<td align="left">是</td>
-<td align="left">返回类型，请填写code</td>
-</tr>
-<tr>
-<td align="left">scope</td>
-<td align="left">是</td>
-<td align="left">应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且， 即使在未关注的情况下，只要用户授权，也能获取其信息 ）</td>
-</tr>
-<tr>
-<td align="left">state</td>
-<td align="left">否</td>
-<td align="left">重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节</td>
-</tr>
-<tr>
-<td align="left">#wechat_redirect</td>
-<td align="left">是</td>
-<td align="left">无论直接打开还是做页面302重定向时候，必须带此参数</td>
+<td align="center">path</td>
+<td align="center">否</td>
+<td align="center">所需跳转的小程序内页面路径及参数</td>
 </tr>
 </tbody></table>
-<p>3.拿到 code 之后，就可以调用后台的接口去进行后续操作了</p>
-<p>因为项目中，可能会根据有没有授权以及是否绑定手机号等需求来跳转不同的页面，所以，微信授权判断这些，可以单独写一个 js 文件，然后在 main.js 文件中引入。<br>最后附上完整代码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> login <span class="keyword">from</span> <span class="string">&#x27;../api/login-api&#x27;</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;../router/index&#x27;</span></span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取地址栏携带的参数</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param <span class="variable">name</span></span></span></span><br><span class="line"><span class="comment">   * <span class="doctag">@returns <span class="type">&#123;string&#125;</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getUrlCode</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">`(^|&amp;)<span class="subst">$&#123;name&#125;</span>=([^&amp;]*)(&amp;|$)`</span>, <span class="string">&#x27;i&#x27;</span>)</span><br><span class="line">    <span class="keyword">const</span> r = <span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).match(reg)</span><br><span class="line">    <span class="keyword">if</span> (r != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">decodeURIComponent</span>(r[<span class="number">2</span>])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getCode</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> code = getUrlCode(<span class="string">&#x27;code&#x27;</span>) <span class="comment">// 截取路径中的code，如果没有就去微信授权，如果已经获取到了就直接传code给后台获取openId</span></span><br><span class="line">    <span class="keyword">const</span> appId = process.env.appid</span><br><span class="line">    <span class="keyword">const</span> local = process.env.url</span><br><span class="line">    <span class="built_in">console</span>.log(code)</span><br><span class="line">    <span class="built_in">console</span>.log(appId)</span><br><span class="line">    <span class="keyword">if</span> (code == <span class="literal">null</span> || code === <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;获取code&#x27;</span>)</span><br><span class="line">      location.href = <span class="string">&#x27;https://open.weixin.qq.com/connect/oauth2/authorize?appid=&#x27;</span> + appId + <span class="string">&#x27;&amp;redirect_uri=&#x27;</span> + <span class="built_in">encodeURIComponent</span>(local) + <span class="string">&#x27;&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=STATE&amp;connect_redirect=1#wechat_redirect&#x27;</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;接口调用&#x27;</span>)</span><br><span class="line">      getUnitCode(code)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getUnitCode</span> (<span class="params">code</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> data = &#123;</span><br><span class="line">      <span class="attr">code</span>: code,</span><br><span class="line">      <span class="attr">userType</span>: sessionStorage.getItem(<span class="string">&#x27;userType&#x27;</span>),</span><br><span class="line">      <span class="attr">userCode</span>: sessionStorage.getItem(<span class="string">&#x27;userCode&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    login.getLogin(data).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 业务逻辑，根据返回的信息，进行不同页面的跳转</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getCode()</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考文档：<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html">网页授权</a></p>
-<p>公众号配置可以参考我上一篇文章：<a href="https://gladysdrea.github.io/blogs/2020/12/21/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">微信公众号开发（一）准备工作</a><br>如果有 h5 跳转小程序的需求，可以参考我下一篇文章：<a href="https://gladysdrea.github.io/blogs/2020/12/23/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89%E5%BE%AE%E4%BF%A1h5%E8%B7%B3%E8%BD%AC%E5%B0%8F%E7%A8%8B%E5%BA%8F">h5 跳转小程序</a></p>
+<p>备注：对于<code>path</code>属性，所声明的页面路径必须添加<code>.html</code>后缀，如<code>pages/home/index.html</code>。</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_Open_Tag.html#%E6%8F%92%E6%A7%BD"></a></h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;wx-open-launch-weapp</span><br><span class="line">     id=<span class="string">&quot;launch-btn&quot;</span></span><br><span class="line">     :username=<span class="string">&quot;val.appid&quot;</span></span><br><span class="line">     :path=<span class="string">&quot;val.path&quot;</span></span><br><span class="line">   &gt;</span><br><span class="line">     <span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/wxtag-template&quot;</span>&gt;</span><span class="handlebars"><span class="xml"></span></span></span></span><br><span class="line"><span class="xml"><span class="handlebars"><span class="xml">       <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">         <span class="selector-class">.goodsname</span> &#123;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">width</span>: <span class="number">60px</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">height</span>: <span class="number">25px</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">border-radius</span>: <span class="number">4px</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">border</span>: none;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">padding</span>: <span class="number">0</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">font-size</span>: <span class="number">11px</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">color</span>: <span class="number">#fff</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">background</span>: <span class="number">#59718E</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">line-height</span>: <span class="number">25px</span>;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">           <span class="attribute">text-align</span>: center;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">         &#125;</span></span></span></span></span><br><span class="line"><span class="css"><span class="xml"><span class="handlebars"><span class="xml">       </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></span></span></span><br><span class="line"><span class="xml"><span class="handlebars"><span class="xml">       <span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">&quot;goodsname&quot;</span>&gt;</span>打开小程序<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span></span></span><br><span class="line"><span class="xml"><span class="handlebars"><span class="xml">     </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line">   &lt;/wx-open-launch-weapp&gt;</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的是，官方文档中使用的是 template 标签，但是在 vue 项目中会有冲突，所以这里换成了 <script type="text/wxtag-template"></script>标签</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_Open_Tag.html">【开放标签说明文档】</a></p>
+<p>公众号域名配置以及微信授权，可以参考我之前的文章<br><a href="https://gladysdrea.github.io/blogs/2020/12/21/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%80%EF%BC%89%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">微信公众号开发（一）准备工作</a><br><a href="https://gladysdrea.github.io/blogs/2020/12/22/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83">微信公众号开发（二）网页授权</a></p>
 
     
 
@@ -298,7 +280,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2020/12/22/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%20%EF%BC%88%E4%BA%8C%EF%BC%89%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2020/12/23/WeChat/%E5%85%AC%E4%BC%97%E5%8F%B7/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89%E5%BE%AE%E4%BF%A1%20h5%20%E8%B7%B3%E8%BD%AC%E5%B0%8F%E7%A8%8B%E5%BA%8F/">展开全文 >></a>
     </p>
     
 
@@ -332,7 +314,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/28/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/27/">27</a><a class="page-number" href="/blogs/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/blogs/page/30/">30</a><a class="page-number" href="/blogs/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/30/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/28/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/27/">27</a><a class="page-number" href="/blogs/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/blogs/page/30/">30</a><a class="page-number" href="/blogs/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/30/">下一页</a>
     </nav>
   
 
@@ -485,23 +467,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -509,15 +479,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

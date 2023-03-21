@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-JavaScript系列/js事件循环机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-React系列/react项目初始化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" target="_blank">JavaScript 事件循环机制</a>
+	  <a class="article-title" href="/blogs/2022/07/27/React%E7%B3%BB%E5%88%97/react%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/" target="_blank">React 项目初始化</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-        <time datetime="2022-07-26T08:07:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-26</time>
+<a href="/blogs/2022/07/27/React%E7%B3%BB%E5%88%97/react%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/" class="archive-article-date">
+        <time datetime="2022-07-27T07:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-27</time>
 </a>
 
   
@@ -218,42 +218,49 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们知道 JavaScript 是单线程语言，也就是同一时间只能做一件事，这是因为 JavaScript 的主要作用是与用户互动以及操作 DOM ，如果是多线程的话，就会带来复杂的同步问题，比如：两个线程同时操作一个 DOM 节点，一个线程修改该节点，另一个线程删除该节点，此时就不知道该以哪个线程为准了。<br>但是单线程，又意味着任务需要排队等待，前一个任务执行完之后，后一个任务才会执行，这样就会导致一些执行很慢的任务会耽误大量的时间，于是 JavaScript 把所有的任务分成两种：同步任务、异步任务</p>
-<h1 id="同步任务和异步任务"><a href="#同步任务和异步任务" class="headerlink" title="同步任务和异步任务"></a>同步任务和异步任务</h1><ul>
-<li>同步任务，指的是，在主线程上排队执行的任务，只有前一个任务执行完毕之后，后一个任务才会开始执行。</li>
-<li>异步任务，指的是，不进入主线程，而是进入任务队列，如果有多个任务，会在任务队列中排队等待，只有主线程的任务执行完毕之后，才会依次执行任务队列中的任务。</li>
-</ul>
-<p>在了解同步任务异步任务的运行机制之前，我们先了解一下 执行栈、Event Table 以及 Event Queue 这几个名词</p>
-<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>我们知道，所有同步任务都在主线程执行，这样就形成来一个执行栈，也就是说，执行栈是一个存储函数调用的栈结构，主要负责跟踪所有要执行的代码</p>
-<h2 id="Event-Table"><a href="#Event-Table" class="headerlink" title="Event Table"></a>Event Table</h2><p>Event Table 可以理解为是一张事件表格，存储的是异步任务中的事件以及其对应的回调函数列表，当异步任务有了结果，就会被丢到 Event Queue 中</p>
-<h2 id="Event-Queue"><a href="#Event-Queue" class="headerlink" title="Event Queue"></a>Event Queue</h2><p>Event Queue 就是所说的任务队列，当 Event Table 中的事件触发之后其对应的回调函数会被 push 到这个任务队列中，等待主线程任务完成后执行栈</p>
-<p>那么，我们来看下其主要运行机制吧：</p>
-<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/tongbuyibu.png" class="" width="617" height="496">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>作为一个合格的程序员，只会 Vue 框架是不够的，况且现在好多公司在用 React ，所以我们还是来一起学习一下 React 吧。同样，会从项目初始化开始，做一个 React 系列的文章。<br>我们可以使用 Create React App 快速初始化一个 React 项目，Create React App 是一个官方支持的创建 React 单页应用程序的方法。<br>首先，我们需要保证本地的 Node 版本在 6+ ，以及 npm 版本在 5.2+</p>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>官方给出了三种快速创建应用的命令，我们来看一下：</p>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npx create-react-app ProjectName</span></span><br></pre></td></tr></table></figure>
+<h4 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm init react-app ProjectName</span></span><br></pre></td></tr></table></figure>
+<h4 id="Yarn"><a href="#Yarn" class="headerlink" title="Yarn"></a>Yarn</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yarn create react-app ProjectName</span></span><br></pre></td></tr></table></figure>
+<p>这里，我们使用第一种方式快速开始吧。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npx create-react-app reactDemo</span></span><br></pre></td></tr></table></figure>
+<p>首先，npx 来自 npm 5.2+ ,所以这就是为什么我们需要保证本地 npm 版本在 5.2+ 了。<br>其次，npx 还能避免全局安装的模块，这也就说明了，为什么我们不需要全局安装 create-react-app 这个模块。<br>我们在执行上面的命令行时，npx 会将 create-react-app 下载到一个临时目录，使用之后再删除。所以以后每次执行上面的命令都会重新下载 create-react-app。<br>执行完命令后，我们会得到一个名为 reactDemo 的目录，它的目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">reactDemo</span><br><span class="line">├── README.md</span><br><span class="line">├── node_modules</span><br><span class="line">├── package.json</span><br><span class="line">├── .gitignore</span><br><span class="line">├── public</span><br><span class="line">│   ├── favicon.ico</span><br><span class="line">│   ├── index.html</span><br><span class="line">│   ├── logo192.png</span><br><span class="line">│   ├── logo512.png</span><br><span class="line">│   ├── manifest.json</span><br><span class="line">│   └── robots.txt</span><br><span class="line">└── src</span><br><span class="line">    ├── App.css</span><br><span class="line">    ├── App.js</span><br><span class="line">    ├── App.test.js</span><br><span class="line">    ├── index.css</span><br><span class="line">    ├── index.js</span><br><span class="line">    ├── logo.svg</span><br><span class="line">    ├── serviceWorker.js</span><br><span class="line">    └── setupTests.js</span><br></pre></td></tr></table></figure>
+<p>官方有如下的一段说明：</p>
+<blockquote>
+<p>If you’ve previously installed create-react-app globally via npm install -g create-react-app, we recommend you uninstall the package using npm uninstall -g create-react-app or yarn global remove create-react-app to ensure that npx always uses the latest version.</p>
+</blockquote>
+<p>意思是，如果你使用 npm install -g create-react-app 命令行全局安装过 create-react-app ，建议执行 npm uninstall -g create-react-app 或 yarn global remove create-react-app 命令删除，以保证 npx 是最新版的。</p>
+<h1 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> reactDemo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm start</span></span><br></pre></td></tr></table></figure>
+<p>我们进入到 reactDemo 目录下，执行 start 命令，就可以启动项目了。</p>
+<h1 id="添加-TypeScript"><a href="#添加-TypeScript" class="headerlink" title="添加 TypeScript"></a>添加 TypeScript</h1><p>现在越来越多的项目开始使用 TypeScript 来进行开发了，这里我们不过多的介绍 TypeScript 的优势，我们直接在项目中引入 TypeScript 。<br>由于我们已经搭建好了一个 React 项目了，所以我们可以执行以下命令直接安装 TypeScript</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install --save typescript @types/node @types/react @types/react-dom @types/jest</span></span><br></pre></td></tr></table></figure>
+<p>OR</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yarn add typescript @types/node @types/react @types/react-dom @types/jest</span></span><br></pre></td></tr></table></figure>
+<p>假如，我们还没有搭建 React 项目，官方给出了以下命令，可以在搭建项目的同时把 TypeScript 引入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npx create-react-app my-app --template typescript</span></span><br></pre></td></tr></table></figure>
+<p>install 之后，我们需要把文件重命名为 TypeScript 文件，如：src/index.js to src/index.tsx，并且重新启动项目。</p>
+<h1 id="添加-Router"><a href="#添加-Router" class="headerlink" title="添加 Router"></a>添加 Router</h1><p>Create React App 并没有规定特定的路由解决方案，但是 React Router 是一个比较受欢迎的方案，接下来，我们先添加 React Router 吧。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install --save react-router-dom</span></span><br></pre></td></tr></table></figure>
+<p>or </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> yarn add react-router-dom</span></span><br></pre></td></tr></table></figure>
+<p>安装完 React Router 之后，我们来把 App.js 文件改写一下。这里先写一个简单的页面跳转，后续会详细讲解一下 React Router。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    BrowserRouter <span class="keyword">as</span> Router,</span><br><span class="line">    Routes,</span><br><span class="line">    Route,</span><br><span class="line">    Link</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&quot;App-header&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">                   Learn React</span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#x27;/&#x27;</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#x27;/about&#x27;</span>&gt;</span>About<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Routes</span>&gt;</span></span></span><br><span class="line"><span class="xml">                    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/&quot;</span> <span class="attr">element</span>=<span class="string">&#123;</span>&lt;<span class="attr">Home</span>/&gt;</span>&#125;/&gt;</span></span><br><span class="line"><span class="xml">                    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/about&quot;</span> <span class="attr">element</span>=<span class="string">&#123;</span>&lt;<span class="attr">About</span>/&gt;</span>&#125;/&gt;</span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;/<span class="name">Routes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 这里展示了两种方式写组件，哪种方式都可以</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Home</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> About = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>About<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里，我们简单的写了两个组件 Home 和 About ，项目启动之后，我们可以看到页面有 2 个路由，可以进行切换。<br>先来简单看下 Link Router Routes 和 Route 的区别吧</p>
 <ul>
-<li>JavaScript 代码执行时，将同步任务放入执行栈中，按顺序执行</li>
-<li>异步任务进入 Event Table 注册，当指定的事件完成时，Event Table 会将函数回调放入任务队列中，等待执行</li>
-<li>主线程任务执行完毕，会去 Event Queue 中取出完成的异步任务的回调放入主线程去执行</li>
-<li>不断重复上述过程，直至所有任务全部执行完毕，也就是我们所说的事件循环</li>
+<li>Router 可以看作是一个路由盒子，我们把路由以及路由组件都放在这个标签里</li>
+<li>Link React 中点击切换到哪一个组件的链接，呈现一个可访问的 a 元素， to 是路径</li>
+<li>Route 表示你的路由页面，path 是路径，element 是组件名</li>
+<li>Routes 替换了老版本里的 Switch </li>
 </ul>
-<p>到此，我们就了解了 JavaScript 中的同步任务和异步任务，但是我们的异步任务又可以分为两种：宏任务和微任务</p>
-<h1 id="宏任务和微任务"><a href="#宏任务和微任务" class="headerlink" title="宏任务和微任务"></a>宏任务和微任务</h1><ul>
-<li>宏任务：script （整体代码）、setTimeout 、 setInterval 、 I/O （Mouse Events、Keyboard Events）、UI交互事件</li>
-<li>微任务：Promise.then （非 new Promise）、 process.nextTick、</li>
-</ul>
-<p>宏任务和微任务的区别在于队列中事件执行的优先级，微任务的优先级高于宏任务，也就是说，进入整体代码后，执行任务，当执行栈清空之后，会先查看有没有微任务，有微任务的话，会执行完所有的微任务之后，在执行一次宏任务，执行完之后，会再次检查有没有微任务，如此反复，直至所有任务都执行完毕。</p>
-<img src="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/hongrenwuweirenwu.png" class="" width="511" height="371">
-<p>由此我们可以简单的总结出来这个执行顺序：</p>
-<ol>
-<li>同步任务执行</li>
-<li>同步任务执行完毕，执行所有的微任务</li>
-<li>读取任务队列中的一个宏任务执行</li>
-<li>执行完宏任务之后，执行所有的微任务</li>
-<li>再读取宏任务执行</li>
-<li>……如此反复，直至代码执行完毕</li>
-</ol>
-<p>那么了解了这些之后，我们来看一道题：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;2&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;3&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;4&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;5&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;6&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;7&#x27;</span>);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;8&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;9&#x27;</span>);</span><br><span class="line">    process.nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;10&#x27;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;11&#x27;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">    &#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;12&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>这里就不详细讲解这道题了，相信上面所说的都理解之后，这道题就很简单了。这里直接放出答案：1，7，6，8，2，4，3，5，9，11，10，12</p>
+<p>这样，一个简单的 React 路由跳转就实现了。</p>
+<h1 id="添加-Axios"><a href="#添加-Axios" class="headerlink" title="添加 Axios"></a>添加 Axios</h1><p>接下来再安装 Axios ，这样我们的 React 项目最基本的就完成了，就可以进行路由跳转以及数据请求了</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install axios --save</span></span><br></pre></td></tr></table></figure>
+<h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  axios  <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>之后就可以使用 Axios 进行数据请求了。我们还是在 App.js 中去写一个请求数据的实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">    BrowserRouter <span class="keyword">as</span> Router,</span><br><span class="line">    Routes,</span><br><span class="line">    Route,</span><br><span class="line">    Link</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;react-router-dom&quot;</span>;</span><br><span class="line"><span class="keyword">import</span>  axios  <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getData</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span>  api=<span class="string">&#x27;https://www.api.com&#x27;</span>;</span><br><span class="line">        axios.get(api)</span><br><span class="line">            .then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(response);</span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(error);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;App&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">header</span> <span class="attr">className</span>=<span class="string">&quot;App-header&quot;</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">p</span> <span class="attr">onClick</span>=<span class="string">&#123;getData&#125;</span>&gt;</span></span></span><br><span class="line"><span class="xml">                    Learn React</span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#x27;/&#x27;</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Link</span> <span class="attr">to</span>=<span class="string">&#x27;/about&#x27;</span>&gt;</span>About<span class="tag">&lt;/<span class="name">Link</span>&gt;</span></span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;<span class="name">Routes</span>&gt;</span></span></span><br><span class="line"><span class="xml">                    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/&quot;</span> <span class="attr">element</span>=<span class="string">&#123;</span>&lt;<span class="attr">Home</span>/&gt;</span>&#125;/&gt;</span></span><br><span class="line"><span class="xml">                    <span class="tag">&lt;<span class="name">Route</span> <span class="attr">path</span>=<span class="string">&quot;/about&quot;</span> <span class="attr">element</span>=<span class="string">&#123;</span>&lt;<span class="attr">About</span>/&gt;</span>&#125;/&gt;</span></span><br><span class="line"><span class="xml">                <span class="tag">&lt;/<span class="name">Routes</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;/<span class="name">Router</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Home</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> About = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>About<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这样，一个最基础的 React 项目就初始化成功了。但是，实际写项目的时候，我们往往会进行一系列的封装、分层，所以后续会出 React 的架构设计。</p>
 
     
 
@@ -270,7 +277,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
         		</li>
       		
 		</ul>
@@ -280,7 +287,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2022/07/26/JavaScript%E7%B3%BB%E5%88%97/js%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%9C%BA%E5%88%B6/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2022/07/27/React%E7%B3%BB%E5%88%97/react%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96/">展开全文 >></a>
     </p>
     
 
@@ -314,7 +321,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/5/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/4/">4</a><a class="page-number" href="/blogs/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/blogs/page/7/">7</a><a class="page-number" href="/blogs/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/7/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/5/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/4/">4</a><a class="page-number" href="/blogs/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/blogs/page/7/">7</a><a class="page-number" href="/blogs/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/7/">下一页</a>
     </nav>
   
 
@@ -467,23 +474,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -491,15 +486,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>

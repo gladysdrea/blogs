@@ -189,7 +189,7 @@
             
 
   
-    <article id="post-Vue系列/巧用Vue过滤器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Vue系列/一次下载多个文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -197,7 +197,7 @@
   
     <h1 itemprop="name">
 	
-	  <a class="article-title" href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/" target="_blank">巧用 Vue 过滤器</a>
+	  <a class="article-title" href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/" target="_blank">一次下载多个文件 js</a>
   
     </h1>
   
@@ -205,8 +205,8 @@
 
   
   
-<a href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/" class="archive-article-date">
-        <time datetime="2020-07-09T08:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-09</time>
+<a href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/" class="archive-article-date">
+        <time datetime="2020-09-23T08:39:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-23</time>
 </a>
 
   
@@ -218,39 +218,10 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>在项目中经常会遇到时间戳转换，手机号、身份证号脱敏，状态的转换等，如果不复用会存在很多问题：<br>一、维护困难<br>二、开发重复性工作比较多<br>三、代码量比较多，不雅观那么，如何解决这些问题呢？</p>
+    <blockquote>
+<p>下载文件我们可以使用 window.location.href = ‘url’ ， 来实现，也可以使用 a 标签，但是如果一次下载多个文件，这种方法就不行了，可以使用以下方法来实现</p>
 </blockquote>
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>我们可以使用 Vue 的过滤器 Filter 定义工具类 globalFilter.js，然后全局注册到 Vue 中，以供各个模块使用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局导入过滤器</span></span><br><span class="line"><span class="keyword">import</span> filter <span class="keyword">from</span> <span class="string">&#x27;./utils/globalFilter&#x27;</span></span><br><span class="line"><span class="built_in">Object</span>.keys(filter).forEach(<span class="function"><span class="params">key</span> =&gt;</span> Vue.filter(key, filter[key]))</span><br></pre></td></tr></table></figure>
-
-<p>当然，前提是要先在 utils 文件夹中创建对应的文件 globalFilter.js 那么 globalFilter.js 文件中要怎么写过滤器呢？</p>
-<h2 id="我们以时间戳转换为例："><a href="#我们以时间戳转换为例：" class="headerlink" title="我们以时间戳转换为例："></a>我们以时间戳转换为例：</h2><blockquote>
-<p>一般情况下，我们会写个时间戳转换的 function，粗糙一点的写法是在 function 最后 return 需要的格式(如：xxxx/xx/xx)，但是假如想要换成其他格式，或者想要把时分秒也加上（如：xxxx-xx-xx xx:xx），就需要在写一个方法，或者高级一点的写法是，把需要的格式当成参数，这样一个 function 就够了，但是有日期处理类库 moment ，为什么要那么麻烦写那么多代码呢？</p>
-</blockquote>
-<h2 id="moment-使用"><a href="#moment-使用" class="headerlink" title="moment 使用"></a>moment 使用</h2><h3 id="1-npm-安装"><a href="#1-npm-安装" class="headerlink" title="1. npm  安装"></a>1. npm  安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install moment --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-在-globalFilter-中引入，并使用"><a href="#2-在-globalFilter-中引入，并使用" class="headerlink" title="2. 在 globalFilter 中引入，并使用"></a>2. 在 globalFilter 中引入，并使用</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vue 的时间格式化插件</span></span><br><span class="line"><span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span></span><br><span class="line"><span class="comment">// 时间格式化函数，默认格式为 YYYY-MM-DD HH:mm:ss ，若需要其他格式，只需使用的时候将想要的格式作为参数传入即可</span></span><br><span class="line"><span class="comment">// 使用方法 &#123;&#123;时间戳 | dateFormat&#125;&#125; 或 &#123;&#123;时间戳 | dateFormat(&#x27;YYYY-MM-DD HH:mm:ss&#x27;)&#125;&#125;</span></span><br><span class="line"><span class="keyword">const</span> dateFormat = <span class="function">(<span class="params">dataStr, pattern = <span class="string">&#x27;YYYY/MM/DD&#x27;</span></span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> moment(dataStr).format(pattern)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用的时候，也很方便，直接在html代码处，用过滤器的形式使用就行了</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;data | dateFormat(<span class="string">&#x27;YYYY-MM-DD HH:mm:ss&#x27;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样是不是比自己写个方法要简化的多呢？</p>
-<h4 id="手机号、身份证号脱敏"><a href="#手机号、身份证号脱敏" class="headerlink" title="手机号、身份证号脱敏"></a>手机号、身份证号脱敏</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 手机号脱敏</span></span><br><span class="line"><span class="keyword">const</span> telHide = <span class="function"><span class="params">phone</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (phone === <span class="literal">undefined</span> || phone === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> phone.toString().replace(<span class="regexp">/(\d&#123;3&#125;)\d&#123;4&#125;(\d*)/</span>, <span class="string">&#x27;$1****$2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 身份证号脱</span></span><br><span class="line"><span class="keyword">const</span> IDCardHide = <span class="function"><span class="params">IDCard</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (IDCard === <span class="literal">undefined</span> || IDCard === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> IDCard.toString().replace(<span class="regexp">/(\d&#123;8&#125;)\d&#123;8&#125;(\d*)/</span>, <span class="string">&#x27;$1********$2&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用方法和时间戳一样，也是过滤器的形式</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; phone | phone &#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="状态值的转换"><a href="#状态值的转换" class="headerlink" title="状态值的转换"></a>状态值的转换</h4><blockquote>
-<p>比如，交易类型，一般情况，后台会返回给1，2，3这种状态值，需要前端去对应，优雅的写法是在这个文件的js中去做处理，页面直接渲染就好了，但是很多时候，可能这个状态不止在一个页面中使用，所以提取成公用的还是很有必要的，这样即使后期修改状态值，前端也可以很快的改好，不必一个文件一个文件去找</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 充值类型</span></span><br><span class="line"><span class="keyword">const</span> SubTradeType = <span class="function"><span class="params">type</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> status = &#123;</span><br><span class="line">        <span class="comment">// 1 在线充值、2 线下充值</span></span><br><span class="line">        <span class="string">&#x27;1&#x27;</span>: <span class="string">&#x27;在线充值&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;2&#x27;</span>: <span class="string">&#x27;线下充值&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> status[type]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用的时候，还是过滤器的写法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;subTradeType | SubTradeType&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然了，上述这些，都需要在globalFilter.js最后export</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    dateFormat,</span><br><span class="line">    telHide,</span><br><span class="line">    IDCardHide,</span><br><span class="line">    SubTradeType</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 下载多个模版</span></span><br><span class="line">downloadBtn () &#123;</span><br><span class="line">    <span class="keyword">const</span> data = [<span class="string">&#x27;url1&#x27;</span>, <span class="string">&#x27;url2&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">&#x27;iframe&#x27;</span>)</span><br><span class="line">        iframe.style.display = <span class="string">&#x27;none&#x27;</span></span><br><span class="line">        iframe.style.height = <span class="number">0</span></span><br><span class="line">        <span class="comment">// url自己进行指定</span></span><br><span class="line">        iframe.src = data[i]</span><br><span class="line">        <span class="built_in">document</span>.body.appendChild(iframe)</span><br><span class="line">        <span class="comment">// 不能马上将iframe进行删除，否者会出现马上取消的情况</span></span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            iframe.remove()</span><br><span class="line">        &#125;, <span class="number">5</span> * <span class="number">1000</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     
 
@@ -267,7 +238,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Vue js</a>
         		</li>
       		
 		</ul>
@@ -277,7 +248,7 @@
 
     
     <p class="article-more-link">
-      <a class="article-more-a" href="/blogs/2020/07/09/Vue%E7%B3%BB%E5%88%97/%E5%B7%A7%E7%94%A8Vue%E8%BF%87%E6%BB%A4%E5%99%A8/">展开全文 >></a>
+      <a class="article-more-a" href="/blogs/2020/09/23/Vue%E7%B3%BB%E5%88%97/%E4%B8%80%E6%AC%A1%E4%B8%8B%E8%BD%BD%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6/">展开全文 >></a>
     </p>
     
 
@@ -311,7 +282,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/blogs/page/32/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/31/">31</a><a class="page-number" href="/blogs/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/blogs/page/34/">34</a><a class="page-number" href="/blogs/page/35/">35</a><a class="page-number" href="/blogs/page/36/">36</a><a class="extend next" rel="next" href="/blogs/page/34/">下一页</a>
+      <a class="extend prev" rel="prev" href="/blogs/page/32/">上一页</a><a class="page-number" href="/blogs/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/31/">31</a><a class="page-number" href="/blogs/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/blogs/page/34/">34</a><a class="page-number" href="/blogs/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/blogs/page/37/">37</a><a class="extend next" rel="next" href="/blogs/page/34/">下一页</a>
     </nav>
   
 
@@ -464,23 +435,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">jQuery</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -488,15 +447,31 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">uni-app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">其他</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">阿里云</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">公众号</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
+                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">小程序</a>
+                <a href="javascript:void(0)" class="js-tag color5">微信支付</a>
               </li>
             
             <div class="clearfix"></div>
